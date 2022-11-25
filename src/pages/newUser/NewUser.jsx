@@ -1,54 +1,131 @@
 import "./newUser.css";
-
+import { useState } from 'react';
+import { createNewUser } from "../../services/adminService";
 export default function NewUser() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    password: '',
+    name: '',
+    adress: '',
+    city: '',
+    phone: '',
+    option: ''
+  })
+
+  const handleOnChange = event => {
+    const { name, value } = event.target;
+    setInputs({ ...inputs, [name]: value });
+  };
+
+  const createUser = async (event) => {
+    
+    event.preventDefault();
+    try {
+      let res = await createNewUser(inputs);
+      if (res.errCode === 0) {
+        alert("Tạo user thành công");
+      }
+    } catch(err) {
+      console.log(err.response);
+    }
+    
+  }
+
   return (
     <div className="newUser">
-      <h1 className="newUserTitle">New User</h1>
+      <h1 className="newUserTitle">Cấp tài khoản</h1>
       <form className="newUserForm">
         <div className="newUserItem">
           <label>Username</label>
-          <input type="text" placeholder="john" />
+          <input type="text"
+           placeholder="username" 
+           key="username"
+           name="username"
+           value={inputs.username || ''}
+           onChange={handleOnChange}
+           />
         </div>
         <div className="newUserItem">
-          <label>Full Name</label>
-          <input type="text" placeholder="John Smith" />
+          <label>Tên cơ sở</label>
+          <input type="text" 
+          placeholder="Tên đại lý/nhà máy/trung tâm bảo hành" 
+          key="name"
+          name="name"
+          value={inputs.name}
+          onChange={handleOnChange}
+          />
         </div>
-        <div className="newUserItem">
+        {/* <div className="newUserItem">
           <label>Email</label>
           <input type="email" placeholder="john@gmail.com" />
-        </div>
+        </div> */}
         <div className="newUserItem">
           <label>Password</label>
-          <input type="password" placeholder="password" />
+          <input type="password"
+           placeholder="password" 
+           key="password"
+           name="password"
+           value={inputs.password}
+           onChange={handleOnChange}
+           />
         </div>
         <div className="newUserItem">
-          <label>Phone</label>
-          <input type="text" placeholder="+1 123 456 78" />
+          <label>Số điện thoại</label>
+          <input type="text" 
+          placeholder="0123456789" 
+          key="phone"
+          name="phone"
+          value={inputs.phone}
+          onChange={handleOnChange}
+          />
         </div>
         <div className="newUserItem">
-          <label>Address</label>
-          <input type="text" placeholder="New York | USA" />
+          <label>Địa chỉ</label>
+          <input type="text" 
+          placeholder="Địa chỉ" 
+          key="adress"
+          name="adress"
+          value={inputs.adress}
+          onChange={handleOnChange}
+          />
         </div>
         <div className="newUserItem">
-          <label>Gender</label>
+          <label>Thành phố</label>
+          <input type="text" 
+          placeholder="Thành phố" 
+          key="city"
+          name="city"
+          value={inputs.city}
+          onChange={handleOnChange}
+          />
+        </div>
+        <div className="newUserItem">
+          <label>Loại tài khoản</label>
           <div className="newUserGender">
-            <input type="radio" name="gender" id="male" value="male" />
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="female" value="female" />
-            <label for="female">Female</label>
-            <input type="radio" name="gender" id="other" value="other" />
-            <label for="other">Other</label>
+            <input type="radio" 
+            name="option" 
+            id="male" 
+            value="daily" 
+            onChange={handleOnChange}
+            />
+            <label for="male">Đại lý</label>
+            <input type="radio" 
+            name="option" 
+            id="female" 
+            value="cososanxuat" 
+            onChange={handleOnChange}
+            />
+            <label for="female">Cơ sở sản xuất</label>
+            <input type="radio"
+             name="option" id="other"
+              value="baohanh" 
+              onChange={handleOnChange}
+              />
+            <label for="other">Trung tâm bảo hành</label>
           </div>
         </div>
-        <div className="newUserItem">
-          <label>Active</label>
-          <select className="newUserSelect" name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <button className="newUserButton">Create</button>
       </form>
+      <button className="newUserButton" onClick={createUser} >Create</button>
     </div>
   );
 }
