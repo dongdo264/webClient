@@ -1,7 +1,10 @@
 .userList {
   flex: 4;
+  padding-top: 20px;
 }
-
+.newUserTitle {
+  flex: 5;
+}
 .userListUser {
   display: flex;
   align-items: center;
@@ -28,4 +31,21 @@
 .userListDelete{
     color: red;
     cursor: pointer;
+}
+
+.userTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.agentAddButton {
+  width: 80px;
+  border: none;
+  padding: 5px;
+  background-color: teal;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  margin-right: 20px;
 }

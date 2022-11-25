@@ -1,26 +1,53 @@
 import "./agentList.css";
 import { useState, useEffect } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
+import { ArrowUpwardTwoTone, DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { getAllAgents } from "../../servive/adminService";
+import { getAllAgents, deleteAgentById } from "../../services/adminService";
 
 export default function AgentList() {
   const [agentList, setAgentList] = useState([]);
-  useEffect( async () => {
+  const [loading, setLoading] = useState(false);
+  async function fetchData () {
+    setLoading(true);
     let res = await getAllAgents();
     let listUser = res.data.data;
     console.log(listUser);
     setAgentList(listUser);
-  }, []);
+    setLoading(false);
+  }
 
-  const handleDelete = (agentCode) => {
-    // setData(.filter((item) => item.agentCode !== agentCode));
+  useEffect(() => {
+    if (!loading && agentList.length === 0) {
+      fetchData();
+    };
+}, [loading, agentList]);
+  // useEffect( async () => {
+  //   let res = await getAllAgents();
+  //   let listUser = res.data.data;
+  //   console.log(listUser);
+  //   setAgentList([...listUser]);
+  // }, []);
+
+  
+  const handleDelete = async (agentCode) => {
+    console.log(agentCode);
+    try {
+      if (window.confirm("Bạn có chắc muốn xóa đại lý này?")) {
+        let res = await deleteAgentById(agentCode);
+        if (res.data.errCode === 0) {
+          fetchData();
+          window.alert("Xóa thành công!!")
+        }
+      }
+    } catch(err) {
+      console.log(err.response);
+    }
   };
   
   const columns = [
-    { field: "agentCode", headerName: "Mã đại lý", width: 150, style: { textAlign: 'center' }},
-    { field: "agentName", headerName: "Tên đại lý", width: 200 },
+    { field: "agentCode", headerName: "Mã đại lý", width: 130, style: { textAlign: 'center' }},
+    { field: "agentName", headerName: "Tên đại lý", width: 170 },
     {
       field: "agentAdress",
       headerName: "Địa chỉ",
@@ -36,19 +63,28 @@ export default function AgentList() {
       width: 160,
     },
     {
+      field: "status",
+      headerName: "Status",
+      width: 130,
+      valueGetter: (params) => {
+        return params.getValue(params.row.agentCode, "account").accStatus;
+      }
+    },
+    {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 130,
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/user/" + params.row.agentCode}>
+            <Link to={"/admin/agent/" + params.row.agentCode}>
               <button className="userListEdit">Edit</button>
             </Link>
-            <DeleteOutline
+            <button onClick={() => handleDelete(params.row.agentCode)} className="userListEdit">Delete</button>
+            {/* <DeleteOutline
               className="userListDelete"
               onClick={() => handleDelete(params.row.agentCode)}
-            />
+            /> */}
           </>
         );
       },
@@ -57,9 +93,18 @@ export default function AgentList() {
 
   return (
     <div className="userList">
+      <div className="userTitleContainer">
+        <h1 className="userTitle">Danh sách đại lý</h1>
+        <Link to="/newUser">
+          <button className="agentAddButton">Create</button>
+        </Link>
+      </div>
       <DataGrid
+        sx={{
+          border: 'none' // also tried setting to none 
+        }}
         rows={agentList}
-        //disableSelectionOnClick
+        disableSelectionOnClick
         columns={columns}
         getRowId={row => row.agentCode}
         pageSize={5}

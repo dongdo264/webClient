@@ -11,10 +11,9 @@ import {
   DynamicFeed,
   ChatBubbleOutline,
   WorkOutline,
-  Report,
+  Report
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-
 export default function Sidebar() {
   return (
     <div className="sidebar">
@@ -22,7 +21,7 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
-            <Link to="/" className="link">
+            <Link to="/admin" className="link">
             <li className="sidebarListItem active">
               <LineStyle className="sidebarIcon" />
               Home
@@ -41,10 +40,22 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <Link to="/agents" className="link">
+            <Link to="/admin/agents" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
-                Danh sách đại lý
+                Đại lý
+              </li>
+            </Link>
+            <Link to="/admin/factory" className="link">
+              <li className="sidebarListItem">
+                <PermIdentity className="sidebarIcon" />
+                Cơ sở sản xuất
+              </li>
+            </Link>
+            <Link to="/admin/warrantycentre" className="link">
+              <li className="sidebarListItem">
+                <PermIdentity className="sidebarIcon" />
+                Trung tâm bảo hành
               </li>
             </Link>
             <Link to="/products" className="link">
@@ -53,14 +64,20 @@ export default function Sidebar() {
                 Products
               </li>
             </Link>
-            <li className="sidebarListItem">
+            <Link to="/products" className="link">
+              <li className="sidebarListItem">
+                <Storefront className="sidebarIcon" />
+                Cấp tài khoản
+              </li>
+            </Link>
+            {/* <li className="sidebarListItem">
               <AttachMoney className="sidebarIcon" />
               Transactions
             </li>
             <li className="sidebarListItem">
               <BarChart className="sidebarIcon" />
               Reports
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="sidebarMenu">
