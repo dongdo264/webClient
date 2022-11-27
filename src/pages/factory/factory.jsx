@@ -10,7 +10,8 @@ export default function FactoryList() {
   const [loading, setLoading] = useState(false);
   async function fetchData () {
     setLoading(true);
-    let res = await getAllFactories();
+    const token = localStorage.getItem('accessToken');
+    let res = await getAllFactories(token);
     let fList = res.data.data;
     console.log(fList);
     setFactoryList(fList);

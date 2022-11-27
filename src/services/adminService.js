@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const baseURL = "http://localhost:8080/";
 
-
-let createNewUser = (data) => {
+let createNewUser = (data, token) => {
     return axios.post(`${baseURL}api-admin/createNewUser`, {
         id: Date.now() % 100000000,
         username: data.username,
@@ -13,17 +12,33 @@ let createNewUser = (data) => {
         city: data.city,
         phone: data.phone,
         option: data.option
+    }, {
+        headers: {
+            token
+        }
     });
 }
-let getAllAgents = () => {
-    return axios.get(`${baseURL}api-admin/getAllAgents`);
+let getAllAgents = (token) => {
+    return axios.get(`${baseURL}api-admin/getAllAgents`, {
+        headers: {
+            token
+        }
+    });
 }
 
-let getAllFactories = () => {
-    return axios.get(`${baseURL}api-admin/getAllFactories`);
+let getAllFactories = (token) => {
+    return axios.get(`${baseURL}api-admin/getAllFactories`,{
+        headers: {
+            token
+        }
+    });
 }
-let deleteAgentById = (id) => {
-    return axios.delete(`${baseURL}api-admin/deleteAgentById?id=${id}`);
+let deleteAgentById = (id, token) => {
+    return axios.delete(`${baseURL}api-admin/deleteAgentById?id=${id}`, {
+        headers: {
+            token
+        }
+    });
 }
 export { getAllAgents,
     getAllFactories,
