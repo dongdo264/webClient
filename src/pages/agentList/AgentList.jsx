@@ -10,7 +10,8 @@ export default function AgentList() {
   const [loading, setLoading] = useState(false);
   async function fetchData () {
     setLoading(true);
-    let res = await getAllAgents();
+    const token = localStorage.getItem('accessToken');
+    let res = await getAllAgents(token);
     let listUser = res.data.data;
     console.log(listUser);
     setAgentList(listUser);
@@ -34,7 +35,8 @@ export default function AgentList() {
     console.log(agentCode);
     try {
       if (window.confirm("Bạn có chắc muốn xóa đại lý này?")) {
-        let res = await deleteAgentById(agentCode);
+        const token = localStorage.getItem('accessToken');
+        let res = await deleteAgentById(agentCode, token);
         if (res.data.errCode === 0) {
           fetchData();
           window.alert("Xóa thành công!!")
