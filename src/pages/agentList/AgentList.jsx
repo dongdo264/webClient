@@ -2,18 +2,19 @@ import "./agentList.css";
 import { useState, useEffect } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { ArrowUpwardTwoTone, DeleteOutline } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getAllAgents, deleteAgentById } from "../../services/adminService";
+import { useSelector } from "react-redux";
 
 export default function AgentList() {
   const [agentList, setAgentList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const user = useSelector((state) => state.auth.login.currentUser);
   async function fetchData () {
     setLoading(true);
     const token = localStorage.getItem('accessToken');
     let res = await getAllAgents(token);
     let listUser = res.data.data;
-    console.log(listUser);
     setAgentList(listUser);
     setLoading(false);
   }
@@ -22,7 +23,7 @@ export default function AgentList() {
     if (!loading && agentList.length === 0) {
       fetchData();
     };
-}, [loading, agentList]);
+}, [user, loading, agentList]);
   // useEffect( async () => {
   //   let res = await getAllAgents();
   //   let listUser = res.data.data;
@@ -94,7 +95,7 @@ export default function AgentList() {
   ];
 
   return (
-    <div className="userList">
+      <div className="userList">
       <div className="userTitleContainer">
         <h1 className="userTitle">Danh sách đại lý</h1>
         <Link to="/newUser">
@@ -112,6 +113,6 @@ export default function AgentList() {
         pageSize={5}
         //checkboxSelection
       />
-    </div>
+    </div>  
   );
 }

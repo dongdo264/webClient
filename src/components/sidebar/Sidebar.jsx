@@ -13,20 +13,26 @@ import {
   WorkOutline,
   Report
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { NavLink, useHistory, Route } from "react-router-dom";
+import Login from "../../pages/login/Login";
 export default function Sidebar() {
+  const history = useHistory();
+  const logOut = () => {
+    localStorage.clear();
+    history.push("/");
+  }
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
-            <Link to="/admin" className="link">
-            <li className="sidebarListItem active">
+            <NavLink to="/admin" className="link" exact>
+            <li className="sidebarListItem">
               <LineStyle className="sidebarIcon" />
               Home
             </li>
-            </Link>
+            </NavLink>
             <li className="sidebarListItem">
               <Timeline className="sidebarIcon" />
               Analytics
@@ -40,36 +46,36 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <Link to="/admin/agents" className="link">
+            <NavLink to="/admin/agents" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
                 Đại lý
               </li>
-            </Link>
-            <Link to="/admin/factory" className="link">
+            </NavLink>
+            <NavLink to="/admin/factory" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
                 Cơ sở sản xuất
               </li>
-            </Link>
-            <Link to="/admin/warrantycentre" className="link">
+            </NavLink>
+            <NavLink to="/admin/warrantycentre" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
                 Trung tâm bảo hành
               </li>
-            </Link>
-            <Link to="/products" className="link">
+            </NavLink>
+            <NavLink to="/products" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
                 Products
               </li>
-            </Link>
-            <Link to="/products" className="link">
+            </NavLink>
+            <NavLink to="/products" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
                 Cấp tài khoản
               </li>
-            </Link>
+            </NavLink>
             {/* <li className="sidebarListItem">
               <AttachMoney className="sidebarIcon" />
               Transactions
@@ -91,29 +97,13 @@ export default function Sidebar() {
               <DynamicFeed className="sidebarIcon" />
               Feedback
             </li>
-            <li className="sidebarListItem">
+            <li className="sidebarListItem" onClick={logOut} >
               <ChatBubbleOutline className="sidebarIcon" />
-              Messages
+              Đăng xuất
             </li>
           </ul>
         </div>
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Staff</h3>
-          <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <WorkOutline className="sidebarIcon" />
-              Manage
-            </li>
-            <li className="sidebarListItem">
-              <Timeline className="sidebarIcon" />
-              Analytics
-            </li>
-            <li className="sidebarListItem">
-              <Report className="sidebarIcon" />
-              Reports
-            </li>
-          </ul>
-        </div>
+        
       </div>
     </div>
   );

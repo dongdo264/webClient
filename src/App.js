@@ -2,7 +2,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
 import "./App.css";
 import Home from "./pages/home/Home";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
 import AgentList from "./pages/agentList/AgentList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
@@ -10,42 +10,37 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import FactoryList from "./pages/factory/factory";
-import { useEffect, useState } from "react";
 import Login from "./pages/login/Login";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
-  const [role, setRole] = useState(0);
-  
-  const handleLogin = (login, role_) => {
-    setIsLogin(login);
-    setRole(role_);
-  }
-
+  const history = useHistory();
+  const user = useSelector((state) => state.auth.login.currentUser);
   useEffect(() => {
-    console.log(isLogin);
-    console.log(role);
-  }, [isLogin, role]);
-
-  if ((!isLogin || role === 0 )) {
+    if(user) {
+      console.log(1);
+    } else {
+      console.log(2);
+    }
+  }, [user]);
+  
     return (
       <Router>
-        <div className="container">
-          <Switch>
-            <Route path="/" exact>
-              <Login handleLoginFromParent={handleLogin} />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    );
-  }
-    return (
-      <Router>
-        <Topbar />
-        <div className="container">
-          {isLogin ? (
+        
+        {!user ? (
+          <div className="container">
             <>
+              <Route path="/" exact>
+                <Login />
+              </Route>
+            </>
+          </div>
+          ) : (
+            <>
+            
+            <Topbar />
+            <div className="container">
               <Sidebar />
               <Switch>
                 <Route path="/admin" exact>
@@ -72,14 +67,15 @@ function App() {
                 <Route path="/newproduct">
                   <NewProduct />
                 </Route>
-              </Switch>
-            </>
-          ) : (
-            <>
+                <Route path="/">
+                  <Login />
+                </Route>
+                </Switch>
+              </div>
             </>
           )}
-          
-        </div>
+              
+        
       </Router>
     );
   }
