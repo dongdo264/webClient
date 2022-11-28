@@ -1,13 +1,20 @@
 import React from "react";
 import "./topbar.css";
 import { NotificationsNone, Language, Settings } from "@material-ui/icons";
+import { useSelector } from "react-redux";
 
-export default function Topbar() {
+export default function Topbar({isLogin}) {
+  const user = useSelector((state) => state.auth.login.currentUser);
   return (
-    <div className="topbar">
+    <>
+    {!isLogin ? (
+      <>
+      </>
+    ) : (
+      <div className="topbar">
       <div className="topbarWrapper">
         <div className="topLeft">
-          <span className="logo">Admin</span>
+          <span className="logo">Xin chào, {user?.username}</span>
         </div>
         <div className="topRight">
           <div className="topbarIconContainer">
@@ -25,5 +32,8 @@ export default function Topbar() {
         </div>
       </div>
     </div>
+    )}
+    
+    </>
   );
 }

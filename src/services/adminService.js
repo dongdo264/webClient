@@ -33,6 +33,14 @@ let getAllFactories = (token) => {
         }
     });
 }
+
+let getAllWarrantyCenter = (token) => {
+    return axios.get(`${baseURL}api-admin/getAllWarrantyCenter`,{
+        headers: {
+            token
+        }
+    });
+}
 let deleteAgentById = (id, token) => {
     return axios.delete(`${baseURL}api-admin/deleteAgentById?id=${id}`, {
         headers: {
@@ -42,6 +50,7 @@ let deleteAgentById = (id, token) => {
 }
 export { getAllAgents,
     getAllFactories,
+    getAllWarrantyCenter,
     deleteAgentById,
     createNewUser 
     }
