@@ -6,10 +6,9 @@ import { Link, useHistory } from "react-router-dom";
 import { getAllAgents, deleteAgentById } from "../../services/adminService";
 import { useSelector } from "react-redux";
 
-export default function AgentList() {
+export default function AgentList({isLoggedIn}) {
   const [agentList, setAgentList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const user = useSelector((state) => state.auth.login.currentUser);
   async function fetchData () {
     setLoading(true);
     const token = localStorage.getItem('accessToken');
@@ -20,10 +19,13 @@ export default function AgentList() {
   }
 
   useEffect(() => {
+    if(!isLoggedIn) {
+      window.location.href = '/';
+    }
     if (!loading && agentList.length === 0) {
       fetchData();
     };
-}, [user, loading, agentList]);
+}, [loading, agentList]);
   // useEffect( async () => {
   //   let res = await getAllAgents();
   //   let listUser = res.data.data;
@@ -95,24 +97,32 @@ export default function AgentList() {
   ];
 
   return (
-      <div className="userList">
-      <div className="userTitleContainer">
-        <h1 className="userTitle">Danh sách đại lý</h1>
-        <Link to="/newUser">
-          <button className="agentAddButton">Create</button>
-        </Link>
-      </div>
-      <DataGrid
-        sx={{
-          border: 'none' // also tried setting to none 
-        }}
-        rows={agentList}
-        disableSelectionOnClick
-        columns={columns}
-        getRowId={row => row.agentCode}
-        pageSize={5}
-        //checkboxSelection
-      />
-    </div>  
+      <>
+      {isLoggedIn ? (
+        <div className="userList">
+        <div className="userTitleContainer">
+          <h1 className="userTitle">Danh sách đại lý</h1>
+          <Link to="/admin/newUser">
+            <button className="agentAddButton">Create</button>
+          </Link>
+        </div>
+        <DataGrid
+          sx={{
+            border: 'none' // also tried setting to none 
+          }}
+          rows={agentList}
+          disableSelectionOnClick
+          columns={columns}
+          getRowId={row => row.agentCode}
+          pageSize={5}
+          //checkboxSelection
+        />
+      </div>  
+      ) : (
+        <>
+        </>
+      )}
+      </>
+      
   );
 }

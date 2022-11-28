@@ -3,17 +3,17 @@ import { useState, useEffect } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { getAllFactories } from "../../services/adminService";
+import { getAllWarrantyCenter } from "../../services/adminService";
 
-export default function FactoryList({isLoggedIn}) {
-  const [factoryList, setFactoryList] = useState([]);
+export default function WcenterList({isLoggedIn}) {
+  const [wcList, setwcList] = useState([]);
   const [loading, setLoading] = useState(false);
   async function fetchData () {
     setLoading(true);
     const token = localStorage.getItem('accessToken');
-    let res = await getAllFactories(token);
+    let res = await getAllWarrantyCenter(token);
     let fList = res.data.data;
-    setFactoryList(fList);
+    setwcList(fList);
     setLoading(false);
   }
 
@@ -21,30 +21,30 @@ export default function FactoryList({isLoggedIn}) {
     if(!isLoggedIn) {
       window.location.href='/';
     }
-        if (!loading && factoryList.length === 0) {
+        if (!loading && wcList.length === 0) {
         fetchData();
         };
-    }, [loading, factoryList]);
+    }, [loading, wcList]);
 
   
-  const handleDelete = (factoryCode) => {
-    // setData(.filter((item) => item.factoryCode !== factoryCode));
+  const handleDelete = (wcCode) => {
+    // setData(.filter((item) => item.wcCode !== wcCode));
   };
   
   const columns = [
-    { field: "factoryCode", headerName: "Mã nhà máy", width: 150, style: { textAlign: 'center' }},
-    { field: "factoryName", headerName: "Tên nhà máy", width: 170 },
+    { field: "wcCode", headerName: "Mã trung tâm", width: 160, style: { textAlign: 'center' }},
+    { field: "wcName", headerName: "Tên trung tâm", width: 160 },
     {
-      field: "factoryAdress",
+      field: "wcAdress",
       headerName: "Địa chỉ",
       width: 130,
     },
     {
-      field: "factoryCity",
+      field: "wcCity",
       headerName: "Tỉnh/thành",
       width: 160,
     },{
-      field: "factoryPhone",
+      field: "wcPhone",
       headerName: "Số ĐT",
       width: 130,
     },{
@@ -52,7 +52,7 @@ export default function FactoryList({isLoggedIn}) {
         headerName: "Status",
         width: 130,
         valueGetter: (params) => {
-          return params.getValue(params.row.factoryCode, "account").accStatus;
+          return params.getValue(params.row.wcCode, "account").accStatus;
         }
     },{
       field: "action",
@@ -61,10 +61,10 @@ export default function FactoryList({isLoggedIn}) {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/admin/factory/" + params.row.factoryCode}>
+            <Link to={"/admin/wc/" + params.row.wcCode}>
               <button className="userListEdit">Edit</button>
             </Link>
-            <button onClick={() => handleDelete(params.row.factoryCode)} className="userListEdit">Delete</button>
+            <button onClick={() => handleDelete(params.row.wcCode)} className="userListEdit">Delete</button>
           </>
         );
       },
@@ -77,15 +77,15 @@ export default function FactoryList({isLoggedIn}) {
       <div className="userList">
       <div className="userTitleContainer">
       <h1 className="userTitle">Danh sách nhà máy</h1>
-      <Link to="/newUser">
+      <Link to="/admin/newUser">
         <button className="agentAddButton">Create</button>
       </Link>
     </div>
     <DataGrid
-      rows={factoryList}
+      rows={wcList}
       disableSelectionOnClick
       columns={columns}
-      getRowId={row => row.factoryCode}
+      getRowId={row => row.wcCode}
       pageSize={5}
       //checkboxSelection
     />

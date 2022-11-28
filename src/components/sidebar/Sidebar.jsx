@@ -15,14 +15,20 @@ import {
 } from "@material-ui/icons";
 import { NavLink, useHistory, Route } from "react-router-dom";
 import Login from "../../pages/login/Login";
-export default function Sidebar() {
+
+export default function Sidebar({isLogin}) {
   const history = useHistory();
   const logOut = () => {
     localStorage.clear();
-    history.push("/");
+    window.location.href = '/';
   }
   return (
-    <div className="sidebar">
+    <>
+    {!isLogin ? (
+      <>
+      </>
+    ) : (
+      <div className="sidebar">
       <div className="sidebarWrapper">
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
@@ -58,7 +64,7 @@ export default function Sidebar() {
                 Cơ sở sản xuất
               </li>
             </NavLink>
-            <NavLink to="/admin/warrantycentre" className="link">
+            <NavLink to="/admin/warrantycenter" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
                 Trung tâm bảo hành
@@ -70,7 +76,7 @@ export default function Sidebar() {
                 Products
               </li>
             </NavLink>
-            <NavLink to="/products" className="link">
+            <NavLink to="/admin/newUser" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
                 Cấp tài khoản
@@ -106,5 +112,8 @@ export default function Sidebar() {
         
       </div>
     </div>
+    )}
+    </>
+    
   );
 }

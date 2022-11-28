@@ -10,6 +10,7 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import FactoryList from "./pages/factory/factory";
+import WcenterList from "./pages/wcenter/WcenterList";
 import Login from "./pages/login/Login";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
@@ -17,49 +18,36 @@ import { useEffect, useState } from 'react';
 function App() {
   const history = useHistory();
   const user = useSelector((state) => state.auth.login.currentUser);
+  const [isLogin, setLogin] = useState(false);
   useEffect(() => {
-    if(user) {
-      console.log(1);
-    } else {
-      console.log(2);
-    }
-  }, [user]);
+    setLogin(user?.isLoggedIn);
+    
+    console.log(isLogin);
+  });
   
     return (
-      <Router>
-        
-        {!user ? (
-          <div className="container">
-            <>
-              <Route path="/" exact>
-                <Login />
-              </Route>
-            </>
-          </div>
-          ) : (
-            <>
-            
-            <Topbar />
+      <Router> 
+            <Topbar isLogin={isLogin}/>
             <div className="container">
-              <Sidebar />
+              <Sidebar isLogin={isLogin}/>
               <Switch>
                 <Route path="/admin" exact>
-                  <Home />
+                  <Home isLoggedIn={isLogin} />
                 </Route>
                 <Route path="/admin/agents">
-                  <AgentList />
+                  <AgentList  isLoggedIn={isLogin}/>
                 </Route>
                 <Route path="/admin/agent/:agentCode">
-                  <User />
+                  <User  isLoggedIn={isLogin}/>
                 </Route>
                 <Route path="/admin/factory">
-                  <FactoryList />
+                  <FactoryList  isLoggedIn={isLogin}/>
                 </Route>
-                <Route path="/newUser">
-                  <NewUser />
+                <Route path="/admin/newUser">
+                  <NewUser isLoggedIn={isLogin}/>
                 </Route>
-                <Route path="/products">
-                  <ProductList />
+                <Route path="/admin/warrantycenter">
+                  <WcenterList isLoggedIn={isLogin} />
                 </Route>
                 <Route path="/product/:productId">
                   <Product />
@@ -72,10 +60,6 @@ function App() {
                 </Route>
                 </Switch>
               </div>
-            </>
-          )}
-              
-        
       </Router>
     );
   }
