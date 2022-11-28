@@ -1,48 +1,29 @@
-import React from "react";
-import { withRouter } from 'react-router-dom';
+import React, { useState } from "react";
 import "./login.css"
 import {login} from '../../services/authService'
-import { Box } from "@material-ui/core";
-class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username : '',
-            password : ''
-        }
+import { useDispatch} from "react-redux";
+import { useHistory } from "react-router-dom";
+export default function Login() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const handleOnChangeUsername = (event) => {   
+        setUsername(event.target.value);
     }
-
-    handleOnChangeUsername = (event) => {   
-        this.setState({
-            username : event.target.value
-        })
+    const handleOnChangePassword = (event) => {
+        setPassword(event.target.value)
     }
-    handleOnChangePassword = (event) => {
-        this.setState({
-            password : event.target.value
-        })
-    }
-    handleLongin = async (event) => {
+    const handleLogin = (event) => {
         event.preventDefault();
-        try {
-            let result = await login(this.state.username, this.state.password);
-            if (result.data.token) {
-                localStorage.setItem('accessToken', 'Bearer ' + result.data.token);
-                this.props.handleLoginFromParent(true, result.data.role);
-                if (result.data.role === 10) {
-                    this.props.history.push({
-                        pathname: "/admin"
-                    });
-                }
-            }
-
-        }catch(error) {
-            console.log(error.response);
+        const user = {
+            username: username,
+            password: password
         }
+        
+        login(user, dispatch, history);
     }
-
-    render() {
-        return (
+    return (
         <div className="login-box">
 
             <h2>Đăng nhập</h2>
@@ -58,8 +39,8 @@ class Login extends React.Component {
                         id="email"
                         placeholder="Your username"
                         required
-                        value={this.state.username}
-                        onChange={(event) => {this.handleOnChangeUsername(event)}}
+                        value={username}
+                        onChange={handleOnChangeUsername}
                     />
                 </div>
                 <div className="form-group">
@@ -71,23 +52,21 @@ class Login extends React.Component {
                         id="password"
                         placeholder="Your password"
                         required
-                        value={this.state.password}
-                        onChange={(event) => { this.handleOnChangePassword(event) }}
+                        value={password}
+                        onChange={handleOnChangePassword}
                     />
                 </div>
 
-                <a className="forgot">
+                {/* <a className="forgot">
                     Forgot your password?
-                </a>
+                </a> */}
 
-                <button onClick={(event)=>{this.handleLongin(event)}}> Log In</button>
+                <button onClick={handleLogin}> Log In</button>
 
             </form>
 
         </div>
             
-        )
-    }
-}
+    )
 
-export default withRouter(Login);
+}

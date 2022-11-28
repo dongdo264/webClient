@@ -13,7 +13,6 @@ export default function FactoryList() {
     const token = localStorage.getItem('accessToken');
     let res = await getAllFactories(token);
     let fList = res.data.data;
-    console.log(fList);
     setFactoryList(fList);
     setLoading(false);
   }
