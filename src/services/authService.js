@@ -10,9 +10,15 @@ let login = async (user, dispatch, history) => {
             password: user.password
         });
         dispatch(loginSuccess(res.data));
-        localStorage.setItem('accessToken', 'Bearer ' + res.data.token);
+        sessionStorage.setItem('accessToken', 'Bearer ' + res.data.token);
         if (res.data.role === 10) {
             history.push("/admin");
+        } else if (res.data.role === 1) {
+            history.push("/factory");
+        } else if (res.data.role === 2) {
+            history.push("/wc");
+        } else if (res.data.role === 3) {
+            history.push("/agent");
         }
     }catch(err) {
         dispatch(loginFailed());

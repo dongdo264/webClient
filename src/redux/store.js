@@ -3,10 +3,12 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import authReducer from "./authSlice";
+import storageSession from 'redux-persist/lib/storage/session'
+
 
 const persistConfig = {
     key: 'auth',
-    storage
+    storage: storageSession
 }
 
 const reducer = combineReducers({
@@ -16,7 +18,11 @@ const reducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store =  configureStore({
-    reducer: persistedReducer
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+          serializableCheck: false,
+        }),
 })
 export const persistor = persistStore(store);
 export default store;

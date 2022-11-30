@@ -29,7 +29,7 @@ export default function NewUser({isLoggedIn}) {
     
     event.preventDefault();
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = sessionStorage.getItem('accessToken');
       let res = await createNewUser(inputs, token);
       if (res.data.errCode === 0) {
         alert("Tạo user thành công");
@@ -120,20 +120,20 @@ export default function NewUser({isLoggedIn}) {
                 value="daily" 
                 onChange={handleOnChange}
                 />
-                <label for="male">Đại lý</label>
+                <label htmlFor="male">Đại lý</label>
                 <input type="radio" 
                 name="option" 
                 id="female" 
                 value="cososanxuat" 
                 onChange={handleOnChange}
                 />
-                <label for="female">Cơ sở sản xuất</label>
+                <label htmlFor="female">Cơ sở sản xuất</label>
                 <input type="radio"
                  name="option" id="other"
                   value="baohanh" 
                   onChange={handleOnChange}
                   />
-                <label for="other">Trung tâm bảo hành</label>
+                <label htmlFor="other">Trung tâm bảo hành</label>
               </div>
             </div>
           </form>
