@@ -5,16 +5,20 @@ import { userData } from "../../dummyData";
 import WidgetSm from "../../components/widgetSm/WidgetSm";
 import WidgetLg from "../../components/widgetLg/WidgetLg";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-export default function Home({isLoggedIn}) {
+export default function Home({ isLoggedIn }) {
+  const user = useSelector((state) => state.auth.login.currentUser);
 
+  
   useEffect(() => {
-    console.log(isLoggedIn);
     if(!isLoggedIn) {
       window.location.href = '/';
     }
-    
-}, []);
+    console.log(" từ trang home", isLoggedIn);
+    console.log(user);
+    console.log(sessionStorage.getItem('accessToken'));
+  });
   return (
     <>
     {isLoggedIn ? (

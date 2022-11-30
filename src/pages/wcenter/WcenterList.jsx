@@ -4,27 +4,32 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { getAllWarrantyCenter } from "../../services/adminService";
+import { useRef } from "react";
 
 export default function WcenterList({isLoggedIn}) {
   const [wcList, setwcList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const componentMounted = useRef(true)
   async function fetchData () {
     setLoading(true);
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
     let res = await getAllWarrantyCenter(token);
     let fList = res.data.data;
     setwcList(fList);
     setLoading(false);
   }
+  if(!isLoggedIn) {
+    window.location.href='/';
+  }
 
-  useEffect(() => {
-    if(!isLoggedIn) {
-      window.location.href='/';
-    }
-        if (!loading && wcList.length === 0) {
+  useEffect( async() => {
+      if (!loading && wcList.length === 0) {
         fetchData();
-        };
-    }, [loading, wcList]);
+      };
+      return () => {
+        componentMounted.current = false;
+      }
+    }, []);
 
   
   const handleDelete = (wcCode) => {

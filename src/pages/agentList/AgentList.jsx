@@ -4,28 +4,32 @@ import { DataGrid } from "@material-ui/data-grid";
 import { ArrowUpwardTwoTone, DeleteOutline } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
 import { getAllAgents, deleteAgentById } from "../../services/adminService";
-import { useSelector } from "react-redux";
+import { useRef } from "react";
 
 export default function AgentList({isLoggedIn}) {
   const [agentList, setAgentList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const componentMounted = useRef(true)
   async function fetchData () {
     setLoading(true);
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
     let res = await getAllAgents(token);
     let listUser = res.data.data;
     setAgentList(listUser);
     setLoading(false);
   }
+  if(!isLoggedIn) {
+    window.location.href = '/';
+  }
 
-  useEffect(() => {
-    if(!isLoggedIn) {
-      window.location.href = '/';
-    }
+  useEffect( () => {
     if (!loading && agentList.length === 0) {
       fetchData();
     };
-}, [loading, agentList]);
+    return () => {
+      componentMounted.current = false;
+    }
+}, []);
   // useEffect( async () => {
   //   let res = await getAllAgents();
   //   let listUser = res.data.data;
@@ -38,7 +42,7 @@ export default function AgentList({isLoggedIn}) {
     console.log(agentCode);
     try {
       if (window.confirm("Bạn có chắc muốn xóa đại lý này?")) {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         let res = await deleteAgentById(agentCode, token);
         if (res.data.errCode === 0) {
           fetchData();

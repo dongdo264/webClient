@@ -4,27 +4,32 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { getAllFactories } from "../../services/adminService";
+import { useRef } from "react";
 
 export default function FactoryList({isLoggedIn}) {
   const [factoryList, setFactoryList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const componentMounted = useRef(true)
   async function fetchData () {
     setLoading(true);
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
     let res = await getAllFactories(token);
     let fList = res.data.data;
     setFactoryList(fList);
     setLoading(false);
   }
-
-  useEffect(() => {
-    if(!isLoggedIn) {
-      window.location.href='/';
-    }
+  if(!isLoggedIn) {
+    window.location.href='/';
+  }
+  useEffect( () => {
+   
         if (!loading && factoryList.length === 0) {
         fetchData();
         };
-    }, [loading, factoryList]);
+        return () => {
+          componentMounted.current = false;
+        }
+    }, []);
 
   
   const handleDelete = (factoryCode) => {
