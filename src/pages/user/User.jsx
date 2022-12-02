@@ -7,102 +7,96 @@ import {
   PhoneAndroid,
   Publish,
 } from "@material-ui/icons";
-import { Link } from "react-router-dom";
 import "./user.css";
-import { useState } from 'react';
-export default function User() {
-  const [file, setFile] = useState(null);
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { getProfileUser } from '../../services/userService';
+import { convertBase64 } from '../../utils/convertImagetoBase64';
+
+
+export default function User({isLoggedIn}) {
+  const { id } = useParams();
+  const initValue = {
+    name: '',
+    adress: '',
+    city: '',
+    phone: '',
+    id: '',
+    avatar: '',
+    email: 'N/A'
+  }
   const [base64url, setBase64url] = useState("");
-  // const getBase64 = file => {
+  const [inputs, setInputs] = useState(initValue);
+  const [role, setRole] = useState("");
+  //const [searchParams, setSearchParams] = useSearchParams();
+  async function fetchData () {
+    const token = sessionStorage.getItem('accessToken');
+    //console.log(id);
+    let res = await getProfileUser(id, token);
+    //console.log(res.data);
+    let infoUser = res.data.infoUser;
+    setInputs(infoUser);
+    console.log(inputs);
+    setRole(res.data.role);
+    console.log(role);
+  }
+  useEffect( () => {
+    fetchData();
+  }, []);
+  // const convertBase64 = (file) => {
   //   if (!file) {
   //     return setBase64url("");
   //   }
-  //     // Make new FileReader
-  //     let reader = new FileReader();
-  //     // Convert the file to base64 text
-  //     reader.readAsDataURL(file);
-  //     // on reader load somthing...
-  //     reader.onloadend = (e) => {
-  //       // Make a fileInfo Object
-  //       // console.log("Called", reader);
-  //       // baseURL = reader.result;
-  //       // console.log(baseURL);
-  //       // resolve(baseURL);
-  //       let f = reader.result;
-  //       setBase64url(f);
-  //       console.log(base64url);
-  //       document.getElementById('avatarUpload').src = base64url;
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result);
   //     };
+
+  //     fileReader.onerror = (error) => {
+  //       reject(error);
+  //     };
+  //   });
   // };
-  const convertBase64 = (file) => {
-    if (!file) {
-      return setBase64url("");
-    }
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
 
 
   const handleFileInputChange =  async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
+    console.log(base64);
+    document.getElementById('avatarUpload').src = base64;
     setBase64url(base64);
     console.log(base64url)
-    // file = e.target.files[0];
-
-    // getBase64(file)
-    //   .then(result => {
-    //     file["base64"] = result;
-    //     console.log("File Is", file);
-    //     setFile(file);
-    //     setBase64url(file.base64);
-    //     document.getElementById('avatarUpload').src = base64url;
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-   
-    // this.setState({
-    //   file: e.target.files[0]
-    // });
   };
 
   return (
     <div className="user">
       <div className="userTitleContainer">
-        <h1 className="userTitle">Edit User</h1>
-        <Link to="/admin/newUser">
+        <h1 className="userTitle">Thông tin tài khoản</h1>
+        {/* <Link to="/admin/newUser">
           <button className="userAddButton">Create</button>
-        </Link>
+        </Link> */}
       </div>
       <div className="userContainer">
         <div className="userShow">
           <div className="userShowTop">
             <img
-              src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src={base64url}
               alt=""
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">Anna Becker</span>
-              <span className="userShowUserTitle">Software Engineer</span>
+              <span className="userShowUsername">{inputs.name}</span>
+              <span className="userShowUserTitle">{role}</span>
             </div>
           </div>
           <div className="userShowBottom">
             <span className="userShowTitle">Account Details</span>
             <div className="userShowInfo">
               <PermIdentity className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99</span>
+              <span className="userShowInfoTitle">{inputs.name}</span>
             </div>
             <div className="userShowInfo">
               <CalendarToday className="userShowIcon" />
@@ -111,15 +105,19 @@ export default function User() {
             <span className="userShowTitle">Contact Details</span>
             <div className="userShowInfo">
               <PhoneAndroid className="userShowIcon" />
-              <span className="userShowInfoTitle">+1 123 456 67</span>
+              <span className="userShowInfoTitle">{inputs.phone}</span>
             </div>
             <div className="userShowInfo">
               <MailOutline className="userShowIcon" />
-              <span className="userShowInfoTitle">annabeck99@gmail.com</span>
+              <span className="userShowInfoTitle">{inputs.email}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">New York | USA</span>
+              <span className="userShowInfoTitle">{inputs.adress}</span>
+            </div>
+            <div className="userShowInfo">
+              <LocationSearching className="userShowIcon" />
+              <span className="userShowInfoTitle">{inputs.city}</span>
             </div>
           </div>
         </div>
@@ -173,7 +171,7 @@ export default function User() {
                 <img
                   className="userUpdateImg"
                   id='avatarUpload'
-                  src="https://images.pexels.com/photos/1152994/pexels-photo-1152994.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                  src={base64url}
                   alt=""
                 />
                 <label htmlFor="file">

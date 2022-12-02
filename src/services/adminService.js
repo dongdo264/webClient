@@ -48,9 +48,17 @@ let deleteAgentById = (id, token) => {
         }
     });
 }
+let getAllProductlines = (token) => {
+    return axios.get(`${baseURL}api-admin/getAllProductlines`, {
+        headers: {
+            token
+        }
+    });
+}
 export { getAllAgents,
     getAllFactories,
     getAllWarrantyCenter,
     deleteAgentById,
-    createNewUser 
+    createNewUser,
+    getAllProductlines
     }

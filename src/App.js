@@ -12,44 +12,41 @@ import NewProduct from "./pages/newProduct/NewProduct";
 import FactoryList from "./pages/factory/Factory";
 import WcenterList from "./pages/wcenter/WcenterList";
 import Login from "./pages/login/Login";
+import ProductLine from "./pages/productline/ProductLine";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
+import ProductDetail from "./pages/productdetail/ProductDetail";
+
+
+const data = {
+  name: "Xe đạp của tui",
+  size: "One size",
+  color: "Back, White, Yellow",
+  frame: "Max Bike steel frame",
+  fork: "Max Bike suspension fork",
+  rim: "Alloy, 36h, schrader valve",
+  spoke: "14G",
+  tire: "24\" x 2.125",
+  handlebar: "JB-6819 31.8x620mm steel",
+  img: "https://xedap.vn/wp-content/uploads/2022/08/Escape-3-2023.jpg",
+}
+
 
 function App() {
   const user = useSelector((state) => state.auth.login.currentUser);
   const [isLogin, setLogin] = useState(user?.isLoggedIn);
-  const [isAdmin, setAdmin] = useState(false);
-  const [isAgent, setAgent] = useState(false);
-  const [isFactory, setFactory] = useState(false);
-  const [isWc, setWc] = useState(false);
   const [role, setRole] = useState(0);
   useEffect(() => {
     setLogin(user?.isLoggedIn);
-    console.log("islogin: ", isLogin)
-    console.log(user);
+    // console.log("islogin: ", isLogin)
+    // console.log(user);
     if (user?.role === 10) {
-      setAdmin(true);
-      setAgent(false);
-      setFactory(false);
-      setWc(false);
       setRole(10);
     } else if (user?.role === 3) {
-      setAdmin(false);
-      setAgent(true);
-      setFactory(false);
-      setWc(false);
       setRole(3);
     } else if (user?.role === 2) {
-      setAdmin(false);
-      setAgent(false);
-      setFactory(false);
-      setWc(true);
       setRole(2);
     } else if (user?.role === 1) {
-      setAdmin(false);
-      setAgent(false);
-      setFactory(true);
-      setWc(false);
       setRole(1);
     }
   });
@@ -66,8 +63,8 @@ function App() {
                 <Route path="/admin/agents" >
                   <AgentList  isLoggedIn={isLogin} role={role}/>
                 </Route>
-                <Route path="/admin/agent/:agentCode">
-                  <User  isLoggedIn={isLogin} role={role}/>
+                <Route path="/viewprofile/:id">
+                  <User isLoggedIn={isLogin}/>
                 </Route>
                 <Route path="/admin/factory">
                   <FactoryList  isLoggedIn={isLogin} role={role}/>
@@ -81,8 +78,8 @@ function App() {
                 <Route path="/admin/products">
                   <ProductList isLoggedIn={isLogin} role={role} />
                 </Route>
-                <Route path="/product/:productId">
-                  <Product />
+                <Route path="/admin/productlines">
+                  <ProductLine isLoggedIn={isLogin}/>
                 </Route>
                 <Route path="/newproduct">
                   <NewProduct />
@@ -95,6 +92,9 @@ function App() {
                 </Route>
                 <Route path="/" exact>
                   <Login/>
+                </Route>
+                <Route path="/admin/productdetail">
+                  <ProductDetail info={data} isLogin={isLogin}></ProductDetail>
                 </Route>
                 </Switch>
               </div>

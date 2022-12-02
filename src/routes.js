@@ -30,8 +30,8 @@ export const adminRoutes = [
       icon: PermIdentity
     },
     {
-      path: "/admin/products",
-      name: "Sản phẩm",
+      path: "/admin/productlines",
+      name: "Dòng sản phẩm",
       icon: PermIdentity,
     },
     {

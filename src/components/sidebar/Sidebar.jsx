@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 export default function Sidebar({isLogin, role}) {
   const [routes, setRoute] = useState(adminRoutes);
   useEffect(() => {
-    console.log(role);
+    //console.log(role);
     if (role === 10) {
       setRoute(adminRoutes);
     } else if (role === 1) {

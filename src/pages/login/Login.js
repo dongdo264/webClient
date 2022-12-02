@@ -31,12 +31,12 @@ export default function Login() {
 
             <form>
                 <div className="form-group">
-                    <label htmlFor="email">
+                    <label htmlFor="username">
                         Username
                     </label>
                     <input
                         type="text"
-                        id="email"
+                        id="username"
                         placeholder="Your username"
                         required
                         value={username}

@@ -29,7 +29,7 @@ export default function FactoryList({isLoggedIn}) {
         return () => {
           componentMounted.current = false;
         }
-    }, []);
+    }, [loading, factoryList]);
 
   
   const handleDelete = (factoryCode) => {
@@ -66,7 +66,7 @@ export default function FactoryList({isLoggedIn}) {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/admin/factory/" + params.row.factoryCode}>
+            <Link to={"/viewprofile/" + params.row.factoryCode}>
               <button className="userListEdit">Edit</button>
             </Link>
             <button onClick={() => handleDelete(params.row.factoryCode)} className="userListEdit">Delete</button>
