@@ -29,7 +29,7 @@ export default function AgentList({isLoggedIn}) {
     return () => {
       componentMounted.current = false;
     }
-}, []);
+  }, [loading, agentList]);
   // useEffect( async () => {
   //   let res = await getAllAgents();
   //   let listUser = res.data.data;
@@ -86,7 +86,7 @@ export default function AgentList({isLoggedIn}) {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/admin/agent/" + params.row.agentCode}>
+            <Link to={"/viewprofile/" + params.row.agentCode}>
               <button className="userListEdit">Edit</button>
             </Link>
             <button onClick={() => handleDelete(params.row.agentCode)} className="userListEdit">Delete</button>

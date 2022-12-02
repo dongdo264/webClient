@@ -29,7 +29,7 @@ export default function WcenterList({isLoggedIn}) {
       return () => {
         componentMounted.current = false;
       }
-    }, []);
+    }, [loading, wcList]);
 
   
   const handleDelete = (wcCode) => {
@@ -66,7 +66,7 @@ export default function WcenterList({isLoggedIn}) {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/admin/wc/" + params.row.wcCode}>
+            <Link to={"/viewprofile/" + params.row.wcCode}>
               <button className="userListEdit">Edit</button>
             </Link>
             <button onClick={() => handleDelete(params.row.wcCode)} className="userListEdit">Delete</button>

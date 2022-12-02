@@ -60,6 +60,12 @@ export default function ProductList() {
 
   return (
     <div className="productList">
+      <div className="userTitleContainer">
+          <h2 className="userTitle">Danh sách sản phẩm</h2>
+          <Link to="/newproduct">
+            <button className="agentAddButton">Create</button>
+          </Link>
+        </div>
       <DataGrid
         rows={data}
         disableSelectionOnClick
