@@ -7,9 +7,12 @@ import { useState, useEffect } from "react";
 
 export default function Topbar({isLogin}) {
   const user = useSelector((state) => state.auth.login.currentUser);
+  const [img, setImg] = useState('');
   const link = "/viewprofile/" + user?.id;
   useEffect( () => {
-    
+    //let avt = new Buffer(user?.avatar, 'base64').toString('binary');
+    //setImg(avt);
+    // console.log(new Buffer(user?.avatar, 'base64').toString('binary'));
   }, []);
   return (
     <>
@@ -35,7 +38,7 @@ export default function Topbar({isLogin}) {
             <Settings />
           </div>
           <Link to={link}>
-          <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="topAvatar" />
+          <img src={img} alt="" className="topAvatar" />
           </Link>
           {/* <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="topAvatar" /> */}
         </div>

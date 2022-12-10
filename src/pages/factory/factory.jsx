@@ -1,8 +1,8 @@
 import "../agentList/agentList.css";
 import { useState, useEffect } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Box, Typography } from '@mui/material';
+import { Link, Redirect } from "react-router-dom";
 import { getAllFactories } from "../../services/adminService";
 import { useRef } from "react";
 
@@ -55,9 +55,9 @@ export default function FactoryList({isLoggedIn}) {
     },{
         field: "status",
         headerName: "Status",
-        width: 130,
+        width: 120,
         valueGetter: (params) => {
-          return params.getValue(params.row.factoryCode, "account").accStatus;
+          return params.getValue(params.row.factoryCode, "account").status;
         }
     },{
       field: "action",
@@ -80,7 +80,7 @@ export default function FactoryList({isLoggedIn}) {
     <>
     {isLoggedIn ? (
       <div className="userList">
-      <div className="userTitleContainer">
+      {/* <div className="userTitleContainer">
       <h1 className="userTitle">Danh sách nhà máy</h1>
       <Link to="/newUser">
         <button className="agentAddButton">Create</button>
@@ -93,10 +93,37 @@ export default function FactoryList({isLoggedIn}) {
       getRowId={row => row.factoryCode}
       pageSize={5}
       //checkboxSelection
-    />
+    /> */}
+    <Box
+      sx={{
+        height: 400,
+        width: '100%',
+      }}
+    >
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+      >
+        Cơ sở sản xuất
+      </Typography>
+      <DataGrid
+        columns={columns}
+        rows={factoryList}
+        getRowId={row => row.factoryCode}
+        //rowsPerPageOptions={[5, 10, 20]}
+        pageSize={10}
+        sx={{ textAlign: 'center' }}
+      />
+         </Box>
   </div>
     ) : (
       <>
+       <>
+          <Redirect to='/' >
+            
+          </Redirect>
+        </>
       </>
     )}
     </>

@@ -1,41 +1,88 @@
 import "./productList.css";
 import { DataGrid } from "@material-ui/data-grid";
+import { Box, Typography } from '@mui/material';
 import { DeleteOutline } from "@material-ui/icons";
-import { productRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { getAllProducts } from "../../services/factoryService";
+import { getInfoProduct } from "../../services/userService";
+import Modal from "../../components/modal/Modal";
 
 export default function ProductList() {
-  const [data, setData] = useState(productRows);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [img, setImg] = useState('');
+  const [isOpenModal, setOpenModel] = useState(false);
+  const [info, setInfo] = useState([]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  async function fetchData () {
+    setLoading(true);
+    const token = sessionStorage.getItem('accessToken');
+    let res = await getAllProducts(token);
+    let listUser = res.data.data;
+    
+    for (let i in listUser) {
+      if (listUser[i].avatar) {
+        listUser[i].img = new Buffer(listUser[i].avatar, 'base64').toString('binary') 
+      } else {
+        listUser[i].img = '';
+      }
+    }
+    setData(listUser);
+    setLoading(false);
+  }
+  async function fetchInfoProduct (id) {
+    const token = sessionStorage.getItem('accessToken');
+    let res = await getInfoProduct(id, token);
+    let data = res.data.data;
+    data.name = data.product.productName;
+    data.productLine = data.product.productLine;
+    data.img = '';
+    if (data.product.avatar) {
+      data.img = new Buffer(data.product.avatar, 'base64').toString('binary') 
+    }
+    console.log(data);
+    setInfo(data);
+  }
+  useEffect(() => {
+    if (!loading && data.length === 0) {
+      fetchData();
+    };
+  }, [loading, data])
+
+  const toggleModal = (id) => {
+    // console.log("click me!")
+    fetchInfoProduct(id);
+    setOpenModel(!isOpenModal);
+    //console.log(isOpenModal);
+    // console.log(id);
+  }
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "productCode", headerName: "ID", width: 90 },
     {
-      field: "product",
-      headerName: "Product",
+      field: "productName",
+      headerName: "Tên sản phẩm",
       width: 200,
       renderCell: (params) => {
         return (
           <div className="productListItem">
             <img className="productListImg" src={params.row.img} alt="" />
-            {params.row.name}
+            {params.row.productName}
           </div>
         );
       },
     },
-    { field: "stock", headerName: "Stock", width: 200 },
+    { field: "buyPrice", headerName: "Giá xuất xưởng", width: 200 },
     {
       field: "status",
       headerName: "Status",
       width: 120,
+      
     },
     {
-      field: "price",
-      headerName: "Price",
+      field: "warrantyPeriod",
+      headerName: "Bảo hành",
       width: 160,
     },
     {
@@ -45,13 +92,11 @@ export default function ProductList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/product/" + params.row.id}>
-              <button className="productListEdit">Edit</button>
-            </Link>
-            <DeleteOutline
+            <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
+            {/* <DeleteOutline
               className="productListDelete"
               onClick={() => handleDelete(params.row.id)}
-            />
+            /> */}
           </>
         );
       },
@@ -59,20 +104,37 @@ export default function ProductList() {
   ];
 
   return (
-    <div className="productList">
-      <div className="userTitleContainer">
-          <h2 className="userTitle">Danh sách sản phẩm</h2>
-          <Link to="/newproduct">
-            <button className="agentAddButton">Create</button>
-          </Link>
-        </div>
+    <>
+      <div className="productList">
+        {/* <button onClick={toggleModal}>Mở modal</button> */}
+      <Box
+      sx={{
+        height: 400,
+        width: '100%',
+      }}
+    >
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+      >
+        Sản phẩm
+      </Typography>
       <DataGrid
-        rows={data}
-        disableSelectionOnClick
         columns={columns}
-        pageSize={8}
-        checkboxSelection
+        rows={data}
+        getRowId={(row) => row.productCode}
+        //rowsPerPageOptions={[5, 10, 20]}
+        pageSize={10}
+        sx={{ textAlign: 'center' }}
       />
+    </Box>
     </div>
+    <Modal 
+      open={isOpenModal}
+      toggleModal={() => setOpenModel(!isOpenModal)}
+      info={info}
+    />
+    </>
   );
 }

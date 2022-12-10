@@ -13,4 +13,25 @@ const convertBase64 = (file) => {
     });
   };
 
-  export {convertBase64}
+//   const arrayBufferToBase64 = (buffer) => {
+//     var binary = '';
+//     var bytes = [].slice.call(new Uint8Array(buffer));
+//     bytes.forEach((b) => binary += String.fromCharCode(b));
+//     return window.btoa(binary);
+// };
+
+let arrayBufferToBase64 = (buffer) => {
+  let binary = '';
+  let bytes = new Uint8Array(buffer);
+  let len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  console.log(binary);
+  return window.btoa(binary);
+};
+
+
+  export {convertBase64,
+    arrayBufferToBase64,
+  }

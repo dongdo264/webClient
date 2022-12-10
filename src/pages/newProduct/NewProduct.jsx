@@ -2,6 +2,7 @@ import "./newProduct.css";
 import { useState, useEffect } from "react";
 import { convertBase64 } from "../../utils/convertImagetoBase64";
 import { createProduct } from "../../services/factoryService";
+import { encode, decode } from "base64-arraybuffer";
 export default function NewProduct() {
   useEffect(() => {
     
@@ -41,6 +42,7 @@ export default function NewProduct() {
   const handleFileInputChange =  async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
+    //console.log(decode(base64));
     setAvatar(base64);
   };
 
@@ -62,6 +64,7 @@ export default function NewProduct() {
   }
 
   return (
+    
     <div className="newProduct">
       <h1 className="addProductTitle">New Product</h1>
       <form className="addProductForm">

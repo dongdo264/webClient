@@ -1,10 +1,9 @@
 import "./agentList.css";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
-import { ArrowUpwardTwoTone, DeleteOutline } from "@material-ui/icons";
-import { Link, useHistory } from "react-router-dom";
+import { Box, Typography } from '@mui/material';
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { getAllAgents, deleteAgentById } from "../../services/adminService";
-import { useRef } from "react";
 
 export default function AgentList({isLoggedIn}) {
   const [agentList, setAgentList] = useState([]);
@@ -18,9 +17,9 @@ export default function AgentList({isLoggedIn}) {
     setAgentList(listUser);
     setLoading(false);
   }
-  if(!isLoggedIn) {
-    window.location.href = '/';
-  }
+  // if(!isLoggedIn) {
+  //   window.location.href = '/';
+  // }
 
   useEffect( () => {
     if (!loading && agentList.length === 0) {
@@ -30,14 +29,7 @@ export default function AgentList({isLoggedIn}) {
       componentMounted.current = false;
     }
   }, [loading, agentList]);
-  // useEffect( async () => {
-  //   let res = await getAllAgents();
-  //   let listUser = res.data.data;
-  //   console.log(listUser);
-  //   setAgentList([...listUser]);
-  // }, []);
 
-  
   const handleDelete = async (agentCode) => {
     console.log(agentCode);
     try {
@@ -74,9 +66,9 @@ export default function AgentList({isLoggedIn}) {
     {
       field: "status",
       headerName: "Status",
-      width: 130,
+      width: 120,
       valueGetter: (params) => {
-        return params.getValue(params.row.agentCode, "account").accStatus;
+        return params.getValue(params.row.agentCode, "account").status;
       }
     },
     {
@@ -104,26 +96,34 @@ export default function AgentList({isLoggedIn}) {
       <>
       {isLoggedIn ? (
         <div className="userList">
-        <div className="userTitleContainer">
-          <h1 className="userTitle">Danh sách đại lý</h1>
-          <Link to="/admin/newUser">
-            <button className="agentAddButton">Create</button>
-          </Link>
-        </div>
-        <DataGrid
-          sx={{
-            border: 'none' // also tried setting to none 
-          }}
-          rows={agentList}
-          disableSelectionOnClick
-          columns={columns}
-          getRowId={row => row.agentCode}
-          pageSize={5}
-          //checkboxSelection
-        />
+        <Box
+      sx={{
+        height: 400,
+        width: '100%',
+      }}
+    >
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+      >
+        Đại lý phân phối
+      </Typography>
+      <DataGrid
+        columns={columns}
+        rows={agentList}
+        getRowId={row => row.agentCode}
+        //rowsPerPageOptions={[5, 10, 20]}
+        pageSize={10}
+        sx={{ textAlign: 'center' }}
+      />
+         </Box>
       </div>  
       ) : (
         <>
+          <Redirect to='/' >
+
+          </Redirect>
         </>
       )}
       </>

@@ -8,5 +8,12 @@ let getProfileUser = (id, token) => {
         }
     });
 }
+let getInfoProduct = (id, token) => {
+    return axios.get(`${baseURL}api-user/product/${id}`,{
+        headers: {
+            token
+        }
+    });
+}
 
-export { getProfileUser }
+export { getProfileUser , getInfoProduct}
