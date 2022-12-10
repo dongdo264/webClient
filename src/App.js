@@ -7,7 +7,6 @@ import AgentList from "./pages/agentList/AgentList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
 import ProductList from "./pages/productList/ProductList";
-import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import FactoryList from "./pages/factory/Factory";
 import WcenterList from "./pages/wcenter/WcenterList";
@@ -15,7 +14,6 @@ import Login from "./pages/login/Login";
 import ProductLine from "./pages/productline/ProductLine";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-import ProductDetail from "./pages/productdetail/ProductDetail";
 
 
 const data = {
@@ -92,9 +90,6 @@ function App() {
                 </Route>
                 <Route path="/" exact>
                   <Login/>
-                </Route>
-                <Route path="/admin/productdetail">
-                  <ProductDetail info={data} isLogin={isLogin}></ProductDetail>
                 </Route>
                 </Switch>
               </div>

@@ -2,6 +2,7 @@ import "../agentList/agentList.css";
 import { useState, useEffect } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
+import { Box, Typography } from '@mui/material';
 import { Link } from "react-router-dom";
 import { getAllWarrantyCenter } from "../../services/adminService";
 import { useRef } from "react";
@@ -55,9 +56,9 @@ export default function WcenterList({isLoggedIn}) {
     },{
         field: "status",
         headerName: "Status",
-        width: 130,
+        width: 120,
         valueGetter: (params) => {
-          return params.getValue(params.row.wcCode, "account").accStatus;
+          return params.getValue(params.row.wcCode, "account").status;
         }
     },{
       field: "action",
@@ -80,7 +81,7 @@ export default function WcenterList({isLoggedIn}) {
     <>
     {isLoggedIn ? (
       <div className="userList">
-      <div className="userTitleContainer">
+      {/* <div className="userTitleContainer">
       <h1 className="userTitle">Danh sách nhà máy</h1>
       <Link to="/admin/newUser">
         <button className="agentAddButton">Create</button>
@@ -93,7 +94,29 @@ export default function WcenterList({isLoggedIn}) {
       getRowId={row => row.wcCode}
       pageSize={5}
       //checkboxSelection
-    />
+    /> */}
+    <Box
+      sx={{
+        height: 400,
+        width: '100%',
+      }}
+    >
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+      >
+        Trung tâm bảo hành
+      </Typography>
+      <DataGrid
+        columns={columns}
+        rows={wcList}
+        getRowId={row => row.wcCode}
+        //rowsPerPageOptions={[5, 10, 20]}
+        pageSize={10}
+        sx={{ textAlign: 'center' }}
+      />
+         </Box>
   </div>
     ) : (
       <>
