@@ -97,3 +97,7 @@ form button {
         0deg, #124ce7, #3784ff
     );
 }
+.errMsg {
+    color: red;
+    font-size: 1.2rem;
+}

@@ -3,17 +3,21 @@ import { DataGrid } from "@material-ui/data-grid";
 import { Box, Typography } from '@mui/material';
 import { DeleteOutline } from "@material-ui/icons";
 import { useState, useEffect, useRef , useSelector } from "react";
-import { getAllProducts, getAllActions } from "../../services/factoryService";
+import { getWarehouse } from "../../services/factoryService";
 
-export default function ProductionTable() {
+export default function Warehouse() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
-    let res = await getAllActions(token);
+    let res = await getWarehouse(token);
     let data = res.data.data;
+    for (let i in data) {
+        data[i].id = parseInt(i) + 1;
+    }
+    console.log(data);
     setData(data);
     setLoading(false);
   }
@@ -30,23 +34,18 @@ export default function ProductionTable() {
 //   }
 
   const columns = [
-    { field: "batchCode", headerName: "Mã lô", width: 120 },
-    {
-      field: "productCode",
-      headerName: "Mã sản phẩm",
-      width: 160,
-    },
+    { field: "id", headerName: "ID", width: 100 },
+    { field: "productCode", headerName: "Mã sản phẩm", width: 200 },
     {
       field: "color",
       headerName: "Màu sắc",
-      width: 130,
+      width: 200,
     },
     {
-        field: "quantityInStock",
-        headerName: "Số lượng",
-        width: 130,
+        field: "sum",
+        headerName: "Số lượng trong kho",
+        width: 220,
     },
-    { field: "MFG", headerName: "Ngày sản xuất", width: 160 },
     {
       field: "status",
       headerName: "Status",
@@ -61,7 +60,6 @@ export default function ProductionTable() {
         return (
           <>
             <button className="productListEdit" >View</button>
-            <button className="productListEdit" >Sản xuất</button>
           </>
         );
       },
@@ -83,12 +81,12 @@ export default function ProductionTable() {
         component="h3"
         sx={{ textAlign: 'center', mt: 3, mb: 3 }}
       >
-        Quản lý hoạt động
+        Kho hàng
       </Typography>
       <DataGrid
         columns={columns}
         rows={data}
-        getRowId={(row) => row.batchCode}
+        getRowId={(row) => row.id}
         //rowsPerPageOptions={[5, 10, 20]}
         pageSize={10}
         sx={{ textAlign: 'center' }}

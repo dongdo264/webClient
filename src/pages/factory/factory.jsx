@@ -80,20 +80,6 @@ export default function FactoryList({isLoggedIn}) {
     <>
     {isLoggedIn ? (
       <div className="userList">
-      {/* <div className="userTitleContainer">
-      <h1 className="userTitle">Danh sách nhà máy</h1>
-      <Link to="/newUser">
-        <button className="agentAddButton">Create</button>
-      </Link>
-    </div>
-    <DataGrid
-      rows={factoryList}
-      disableSelectionOnClick
-      columns={columns}
-      getRowId={row => row.factoryCode}
-      pageSize={5}
-      //checkboxSelection
-    /> */}
     <Box
       sx={{
         height: 400,

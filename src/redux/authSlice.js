@@ -18,9 +18,10 @@ const authSlice = createSlice({
             state.login.currentUser = action.payload;
             state.login.error = false;
         },
-        loginFailed: (state) => {
+        loginFailed: (state, setErrMessage) => {
             state.login.isFetching = false;
             state.login.error = true;
+            setErrMessage("Thông tin tài khoản hoặc mật khẩu không chính xác!");
         }
     }
 });

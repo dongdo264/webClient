@@ -4,7 +4,6 @@ import { getAllFactories } from "../../services/userService";
 import { createOrder } from "../../services/agentService";
 
 export default function TransferProducts(props) {
-    console.log(props.orderdetail);
     const [factoryList, setFactoryList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [factorySelect, setFactoryChoice] = useState(null);

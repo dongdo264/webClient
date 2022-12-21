@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import ProductionTable from "./pages/factory/ProductionTable";
 import TransferProduct from "./pages/factory/TransferProduct";
+import Warehouse from "./pages/factory/Warehouse";
 
 
 function App() {
@@ -76,6 +77,9 @@ function App() {
                 </Route>
                 <Route path="/factory" exact>
                   <Home isLoggedIn={isLogin} />
+                </Route>
+                <Route path="/factory/warehouse" exact>
+                  <Warehouse isLoggedIn={isLogin} />
                 </Route>
                 <Route path="/factory/transferproducts" exact>
                   <TransferProduct isLoggedIn={isLogin} />

@@ -67,7 +67,7 @@ export default function Production(props) {
                     placeholder="Quantity" 
                     key="quantity"
                     name="quantity"
-                    value={inputs.password}
+                    value={inputs.quantity}
                     onChange={handleOnChange}
                     />
                     </div>                   

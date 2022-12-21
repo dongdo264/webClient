@@ -19,7 +19,7 @@ let createProduct = (product, productdetail, avatar, token) => {
 let production = (data, token) => {
     return axios.post(`${baseURL}api-factory/production`,{
         id: data.id,
-        batchCode: data.batchCode,
+        batchCode: Date.now() % 100000000,
         color: data.color,
         quantity: data.quantity
     },{
@@ -44,9 +44,18 @@ let getAllOrders = (token) => {
     })
 }
 
+let getWarehouse = (token) => {
+    return axios.get(`${baseURL}api-factory/warehouse`, {
+        headers: {
+            token
+        }
+    })
+}
+
 export {
     createProduct,
     production,
     getAllActions,
-    getAllOrders
+    getAllOrders,
+    getWarehouse
 }
