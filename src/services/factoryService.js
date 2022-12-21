@@ -15,16 +15,47 @@ let createProduct = (product, productdetail, avatar, token) => {
     });
 }
 
-let getAllProducts = (token) => {
-    return axios.get(`${baseURL}api-factory/getallproducts`, {
+
+let production = (data, token) => {
+    return axios.post(`${baseURL}api-factory/production`,{
+        id: data.id,
+        batchCode: Date.now() % 100000000,
+        color: data.color,
+        quantity: data.quantity
+    },{
         headers: {
             token
         }
     })
-} 
+}
 
+let getAllActions = (token) => {
+    return axios.get(`${baseURL}api-factory/getallactions`, {
+        headers: {
+            token
+        }
+    })
+}
+let getAllOrders = (token) => {
+    return axios.get(`${baseURL}api-factory/getallorders`, {
+        headers: {
+            token
+        }
+    })
+}
+
+let getWarehouse = (token) => {
+    return axios.get(`${baseURL}api-factory/warehouse`, {
+        headers: {
+            token
+        }
+    })
+}
 
 export {
     createProduct,
-    getAllProducts
+    production,
+    getAllActions,
+    getAllOrders,
+    getWarehouse
 }

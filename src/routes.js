@@ -48,12 +48,27 @@ export const adminRoutes = [
       icon: PermIdentity,
     },
     {
-      path: "/factory/create",
+      path: "/factory/warehouse",
+      name: "Kho hàng",
+      icon: PermIdentity,
+    },
+    {
+      path: "/factory/actions",
       name: "Sản xuất",
       icon: PermIdentity,
-    }
+    },
+    {
+      path: "/factory/transferproducts",
+      name: "Chuyển giao sản phẩm",
+      icon: PermIdentity,
+    },
   ];
   export const agentRoutes = [
+    {
+      path: "/agent/products",
+      name: "Sản phẩm",
+      icon: PermIdentity,
+    },
     {
       path: "/agent/warehouse",
       name: "Kho hàng",

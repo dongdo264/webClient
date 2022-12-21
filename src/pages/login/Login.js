@@ -3,9 +3,13 @@ import "./login.css"
 import {login} from '../../services/authService'
 import { useDispatch} from "react-redux";
 import { useHistory } from "react-router-dom";
+import { isUsername } from "../../utils/validateAuth";
+import { useSelector } from "react-redux";
 export default function Login() {
+    //const login = useSelector((state) => state.auth.login);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errMessage, setErrMessage] = useState('');
     const dispatch = useDispatch();
     const history = useHistory();
     const handleOnChangeUsername = (event) => {   
@@ -20,8 +24,14 @@ export default function Login() {
             username: username,
             password: password
         }
-        
-        login(user, dispatch, history);
+        if (!isUsername(username)) {
+            console.log("hello");
+            setErrMessage("Tài khoản chỉ được chứa các ký tự A-Z, a-z, 0-9");
+        }
+        else {
+            login(user, dispatch, history, setErrMessage);
+            
+        }
     }
     return (
         <div className="login-box">
@@ -42,6 +52,7 @@ export default function Login() {
                         value={username}
                         onChange={handleOnChangeUsername}
                     />
+                    
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">
@@ -55,14 +66,14 @@ export default function Login() {
                         value={password}
                         onChange={handleOnChangePassword}
                     />
+                    
                 </div>
 
                 {/* <a className="forgot">
                     Forgot your password?
                 </a> */}
-
+                <span className="errMsg">{errMessage}</span>
                 <button onClick={handleLogin}> Log In</button>
-
             </form>
 
         </div>
