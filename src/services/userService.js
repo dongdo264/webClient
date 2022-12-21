@@ -16,4 +16,27 @@ let getInfoProduct = (id, token) => {
     });
 }
 
-export { getProfileUser , getInfoProduct}
+let getAllProducts = (token) => {
+    return axios.get(`${baseURL}api-user/getallproducts`, {
+        headers: {
+            token
+        }
+    })
+} 
+let getAllFactories = (token) => {
+    return axios.get(`${baseURL}api-user/getallfactories`, {
+        headers: {
+            token
+        }
+    })
+}
+
+let getAllProductLines = (token) => {
+    return axios.get(`${baseURL}api-user/getallproductlines`, {
+        headers: {
+            token
+        }
+    })
+}
+
+export { getProfileUser , getInfoProduct, getAllProducts, getAllFactories, getAllProductLines}

@@ -12,22 +12,11 @@ import FactoryList from "./pages/factory/Factory";
 import WcenterList from "./pages/wcenter/WcenterList";
 import Login from "./pages/login/Login";
 import ProductLine from "./pages/productline/ProductLine";
+import Order from "./pages/order/Order";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
-
-
-const data = {
-  name: "Xe đạp của tui",
-  size: "One size",
-  color: "Back, White, Yellow",
-  frame: "Max Bike steel frame",
-  fork: "Max Bike suspension fork",
-  rim: "Alloy, 36h, schrader valve",
-  spoke: "14G",
-  tire: "24\" x 2.125",
-  handlebar: "JB-6819 31.8x620mm steel",
-  img: "https://xedap.vn/wp-content/uploads/2022/08/Escape-3-2023.jpg",
-}
+import ProductionTable from "./pages/factory/ProductionTable";
+import TransferProduct from "./pages/factory/TransferProduct";
 
 
 function App() {
@@ -79,14 +68,23 @@ function App() {
                 <Route path="/admin/productlines">
                   <ProductLine isLoggedIn={isLogin}/>
                 </Route>
+                <Route path="/agent/products">
+                  <Order />
+                </Route>
                 <Route path="/newproduct">
                   <NewProduct />
                 </Route>
                 <Route path="/factory" exact>
                   <Home isLoggedIn={isLogin} />
                 </Route>
+                <Route path="/factory/transferproducts" exact>
+                  <TransferProduct isLoggedIn={isLogin} />
+                </Route>
                 <Route path="/factory/products">
                   <ProductList isLoggedIn={isLogin} role={role} />
+                </Route>
+                <Route path="/factory/actions">
+                  <ProductionTable isLoggedIn={isLogin} role={role} />
                 </Route>
                 <Route path="/" exact>
                   <Login/>

@@ -114,3 +114,20 @@
   .productInfoKey {
     color: blue;
   }
+
+  .import {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    width: 700px;             
+  }
+  
+  .import td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .import tr:nth-child(even) {
+    background-color: #dddddd;
+  }

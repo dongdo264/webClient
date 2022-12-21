@@ -5,11 +5,13 @@ import { ArrowUpwardTwoTone, DeleteOutline } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
 import { getAllProductlines } from "../../services/adminService";
 import { useRef } from "react";
+import NewProduct from "../../components/modal/NewProduct";
 
 export default function ProductLine({isLoggedIn}) {
   const [productLineList, setProductLineList] = useState([]);
   const [loading, setLoading] = useState(false);
   const componentMounted = useRef(true)
+  const [openModal, setOpenModal] = useState(false);
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
@@ -92,12 +94,11 @@ export default function ProductLine({isLoggedIn}) {
   return (
       <>
       {isLoggedIn ? (
+        <>
         <div className="userList">
         <div className="userTitleContainer">
           <h1 className="userTitle">Dòng sản phẩm</h1>
-          <Link to="/admin/newUser">
-            <button className="agentAddButton">Create</button>
-          </Link>
+            <button className="agentAddButton" onClick={() => {setOpenModal(!openModal)}}>Create</button>
         </div>
         <DataGrid
           sx={{
@@ -110,7 +111,12 @@ export default function ProductLine({isLoggedIn}) {
           pageSize={5}
           //checkboxSelection
         />
-      </div>  
+      </div> 
+      <NewProduct
+          open={openModal}
+          toggleModal={() => setOpenModal(!openModal)}
+      /> 
+      </>
       ) : (
         <>
         </>
