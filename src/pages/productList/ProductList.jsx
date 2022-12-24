@@ -73,7 +73,7 @@ export default function ProductList() {
         );
       },
     },
-    { field: "buyPrice", headerName: "Giá xuất xưởng", width: 200 },
+    { field: "createAt", headerName: "Ngày ra mắt", width: 200 },
     {
       field: "status",
       headerName: "Status",

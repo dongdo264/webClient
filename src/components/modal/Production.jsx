@@ -50,8 +50,8 @@ export default function Production(props) {
           <div className="modal-content">
           <h1 className="newUserTitle" >Mã sản phẩm : {props.info.productCode}</h1>
             <div className="productTop">
-                <form className="newUserForm">
-                    <div className="newUserItem">
+                <form className="newUserForm" style={{pt: 0}}>
+                    {/* <div className="newUserItem">
                     <label>Mã sản xuất</label>
                     <input type="text"
                     placeholder="Mã lô hàng" 
@@ -60,7 +60,7 @@ export default function Production(props) {
                     value={inputs.batchCode || ''}
                     onChange={handleOnChange}
                     />
-                    </div>
+                    </div> */}
                     <div className="newUserItem">
                     <label>Số lượng</label>
                     <input type="text"

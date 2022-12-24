@@ -1,48 +1,42 @@
 import React, { useState , useEffect, useSelector, useRef} from "react";
 import "./modal.css";
-import { getAllFactories } from "../../services/userService";
-import { createOrder } from "../../services/agentService";
+import { transferProducts } from "../../services/orderService";
 
 export default function TransferProducts(props) {
-    const [factoryList, setFactoryList] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [factorySelect, setFactoryChoice] = useState(null);
-    const componentMounted = useRef(true)
-    async function fetchData () {
-        setLoading(true);
-        const token = sessionStorage.getItem('accessToken');
-        let res = await getAllFactories(token);
-        let fList = res.data.data;
-        setFactoryList(fList);
-        setLoading(false);
-    }
+    // const [warehouse, setWarehouse] = useState([]);
+    // const [loading, setLoading] = useState(false);
+    // const [factorySelect, setFactoryChoice] = useState(null);
+    // const componentMounted = useRef(true)
+    // async function fetchData () {
+    //     setLoading(true);
+    //     const token = sessionStorage.getItem('accessToken');
+    //     try {
+    //       let res = await getWarehouse(token);
+    //       setWarehouse(res.data.data);
+    //       setLoading(false);
+    //     }catch(err) {
+    //       console.log(err.response);
+    //     }
+       
+    // }
 
-    const handleOnChange = (event) => {
-        console.log(event.target.value)
-        setFactoryChoice(event.target.value);
-        console.log(factorySelect);
-    };
+    // const handleOnChange = (event) => {
+    //     console.log(event.target.value)
+    //     setFactoryChoice(event.target.value);
+    //     console.log(factorySelect);
+    // };
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      let data = [];
-      let arr = props.info;
-      for (let i in arr) {
-        let obj = {};
-        obj.productCode = arr[i].productCode;
-        obj.quantity = arr[i].quantity;
-        obj.color = arr[i].color;
-        data.push(obj);
-      }
-      try {
+      if (!props.check) {
+        alert("Không đủ hàng!")
+        return;
+      } else {
         const token = sessionStorage.getItem('accessToken');
-        let check = await createOrder(factorySelect, data, token);
-        console.log(check);
-        if (check.data.errCode === 0) {
-            alert("Đơn hàng đã được gửi đi!");
+        let transfer = await transferProducts(props.data.orderNumber, token);
+        if (transfer.data.errCode === 0) {
+          alert(`Chuyển sản phẩm sang đại lý ${props.agent.agentName} thành công!`)
         }
-      }catch(err) {
-        console.log(err.response)
       }
     }
 
@@ -53,13 +47,7 @@ export default function TransferProducts(props) {
           } else {
             document.getElementById("modal-transfer").style.display = 'none';
         }
-        if (!loading && factoryList.length === 0) {
-        fetchData();
-        };
-        return () => {
-          componentMounted.current = false;
-        }
-    }, [loading, factoryList, props]);
+    }, [props]);
 
   return (
     <>
@@ -128,7 +116,7 @@ export default function TransferProducts(props) {
                             <td>{item.productCode}</td>
                             <td>{item.color}</td>
                             <td>{item.quantity}</td>
-                            <td>0</td>
+                            <td>{item.quantityInStock}</td>
                         </tr>
                         ))}
                         </>

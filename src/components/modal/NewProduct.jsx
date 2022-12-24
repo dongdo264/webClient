@@ -241,9 +241,9 @@ export default function NewProduct(props) {
                             </div>
                             <div className="addProductItem">
                             <label>Trạng thái</label>
-                            <select name="status" id="status">
-                                <option value="Active" onChange={handleOnChangeInputProduct}>Active</option>
-                                <option value="Inactive" onChange={handleOnChangeInputProduct}>Inactive</option>
+                            <select name="status" id="status" key="status" onChange={handleOnChangeInputProduct}>
+                                <option value="Active" >Active</option>
+                                <option value="Inactive">Inactive</option>
                             </select>
                             </div>
                         </form>

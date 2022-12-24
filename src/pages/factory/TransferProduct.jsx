@@ -3,23 +3,27 @@ import { DataGrid } from "@material-ui/data-grid";
 import { Box, Typography } from '@mui/material';
 import { DeleteOutline } from "@material-ui/icons";
 import { useState, useEffect, useRef , useSelector } from "react";
-import { getAllProducts, getAllOrders } from "../../services/factoryService";
+import { getWarehouse, getAllOrders } from "../../services/factoryService";
 import { getInfoOrder } from "../../services/orderService";
 import TransferProducts from "../../components/modal/TransferProducts";
 
 export default function TransferProduct() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [warehouse, setWarehouse] = useState([]);
   const [openModalTransfer, setOpenTransfer] = useState(false);
   const [dataOrder, setDataOrder] = useState([]);
   const [agent, setAgent] = useState([]);
   const [factory, setFactory] = useState([]);
   const [orderdetail, setOrderdetail] = useState([]);
+  const [check, setCheck] = useState(true);
 
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
     let res = await getAllOrders(token);
+    let warehouse_ = await getWarehouse(token);
+    setWarehouse(warehouse_.data.data);
     let data = res.data.data;
     setData(data);
     setLoading(false);
@@ -33,7 +37,29 @@ export default function TransferProduct() {
     setAgent(res.data.agent);
     setFactory(res.data.factory);
     setDataOrder(data);
-    setOrderdetail(res.data.data.orderdetails);
+    let orderdetail_ = res.data.data.orderdetails
+    let check_ = true;
+    for (let i in orderdetail_) {
+      let exist = false;
+        for (let j in warehouse) {
+          if (warehouse[j].productCode === orderdetail_[i].productCode && warehouse[j].color === orderdetail_[i].color) {
+            orderdetail_[i].quantityInStock = warehouse[j].sum;
+            if (orderdetail_[i].quantity > warehouse[j].sum) {
+              check_ = false;
+            }
+            exist = true;
+            break;
+          }
+          
+        }
+        if (!exist) {
+          orderdetail_[i].quantityInStock = 0;
+          check_ = false;
+        }
+    }
+    setCheck(check_);
+    console.log(check_);
+    setOrderdetail(orderdetail_);
   }
 
   useEffect(() => {
@@ -96,7 +122,7 @@ export default function TransferProduct() {
         component="h3"
         sx={{ textAlign: 'center', mt: 3, mb: 3 }}
       >
-        Quản lý đơn hàng
+       Đơn hàng
       </Typography>
       <DataGrid
         columns={columns}
@@ -115,6 +141,7 @@ export default function TransferProduct() {
       agent={agent}
       factory={factory}
       orderdetail={orderdetail}
+      check={check}
     />
     </>
   );

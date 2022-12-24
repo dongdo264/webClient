@@ -40,8 +40,8 @@ export default function OrderModal(props) {
           <div onClick={props.toggleModal} className="overlay"></div>
           <div className="modal-content">
           <h1 className="newUserTitle" >Mã sản phẩm : {props.info.productCode}</h1>
-            <div className="productTop">
-                <form className="newUserForm">
+            <div className="productTop" style={{pt: 0}}>
+                <form className="newUserForm" style={{pt: 0}}>
                     <div className="newUserItem">
                     <label>Số lượng</label>
                     <input type="text"

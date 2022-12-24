@@ -9,4 +9,15 @@ let getInfoOrder = (orderNumber, token) => {
     });
 }   
 
-export { getInfoOrder }
+let transferProducts = (orderNumber, token) => {
+    return axios.post(`${baseURL}api-order/transferproducts`, {
+        orderNumber
+    },
+    {
+        headers: {
+            token
+        }
+    });
+}
+
+export { getInfoOrder, transferProducts}
