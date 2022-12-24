@@ -39,4 +39,18 @@ let getAllProductLines = (token) => {
     })
 }
 
-export { getProfileUser , getInfoProduct, getAllProducts, getAllFactories, getAllProductLines}
+let getAllWarrantyCenter = (token) => {
+    return axios.get(`${baseURL}api-user/getallwarrantycenter`, {
+        headers: {
+            token
+        }
+    })
+}
+
+export { getProfileUser ,
+    getInfoProduct,
+    getAllProducts,
+    getAllFactories,
+    getAllProductLines,
+    getAllWarrantyCenter
+}

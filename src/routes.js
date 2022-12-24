@@ -79,7 +79,11 @@ export const adminRoutes = [
       name: "Khách hàng",
       icon: PermIdentity,
     },
-    ,
+    {
+      path: "/agent/productsaresold",
+      name: "Sản phẩm đã bán",
+      icon: PermIdentity,
+    },
     {
       path: "/agent/warranty",
       name: "Bảo hành",

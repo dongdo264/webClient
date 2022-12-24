@@ -1,5 +1,6 @@
 import Sidebar from "./components/sidebar/Sidebar";
 import Topbar from "./components/topbar/Topbar";
+import Footer from "./components/footer/Footer";
 import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
@@ -18,6 +19,8 @@ import { useEffect, useState } from 'react';
 import ProductionTable from "./pages/factory/ProductionTable";
 import TransferProduct from "./pages/factory/TransferProduct";
 import Warehouse from "./pages/factory/Warehouse";
+import Customer from "./pages/customer/Customer";
+import ProductsAreSold from "./pages/productList/ProductsAreSold";
 
 
 function App() {
@@ -72,6 +75,15 @@ function App() {
                 <Route path="/agent/products">
                   <Order />
                 </Route>
+                <Route path="/agent/productsaresold">
+                  <ProductsAreSold  isLoggedIn={isLogin}/>
+                </Route>
+                <Route path="/agent/customers">
+                  <Customer isLoggedIn={isLogin}/>
+                </Route>
+                <Route path="/agent/warehouse">
+                  <Warehouse role={role} />
+                </Route>
                 <Route path="/newproduct">
                   <NewProduct />
                 </Route>
@@ -79,7 +91,7 @@ function App() {
                   <Home isLoggedIn={isLogin} />
                 </Route>
                 <Route path="/factory/warehouse" exact>
-                  <Warehouse isLoggedIn={isLogin} />
+                  <Warehouse isLoggedIn={isLogin} role={role}/>
                 </Route>
                 <Route path="/factory/transferproducts" exact>
                   <TransferProduct isLoggedIn={isLogin} />
@@ -95,6 +107,7 @@ function App() {
                 </Route>
                 </Switch>
               </div>
+              <Footer />
       </Router>
     );
   }

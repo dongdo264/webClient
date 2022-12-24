@@ -79,16 +79,22 @@ export default function Order() {
     let arr = [...order]
     Object.preventExtensions(order[order.length - 1]);
     arr[order.length] = item;
+    if (arr.length !== 0) {
+      for (let i in arr) {
+        arr[i].id = parseInt(i) + 1;
+      }
+    }
     setOrder(arr);
     setOpenOrder(false);
   }
 
   const columnOrder = [
-    { field: "productCode", headerName: "ID", width: 90 },
+    { field: "id", headerName: "STT", width: 120 },
+    { field: "productCode", headerName: "Mã sản phẩm", width: 170 },
     {
       field: "productName",
       headerName: "Tên sản phẩm",
-      width: 200,
+      width: 230,
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -98,7 +104,7 @@ export default function Order() {
         );
       },
     },
-    { field: "color", headerName: "Màu sắc", width: 200 },
+    { field: "color", headerName: "Màu sắc", width: 150 },
     {
       field: "quantity",
       headerName: "Số lượng",
@@ -120,6 +126,7 @@ export default function Order() {
   ];
 
   const columns = [
+    
     { field: "productCode", headerName: "ID", width: 90 },
     {
       field: "productName",
@@ -182,7 +189,7 @@ export default function Order() {
       <DataGrid
         columns={columnOrder}
         rows={order}
-        getRowId={(row) => row.productCode}
+        getRowId={(row) => row.id}
         pageSize={10}
         sx={{ textAlign: 'center' }}
       />

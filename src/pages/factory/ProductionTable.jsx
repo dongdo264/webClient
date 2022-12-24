@@ -30,7 +30,7 @@ export default function ProductionTable() {
 //   }
 
   const columns = [
-    { field: "batchCode", headerName: "Mã lô", width: 120 },
+    { field: "batchCode", headerName: "Mã lô", width: 110 },
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
@@ -39,33 +39,36 @@ export default function ProductionTable() {
     {
       field: "color",
       headerName: "Màu sắc",
-      width: 130,
+      width: 150,
     },
     {
-        field: "quantityInStock",
+        field: "quantityProduced",
         headerName: "Số lượng",
-        width: 130,
+        width: 150,
+    },{
+      field: "quantitySold",
+      headerName: "Đã bán",
+      width: 120,
     },
     { field: "MFG", headerName: "Ngày sản xuất", width: 160 },
     {
       field: "status",
       headerName: "Status",
       width: 120,
-      
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <button className="productListEdit" >View</button>
-            <button className="productListEdit" >Sản xuất</button>
-          </>
-        );
-      },
-    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: 150,
+    //   renderCell: (params) => {
+    //     return (
+    //       <>
+    //         <button className="productListEdit" >View</button>
+    //         <button className="productListEdit" >Sản xuất</button>
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   return (
@@ -83,7 +86,7 @@ export default function ProductionTable() {
         component="h3"
         sx={{ textAlign: 'center', mt: 3, mb: 3 }}
       >
-        Quản lý hoạt động
+        Lịch sử sản xuất
       </Typography>
       <DataGrid
         columns={columns}
