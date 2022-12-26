@@ -35,6 +35,11 @@ export const adminRoutes = [
       icon: PermIdentity,
     },
     {
+      path: "/admin/products",
+      name: "Sản phẩm",
+      icon: PermIdentity,
+    },
+    {
         path: "/admin/newUser",
         name: "Cấp tài khoản",
         icon: PermIdentity,
@@ -60,6 +65,11 @@ export const adminRoutes = [
     {
       path: "/factory/transferproducts",
       name: "Chuyển giao sản phẩm",
+      icon: PermIdentity,
+    },
+    {
+      path: "/factory/faultyproducts",
+      name: "Sản phẩm lỗi",
       icon: PermIdentity,
     },
   ];
@@ -88,23 +98,27 @@ export const adminRoutes = [
       path: "/agent/warranty",
       name: "Bảo hành",
       icon: PermIdentity,
+    },
+    {
+      path: "/agent/summonproducts",
+      name: "Triệu hồi sản phẩm",
+      icon: PermIdentity,
     }
   ];
   export const wcenterRoutes = [
+    {
+      path: "/wc/analyz",
+      name: "Home",
+      icon: PermIdentity,
+    },
     {
       path: "/wc/warranty",
       name: "Bảo hành",
       icon: PermIdentity,
     },
     {
-      path: "/wc/abc",
-      name: "Hết ý tưởng",
+      path: "/wc/history",
+      name: "Lịch sử",
       icon: PermIdentity,
     },
-    ,
-    {
-      path: "/agent/warranty",
-      name: "Bảo hành",
-      icon: PermIdentity,
-    }
   ];

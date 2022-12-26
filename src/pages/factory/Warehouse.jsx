@@ -127,6 +127,13 @@ export default function Warehouse(props) {
       headerName: "Action",
       width: 150,
       renderCell: (params) => {
+        if (props.role === 1) {
+          return (
+            <>
+              <button className="productListEdit">View</button>
+            </>
+          );
+        }
         return (
           <>
             <button className="productListEdit" onClick={() => toggleModal(params.row.id - 1)}>Thêm vào đơn</button>

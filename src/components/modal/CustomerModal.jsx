@@ -2,27 +2,49 @@ import "./modal.css";
 import { useState, useEffect } from "react";
 import { convertBase64 } from "../../utils/convertImagetoBase64";
 import { createCustomer, sellProducts } from "../../services/agentService";
+import { updateCustomer } from "../../services/customerService";
+import { isEmail, checkDob } from "../../utils/validateCustomer";
 export default function CustomerModal(props) {
     const initValue = {
         customerCode: '',
         customerName: '',
         phone: '',
-        adress: '',
+        address: '',
         dob: '',
+        email: '',
         status: ''
     }
     const [customerInputs, setCustomerInputs] = useState(initValue);
     const [avatar, setAvatar] = useState("");
+    const [errMsgName, setErrMsgName] = useState('');
+    const [errMsgAddress, setErrMsgAddress] = useState('');
+    const [errMsgPhone, setErrMsgPhone] = useState('');
+    const [errMsgDob, setErrMsgDob] = useState('');
+    const [errMsgEmail, setErrMsgEmail] = useState('');
 
     useEffect(() => {
-        // if (!loading && productLine.length === 0) {
-        //     fetchData();
-        // };
+        const id = "modal-customer" + props.type
         if (props.open) {
-            document.getElementById("modal-customer").style.display = 'block';
-            console.log(props.data);
+            document.getElementById(id).style.display = 'block';
+            setErrMsgAddress("");
+            setErrMsgDob("");
+            setErrMsgEmail("");
+            setErrMsgName("");
+            setErrMsgPhone("");
+            if (props.type === "edit") {
+                let obj = {
+                    customerCode: props.info.customerCode,
+                    customerName: props.info.customerName,
+                    phone: props.info.phone,
+                    address: props.info.address,
+                    dob: props.info.dob,
+                    email: props.info.email
+                }
+                setAvatar(props.info.avatar);
+                setCustomerInputs(obj);
+            }
         } else {
-            document.getElementById("modal-customer").style.display = 'none';
+            document.getElementById(id).style.display = 'none';
         }
     },[props]);
     
@@ -42,14 +64,62 @@ export default function CustomerModal(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let check = true;
+        
+        if (!checkDob(customerInputs.dob)) {
+            setErrMsgDob("Ngày sinh không hợp lệ");
+            check = false;
+        } else {
+            setErrMsgDob("");
+        }
+        
+        if (!isEmail(customerInputs.email)) {    
+            setErrMsgEmail("Email không hợp lệ")
+            check = false;
+        } else {
+            setErrMsgEmail("")
+        }
+        
+        if (customerInputs.address.length < 5) {
+            setErrMsgAddress("Địa chỉ không hợp lệ")
+            check = false;
+        } else {
+            setErrMsgAddress("")
+        }
+         
+        if (customerInputs.customerName.length === 0) {
+            setErrMsgName("Tên không hợp lệ")
+            check = false;
+        } else {
+            setErrMsgName("")
+        }
+        if (customerInputs.phone.length !== 10 ) {
+            setErrMsgPhone("Số điện thoại phải gồm 10 số!")
+            check = false;
+        } else {
+            setErrMsgPhone("")
+        }
+        if (!check) {
+            return;
+        }
         try{
+            const token = sessionStorage.getItem('accessToken');
+            if (props.type === 'edit') {
+                customerInputs.avatar = avatar;
+                let update = await updateCustomer(customerInputs, props.info.customerCode, token);
+                if (update.data.errCode === 0) {
+                    alert("Cập nhật thông tin khách hàng thành công!");
+                    return;
+                }
+            }
             customerInputs.avatar = avatar;
             customerInputs.customerCode = Date.now() % 100000000;
-            const token = sessionStorage.getItem('accessToken');
+            
             let create = await createCustomer(customerInputs, token);
-            console.log(create);
             let sell = await sellProducts(customerInputs.customerCode, props.data, token);
-            alert("Đơn hàng thành công!");
+            if (sell.data.errCode === 0) {
+                alert("Chuyển sản phẩm cho khách hàng thành công!");
+            }
         }catch(err) {
             console.log(err.response);
         }
@@ -57,7 +127,7 @@ export default function CustomerModal(props) {
 
   return (
     <>
-        <div className="modal active-modal" id="modal-customer" style={{display: 'block'}}>
+        <div className="modal active-modal" id={"modal-customer" + props.type} style={{display: 'block'}}>
           <div onClick={props.toggleModal} className="overlay"></div>
           <div className="modal-content">
                     <div className="modal-header">
@@ -69,15 +139,15 @@ export default function CustomerModal(props) {
                     <div className="modal-body">
                     <div className="newProduct" style={{display: 'block'}}>
                         <form className="addProductForm" style={{display: 'block'}}>
-                            <div className="addProductItem">
+                            <div className="addProductItem" id="updateCus">
                             <label>Image</label>
                             <input type="file"
                             id="file"
                             onChange={handleFileInputChange}
                             />
                             </div>
-                            <div className="addProductItem">
-                            <label>Tên khách hàng</label>
+                            <div className="addProductItem" id="updateCus">
+                            <label>Tên khách hàng:&nbsp;&nbsp;&nbsp;&nbsp; <span className="errCustomer">{errMsgName}</span></label>
                             <input type="text" 
                             placeholder="Tên khách hàng"
                             key="customerName"
@@ -86,8 +156,8 @@ export default function CustomerModal(props) {
                             onChange={handleOnChangeInput}
                             />
                             </div>
-                            <div className="addProductItem">
-                            <label>Ngày sinh</label>
+                            <div className="addProductItem" id="updateCus">
+                            <label>Ngày sinh:&nbsp;&nbsp;&nbsp;&nbsp; <span className="errCustomer">{errMsgDob}</span></label>
                             <input type="text" 
                             placeholder="Ngày sinh"
                             key="dob"
@@ -96,18 +166,18 @@ export default function CustomerModal(props) {
                             onChange={handleOnChangeInput}
                             />
                             </div>
-                            <div className="addProductItem">
-                            <label>Địa chỉ</label>
+                            <div className="addProductItem" id="updateCus">
+                            <label>Địa chỉ:&nbsp;&nbsp;&nbsp;&nbsp; <span className="errCustomer">{errMsgAddress}</span></label>
                             <input type="text" 
                             placeholder="Địa chỉ"
-                            key="adress"
-                            name="adress"
-                            value={customerInputs.adress}
+                            key="address"
+                            name="address"
+                            value={customerInputs.address}
                             onChange={handleOnChangeInput}
                             />
                             </div>
-                            <div className="addProductItem">
-                            <label>Số điện thoại</label>
+                            <div className="addProductItem" id="updateCus">
+                            <label>Số điện thoại:&nbsp;&nbsp;&nbsp;&nbsp; <span className="errCustomer">{errMsgPhone}</span></label>
                             <input type="text" 
                             placeholder="Số điện thoại"
                             key="phone"
@@ -116,8 +186,8 @@ export default function CustomerModal(props) {
                             onChange={handleOnChangeInput}
                             />
                             </div>
-                            <div className="addProductItem">
-                            <label>Email</label>
+                            <div className="addProductItem" id="updateCus">
+                            <label>Email:&nbsp;&nbsp;&nbsp;&nbsp; <span className="errCustomer">{errMsgEmail}</span></label>
                             <input type="text" 
                             placeholder="Email"
                             key="email"

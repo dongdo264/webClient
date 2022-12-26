@@ -35,7 +35,9 @@ export default function RequestWarranty(props) {
         let sendRequest = await sendWarrantyClaim(data, token);
         console.log(sendRequest);
         if (sendRequest.data.errCode === 0) {
-          alert("Sản phẩm đã được gửi đi bảo hành!")
+          alert("Sản phẩm đã được gửi đi bảo hành!");
+          props.toggleModal();
+          props.fetchData();
         }
       }catch(err) {
         console.log(err.response);
@@ -71,7 +73,7 @@ export default function RequestWarranty(props) {
                         <th>Màu sắc</th>
                     </tr>
                     <tr>
-                        <td>{props.data.model}</td>
+                        <td>{props.data?.model}</td>
                         <td>{props.data.agentwarehouse?.productCode}</td>
                         <td>{props.data.agentwarehouse?.color}</td>
                     </tr>

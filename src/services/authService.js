@@ -2,7 +2,7 @@ import axios from 'axios';
 import { loginFailed, loginStart, loginSuccess } from '../redux/authSlice';
 const baseURL = "http://localhost:8080/";
 
-let login = async (user, dispatch, history, setErrMessage) => {
+let login = async (user, dispatch, history, setErr) => {
     dispatch(loginStart());
     try {
         const res = await axios.post(`${baseURL}api-auth/login`, {
@@ -16,12 +16,13 @@ let login = async (user, dispatch, history, setErrMessage) => {
         } else if (res.data.role === 1) {
             history.push("/factory");
         } else if (res.data.role === 2) {
-            history.push("/wc");
+            history.push("/wc/analyz");
         } else if (res.data.role === 3) {
             history.push("/agent");
         }
     }catch(err) {
-        dispatch(loginFailed(setErrMessage));
+        setErr();
+        dispatch(loginFailed());
         
     }
 }

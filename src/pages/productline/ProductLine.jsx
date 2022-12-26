@@ -6,12 +6,14 @@ import { Link, useHistory } from "react-router-dom";
 import { getAllProductlines } from "../../services/adminService";
 import { useRef } from "react";
 import NewProduct from "../../components/modal/NewProduct";
+import NewProductLine from "../../components/modal/NewProductLine";
 
 export default function ProductLine({isLoggedIn}) {
   const [productLineList, setProductLineList] = useState([]);
   const [loading, setLoading] = useState(false);
   const componentMounted = useRef(true)
   const [openModal, setOpenModal] = useState(false);
+  const [openModalProductline, setOpenModalProductline] = useState(false);
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
@@ -34,38 +36,29 @@ export default function ProductLine({isLoggedIn}) {
     }
   }, [loading, productLineList]);
 
-//   const handleDelete = async (agentCode) => {
-//     console.log(agentCode);
-//     try {
-//       if (window.confirm("Bạn có chắc muốn xóa đại lý này?")) {
-//         const token = sessionStorage.getItem('accessToken');
-//         let res = await deleteAgentById(agentCode, token);
-//         if (res.data.errCode === 0) {
-//           fetchData();
-//           window.alert("Xóa thành công!!")
-//         }
-//       }
-//     } catch(err) {
-//       console.log(err.response);
-//     }
-//   };
+
   
   const columns = [
     { field: "productLine", headerName: "Dòng sản phẩm", width: 170},
     {
       field: "textDescription",
       headerName: "Thông tin mô tả",
-      width: 300,
+      width: 200,
+    },
+    {
+      field: "createAt",
+      headerName: "Ngày ra mắt",
+      width: 160,
     },
     {
         field: "products.count",
         headerName: "Số sản phẩm",
-        width: 180,
+        width: 160,
     },
     {
       field: "status",
       headerName: "Status",
-      width: 170,
+      width: 120,
     //   valueGetter: (params) => {
     //     return params.getValue(params.row.agentCode, "account").accStatus;
     //   }
@@ -77,6 +70,8 @@ export default function ProductLine({isLoggedIn}) {
       renderCell: (params) => {
         return (
           <>
+          <button className="userListEdit">View</button>
+          <button className="userListEdit">Edit</button>
             {/* <Link to={"/admin/agent/" + params.row.agentCode}>
               <button className="userListEdit">Edit</button>
             </Link> */}
@@ -98,7 +93,7 @@ export default function ProductLine({isLoggedIn}) {
         <div className="userList">
         <div className="userTitleContainer">
           <h1 className="userTitle">Dòng sản phẩm</h1>
-            <button className="agentAddButton" onClick={() => {setOpenModal(!openModal)}}>Create</button>
+            <button className="agentAddButton" onClick={() => {setOpenModalProductline(!openModalProductline)}}>Create</button>
         </div>
         <DataGrid
           sx={{
@@ -116,6 +111,11 @@ export default function ProductLine({isLoggedIn}) {
           open={openModal}
           toggleModal={() => setOpenModal(!openModal)}
       /> 
+      <NewProductLine 
+        open={openModalProductline}
+        toggleModal={() => setOpenModalProductline(!openModalProductline)}
+        fetchData={() => fetchData()}
+      />
       </>
       ) : (
         <>
