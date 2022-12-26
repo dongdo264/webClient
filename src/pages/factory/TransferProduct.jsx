@@ -97,10 +97,17 @@ export default function TransferProduct() {
       headerName: "Action",
       width: 150,
       renderCell: (params) => {
+        if (params.row.status === 'Pending') {
+          return (
+            <>
+              <button className="productListEdit" onClick={() => toggleModalTransfer(params.row.orderNumber)}>View</button>
+              <button className="productListEdit" >Hủy</button>
+            </>
+          );
+        }
         return (
           <>
             <button className="productListEdit" onClick={() => toggleModalTransfer(params.row.orderNumber)}>View</button>
-            <button className="productListEdit" >Sản xuất</button>
           </>
         );
       },

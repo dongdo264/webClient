@@ -55,10 +55,21 @@ let getAllProductlines = (token) => {
         }
     });
 }
+
+let createNewProductLine = (data, token) => {
+    return axios.post(`${baseURL}api-admin/productline`,{
+        data
+    }, {
+        headers: {
+            token
+        }
+    });
+}
 export { getAllAgents,
     getAllFactories,
     getAllWarrantyCenter,
     deleteAgentById,
     createNewUser,
-    getAllProductlines
+    getAllProductlines,
+    createNewProductLine
     }

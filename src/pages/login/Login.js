@@ -25,11 +25,10 @@ export default function Login() {
             password: password
         }
         if (!isUsername(username)) {
-            console.log("hello");
             setErrMessage("Tài khoản chỉ được chứa các ký tự A-Z, a-z, 0-9");
         }
         else {
-            login(user, dispatch, history, setErrMessage);
+            login(user, dispatch, history, () => setErrMessage("Thông tin tài khoản hoặc mật khẩu không chính xác"));
             
         }
     }

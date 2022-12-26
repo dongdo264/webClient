@@ -3,6 +3,7 @@ import Topbar from "./components/topbar/Topbar";
 import Footer from "./components/footer/Footer";
 import "./App.css";
 import Home from "./pages/home/Home";
+import WarrantyHome from "./pages/home/WarrantyHome";
 import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
 import AgentList from "./pages/agentList/AgentList";
 import User from "./pages/user/User";
@@ -21,6 +22,9 @@ import TransferProduct from "./pages/factory/TransferProduct";
 import Warehouse from "./pages/factory/Warehouse";
 import Customer from "./pages/customer/Customer";
 import ProductsAreSold from "./pages/productList/ProductsAreSold";
+import WarrantyList from "./pages/wcenter/WarrantyList";
+import SummonProducts from "./pages/productList/SummonProducts";
+import FaultyProduct from "./pages/productList/FaultyProduct";
 
 
 function App() {
@@ -75,14 +79,23 @@ function App() {
                 <Route path="/agent/products">
                   <Order />
                 </Route>
+                <Route path="/factory/faultyproducts">
+                  <FaultyProduct />
+                </Route>
                 <Route path="/agent/productsaresold">
                   <ProductsAreSold  isLoggedIn={isLogin}/>
+                </Route>
+                <Route path="/agent/summonproducts">
+                  <SummonProducts isLoggedIn={isLogin}/>
                 </Route>
                 <Route path="/agent/customers">
                   <Customer isLoggedIn={isLogin}/>
                 </Route>
                 <Route path="/agent/warehouse">
                   <Warehouse role={role} />
+                </Route>
+                <Route path="/agent/warranty">
+                  <WarrantyList role={role} isLoggedIn={isLogin} />
                 </Route>
                 <Route path="/newproduct">
                   <NewProduct />
@@ -102,12 +115,19 @@ function App() {
                 <Route path="/factory/actions">
                   <ProductionTable isLoggedIn={isLogin} role={role} />
                 </Route>
+                <Route path="/wc/warranty">
+                  <WarrantyList isLoggedIn={isLogin} role={role} />
+                </Route>
+                <Route path="/wc/analyz" exact>
+                  <WarrantyHome isLoggedIn={isLogin} role={role} />
+                </Route>
                 <Route path="/" exact>
                   <Login/>
                 </Route>
+
                 </Switch>
               </div>
-              <Footer />
+              {/* <Footer /> */}
       </Router>
     );
   }

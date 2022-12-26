@@ -15,9 +15,9 @@ export default function Home({ isLoggedIn }) {
     if(!isLoggedIn) {
       window.location.href = '/';
     }
-    console.log(" từ trang home", isLoggedIn);
-    console.log(user);
-    console.log(sessionStorage.getItem('accessToken'));
+    // console.log(" từ trang home", isLoggedIn);
+    // console.log(user);
+    // console.log(sessionStorage.getItem('accessToken'));
   });
   return (
     <>

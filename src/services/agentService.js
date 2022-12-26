@@ -68,6 +68,37 @@ let sendWarrantyClaim = (data, token) => {
         }
     });
 }
+let getAllWarrantyClaim = (token) => {
+    return axios.get(`${baseURL}api-agent/warranties`,
+    {
+        headers: {
+            token
+        }
+    });
+}
+
+let updateStatusProduct = (productCode, status, token) => {
+    return axios.put(`${baseURL}api-agent/product/${productCode}`, {
+        status
+    },
+    {
+        headers: {
+            token
+        }
+    });
+}
+
+let updateCustomerProduct = (model, status, token) => {
+    return axios.put(`${baseURL}api-agent/customerproduct/${model}`, {
+        status
+    },
+    {
+        headers: {
+            token
+        }
+    });
+}
+
 export {
    createOrder,
    getAgentWarehouse,
@@ -75,5 +106,8 @@ export {
    sellProducts,
    getAllCustomers,
    getProductsAreSold,
-   sendWarrantyClaim
+   sendWarrantyClaim,
+   getAllWarrantyClaim,
+   updateStatusProduct,
+   updateCustomerProduct
 }

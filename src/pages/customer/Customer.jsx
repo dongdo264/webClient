@@ -3,24 +3,37 @@ import { DataGrid } from "@material-ui/data-grid";
 import { Box, Typography } from '@mui/material';
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { getAllCustomers } from '../../services/agentService';
+import CustomerDetail from '../../components/modal/CustomerDetail';
+import CustomerModal from '../../components/modal/CustomerModal';
 
 export default function Customer({isLoggedIn}) {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const componentMounted = useRef(true)
+  const componentMounted = useRef(true);
+  const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [infoCustomer, setInfoCustomer] = useState([]);
+  const [openEdit, setOpenEdit] = useState(false);
+
+
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
     let res = await getAllCustomers(token);
     let data = res.data.data;
-    console.log(data);
     for (let i in data) {
+      data[i].id = parseInt(i);
       if (data[i].avatar) {
         data[i].img = new Buffer(data[i].avatar, 'base64').toString('binary') 
       } else {
         data[i].img = '';
       }
+      if (data[i].customer_products.length !== 0) {
+        data[i].quantityBought = data[i].customer_products[0].count;
+      } else {
+        data[i].quantityBought = 0;
+      }
     }
+    //console.log(data.customer_products.count);
     setCustomers(data);
     setLoading(false);
   }
@@ -37,6 +50,14 @@ export default function Customer({isLoggedIn}) {
     }
   }, [loading, customers]);
 
+  const toggleOpenCustomerModal = (id) => {
+    setInfoCustomer(customers[parseInt(id)]);
+    setOpenModalDetail(!openModalDetail)
+  }
+  const toggleModalEdit = (id) => {
+    setInfoCustomer(customers[parseInt(id)]);
+    setOpenEdit(!openEdit)
+  }
   // const handleDelete = async (agentCode) => {
   //   console.log(agentCode);
   //   try {
@@ -70,7 +91,7 @@ export default function Customer({isLoggedIn}) {
     },
     { field: "dob", headerName: "Ngày sinh", width: 140 },
     {
-      field: "adress",
+      field: "address",
       headerName: "Địa chỉ",
       width: 120,
       
@@ -92,8 +113,8 @@ export default function Customer({isLoggedIn}) {
       renderCell: (params) => {
         return (
           <>
-            <button className="productListEdit" >View</button>
-            <button className="productListEdit" >Sản xuất</button>
+            <button className="productListEdit" onClick={() => toggleOpenCustomerModal(params.row.id)} >View</button>
+            <button className="productListEdit" onClick={() => toggleModalEdit(params.row.id)}>Edit</button>
           </>
         );
       },
@@ -125,8 +146,21 @@ export default function Customer({isLoggedIn}) {
         pageSize={10}
         sx={{ textAlign: 'center' }}
       />
+
          </Box>
+         <CustomerDetail 
+          open={openModalDetail}
+          toggleModal={() => setOpenModalDetail(!openModalDetail)}
+          info={infoCustomer}
+         />
+         <CustomerModal 
+          open={openEdit}
+          toggleModal={() => setOpenEdit(!openEdit)}
+          info={infoCustomer}
+          type={"edit"}
+         />
       </div>  
+
       ) : (
         <>
           <Redirect to='/' >

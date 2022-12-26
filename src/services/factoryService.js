@@ -52,10 +52,19 @@ let getWarehouse = (token) => {
     })
 }
 
+let getAllFaultyProducts = (token) => {
+    return axios.get(`${baseURL}api-factory/faultyproducts`, {
+        headers: {
+            token
+        }
+    })
+}
+
 export {
     createProduct,
     production,
     getAllActions,
     getAllOrders,
-    getWarehouse
+    getWarehouse,
+    getAllFaultyProducts
 }

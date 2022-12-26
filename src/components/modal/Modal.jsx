@@ -35,7 +35,7 @@ export default function Modal(props) {
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Kích cỡ: </span>
-                            <span className="productInfoValue">{props.info.size}</span>
+                            <span className="productInfoValue">{props.info.productdetail?.size}</span>
                         </div>
                         {/* <div className="productInfoItem">
                             <span className="productInfoKey">Màu sắc: </span>
@@ -43,19 +43,19 @@ export default function Modal(props) {
                         </div> */}
                         <div className="productInfoItem">
                             <span className="productInfoKey">Chất liệu khung: </span>
-                            <span className="productInfoValue">{props.info.frame}</span>
+                            <span className="productInfoValue">{props.info.productdetail?.frame}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Chất liệu khung: </span>
-                            <span className="productInfoValue">{props.info.shock}</span>
+                            <span className="productInfoValue">{props.info.productdetail?.shock}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Vành xe: </span>
-                            <span className="productInfoValue">{props.info.rims}</span>
+                            <span className="productInfoValue">{props.info.productdetail?.rims}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Lốp xe: </span>
-                            <span className="productInfoValue">{props.info.tires}</span>
+                            <span className="productInfoValue">{props.info.productdetail?.tires}</span>
                         </div>
                         {/* <div className="productInfoItem">
                             <span className="productInfoKey">Vành xe: </span>
@@ -63,15 +63,15 @@ export default function Modal(props) {
                         </div> */}
                         <div className="productInfoItem">
                             <span className="productInfoKey">Yên: </span>
-                            <span className="productInfoValue">{props.info.saddle}</span>
+                            <span className="productInfoValue">{props.info.productdetail?.saddle}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Bàn đạp: </span>
-                            <span className="productInfoValue">{props.info.pedals}</span>
+                            <span className="productInfoValue">{props.info.productdetail?.pedals}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Bộ thắng: </span>
-                            <span className="productInfoValue">{props.info.brakes}</span>
+                            <span className="productInfoValue">{props.info.productdetail?.brakes}</span>
                         </div>
 
                     </div>

@@ -159,3 +159,13 @@ h5 {
   .addProductButton:hover {
     opacity: 0.6
   }
+#customer-info {
+  flex: 2;
+  font-size: 22px
+}
+#product-info {
+  flex: 3;
+}
+#productsold {
+  width: 850px;
+}

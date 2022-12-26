@@ -6,8 +6,9 @@ import { useState, useEffect, useRef , useSelector } from "react";
 import { getInfoProduct,getAllProducts } from "../../services/userService";
 import Modal from "../../components/modal/Modal";
 import Production from "../../components/modal/Production";
+import { updateStatusProduct } from "../../services/agentService";
 
-export default function ProductList() {
+export default function ProductList(props) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [isOpenModal, setOpenModel] = useState(false);
@@ -33,16 +34,17 @@ export default function ProductList() {
     const token = sessionStorage.getItem('accessToken');
     let res = await getInfoProduct(id, token);
     let data = res.data.data;
-    data.name = data.product.productName;
-    data.productLine = data.product.productLine;
+    data.name = data.productName;
+    data.productLine = data.productLine;
     data.img = '';
-    if (data.product.avatar) {
-      data.img = new Buffer(data.product.avatar, 'base64').toString('binary') 
+    if (data.avatar) {
+      data.img = new Buffer(data.avatar, 'base64').toString('binary') 
     }
     console.log(data);
     setInfo(data);
   }
   useEffect(() => {
+    console.log(props);
     if (!loading && data.length === 0) {
       fetchData();
     };
@@ -56,6 +58,21 @@ export default function ProductList() {
   const toggleModalProduction = (id) => {
     fetchInfoProduct(id);
     setOpenProduction(!openProduction);
+  }
+
+  const confirmSummon = async (id) => {
+    if (window.confirm(`Triệu hồi tất cả sản phẩm mã ${id} từ khách hàng?`)) {
+      try{
+        const token = sessionStorage.getItem('accessToken');
+        let update = await updateStatusProduct(id, "Triệu hồi", token)
+        if (update.data.errCode === 0) {
+          alert("Đã thêm vào danh sách triệu hồi!");
+        }
+      }catch(err) {
+
+      }
+      
+    }
   }
 
   const columns = [
@@ -73,7 +90,7 @@ export default function ProductList() {
         );
       },
     },
-    { field: "createAt", headerName: "Ngày ra mắt", width: 200 },
+    { field: "createAt", headerName: "Ngày ra mắt", width: 160 },
     {
       field: "status",
       headerName: "Status",
@@ -88,14 +105,24 @@ export default function ProductList() {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 220,
       renderCell: (params) => {
-        return (
-          <>
-            <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
-            <button className="productListEdit" onClick={() => toggleModalProduction(params.row.productCode)}>Sản xuất</button>
-          </>
-        );
+        if (props.role === 10) {
+          return (
+            <>
+              <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
+              <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>Edit</button>
+              <button className="productListEdit" onClick={() => confirmSummon(params.row.productCode)}>Triệu hồi</button>
+            </>
+          );
+        } else {
+          return (
+            <>
+              <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
+              <button className="productListEdit" onClick={() => toggleModalProduction(params.row.productCode)}>Sản xuất</button>
+            </>
+          );
+        }
       },
     },
   ];

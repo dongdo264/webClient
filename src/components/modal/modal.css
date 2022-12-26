@@ -131,3 +131,11 @@
   .import tr:nth-child(even) {
     background-color: #dddddd;
   }
+
+  .errCustomer {
+    color: red;
+    font-size: 0.9rem;
+  }
+  #updateCus {
+    width: 310px;
+  }

@@ -7,6 +7,7 @@ import { getInfoProduct, getAllProducts } from "../../services/userService";
 import Modal from "../../components/modal/Modal";
 import OrderModal from "../../components/modal/OrderModal";
 import ImportModal from "../../components/modal/ImportModal";
+import { updateStatusProduct } from "../../services/agentService";
 
 export default function Order() {
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,7 @@ export default function Order() {
     let listUser = res.data.data;
     
     for (let i in listUser) {
+      listUser[i].id = parseInt(i);
       if (listUser[i].avatar) {
         listUser[i].img = new Buffer(listUser[i].avatar, 'base64').toString('binary') 
       } else {
@@ -38,11 +40,11 @@ export default function Order() {
     const token = sessionStorage.getItem('accessToken');
     let res = await getInfoProduct(id, token);
     let data = res.data.data;
-    data.name = data.product.productName;
-    data.productLine = data.product.productLine;
+    data.name = data.productName;
+    data.productLine = data.productLine;
     data.img = '';
-    if (data.product.avatar) {
-      data.img = new Buffer(data.product.avatar, 'base64').toString('binary') 
+    if (data.avatar) {
+      data.img = new Buffer(data.avatar, 'base64').toString('binary') 
     }
     console.log(data);
     setInfo(data);
@@ -86,6 +88,21 @@ export default function Order() {
     }
     setOrder(arr);
     setOpenOrder(false);
+  }
+
+  const confirmSummon = async (id) => {
+    if (window.confirm(`Triệu hồi tất cả sản phẩm mã ${data[parseInt(id)].productCode} từ khách hàng?`)) {
+      try{
+        const token = sessionStorage.getItem('accessToken');
+        let update = await updateStatusProduct(data[parseInt(id)].productCode, "Triệu hồi", token)
+        if (update.data.errCode === 0) {
+          alert("Đã thêm vào danh sách triệu hồi!");
+        }
+      }catch(err) {
+
+      }
+      
+    }
   }
 
   const columnOrder = [
@@ -141,7 +158,7 @@ export default function Order() {
         );
       },
     },
-    { field: "buyPrice", headerName: "Giá xuất xưởng", width: 200 },
+    { field: "productLine", headerName: "Dòng sản phẩm", width: 180 },
     {
       field: "status",
       headerName: "Status",
@@ -151,17 +168,18 @@ export default function Order() {
     {
       field: "warrantyPeriod",
       headerName: "Bảo hành",
-      width: 160,
+      width: 140,
     },
     {
       field: "action",
       headerName: "Action",
-      width: 180,
+      width: 240,
       renderCell: (params) => {
         return (
           <>
             <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
-            <button className="productListEdit" onClick={() => toggleModalOrder(params.row.productCode)}>Thêm vào đơn</button>
+            <button className="productListEdit" onClick={() => toggleModalOrder(params.row.productCode)}>Thêm</button>
+            <button className="productListEdit" onClick={() => confirmSummon(params.row.id)} >Triệu hồi</button>
           </>
         );
       },

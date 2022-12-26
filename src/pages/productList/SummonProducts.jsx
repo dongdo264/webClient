@@ -5,23 +5,30 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import { getProductsAreSold } from "../../services/agentService";
 import RequestWarranty from '../../components/modal/RequestWarranty';
 import ProductSoldDetail from '../../components/modal/ProductSoldDetail';
+import UpdateWarrantyDetail from '../../components/modal/UpdateWarrantyDetail';
+import { updateStatusProduct } from '../../services/agentService';
 
-export default function ProductsAreSold({isLoggedIn}) {
+export default function SummonProducts({isLoggedIn}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const componentMounted = useRef(true)
   const [openWarranty, setOpenWarranty] = useState(false);
   const [openProductDetail, setOpenProduct] = useState(false);
   const [product, setProduct] = useState([]);
+  const [openModalUpdate, setOpenModalUpdate] = useState(false);
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
     let res = await getProductsAreSold(token);
     let data_ = res.data.data;
-    for (let i in data_) {
-        data_[i].id = parseInt(i) + 1;
+    let arr = data_.filter((e) => {
+        return e.status === "Triệu hồi" || e.status === "Đã liên hệ triệu hồi" || e.status === "Đã nhận lại sản phẩm"
+    })
+    for (let i in arr) {
+        arr[i].id = parseInt(i) + 1;
     }
-    setData(data_);
+    
+    setData(arr);
     setLoading(false);
   }
   // if(!isLoggedIn) {
@@ -46,6 +53,14 @@ export default function ProductsAreSold({isLoggedIn}) {
   const handleOpenModalProduct = (id) => {
     setProduct(data[parseInt(id) - 1]);
     setOpenProduct(!openProductDetail)
+  }
+  const handleOpenModalUpdate = (id) => {
+    setProduct(data[parseInt(id) - 1]);
+    if (data[parseInt(id) - 1].status === 'Đã nhận lại sản phẩm') {
+        setOpenWarranty(!openWarranty)
+    } else {
+        setOpenModalUpdate(!openModalUpdate)
+    }
   }
 
   const columns = [
@@ -90,22 +105,15 @@ export default function ProductsAreSold({isLoggedIn}) {
       headerName: "Action",
       width: 150,
       renderCell: (params) => {
-        if (params.row.status === 'Đang bảo hành') {
+        
           return (
             <>
               <button className="userListEdit" onClick={() => handleOpenModalProduct(params.row.id)} >View</button>
+              <button className="userListEdit" onClick={() => handleOpenModalUpdate(params.row.id)} >Edit</button>
             </>
           );
-        }
-        return (
-          <>
-            <button className="userListEdit" onClick={() => handleOpenModalProduct(params.row.id)} >View</button>
-            <button className="userListEdit" onClick={() => handleOpenModal(params.row.id)} >Bảo hành</button>
-          </>
-        );
-        
-      },
-    },
+     }
+    }
   ];
 
 
@@ -124,7 +132,7 @@ export default function ProductsAreSold({isLoggedIn}) {
         component="h3"
         sx={{ textAlign: 'center', mt: 3, mb: 3 }}
       >
-        Sản phẩm đã bán
+        Sản phẩm triệu hồi
       </Typography>
       <DataGrid
         columns={columns}
@@ -145,6 +153,12 @@ export default function ProductsAreSold({isLoggedIn}) {
           open={openProductDetail}
           toggleModal={() => setOpenProduct(!openProductDetail)}
           info={product}
+        />
+        <UpdateWarrantyDetail 
+            open={openModalUpdate}
+            toggleModal={() => setOpenModalUpdate(!openModalUpdate)}
+            data={product}
+            fetchData={() => fetchData()}
         />
 
       </div>  
