@@ -16,7 +16,7 @@ export default function Topbar({isLogin}) {
     }
     setImg(image);
     
-  });
+  }, []);
   return (
     <>
     {!isLogin ? (

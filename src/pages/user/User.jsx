@@ -12,63 +12,67 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProfileUser } from '../../services/userService';
 import { convertBase64 } from '../../utils/convertImagetoBase64';
+import { updateUser } from '../../services/userService';
 
 
 export default function User({isLoggedIn}) {
   const { id } = useParams();
   const initValue = {
     name: '',
-    adress: '',
+    address: '',
     city: '',
     phone: '',
     id: '',
     avatar: '',
-    email: 'N/A'
+    email: 'N/A',
+    img: ''
   }
-  const [base64url, setBase64url] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [inputs, setInputs] = useState(initValue);
   const [role, setRole] = useState("");
-  //const [searchParams, setSearchParams] = useSearchParams();
   async function fetchData () {
     const token = sessionStorage.getItem('accessToken');
-    //console.log(id);
     let res = await getProfileUser(id, token);
-    //console.log(res.data);
-    let infoUser = res.data.infoUser;
-    setInputs(infoUser);
-    console.log(inputs);
+    let data = res.data.infoUser;
+    data.img = '';
+    if (data.avatar) {
+      data.img = new Buffer(data.avatar, 'base64').toString('binary') 
+    }
+    setInputs(data);
+    setAvatar(data.img);
     setRole(res.data.role);
-    console.log(role);
   }
   useEffect( () => {
     fetchData();
   }, []);
-  // const convertBase64 = (file) => {
-  //   if (!file) {
-  //     return setBase64url("");
-  //   }
-  //   return new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
 
-  //     fileReader.onload = () => {
-  //       resolve(fileReader.result);
-  //     };
 
-  //     fileReader.onerror = (error) => {
-  //       reject(error);
-  //     };
-  //   });
-  // };
+  const handleOnChangeInput = event => {
+    const { name, value } = event.target;       
+    setInputs({ ...inputs, [name]: value });
+};
 
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const token = sessionStorage.getItem('accessToken');
+      let update = await updateUser(id, inputs, avatar, token);
+      if (update.data.errCode === 0) {
+        alert("Cập nhật user thành công!");
+        fetchData();
+      }
+
+    }catch(err) {
+
+    }
+  }
 
   const handleFileInputChange =  async (e) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
-    console.log(base64);
-    document.getElementById('avatarUpload').src = base64;
-    setBase64url(base64);
-    console.log(base64url)
+    setAvatar(base64);
+    console.log(base64)
   };
 
   return (
@@ -83,7 +87,7 @@ export default function User({isLoggedIn}) {
         <div className="userShow">
           <div className="userShowTop">
             <img
-              src={base64url}
+              src={inputs.img}
               alt=""
               className="userShowImg"
             />
@@ -113,7 +117,7 @@ export default function User({isLoggedIn}) {
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
-              <span className="userShowInfoTitle">{inputs.adress}</span>
+              <span className="userShowInfoTitle">{inputs.address}</span>
             </div>
             <div className="userShowInfo">
               <LocationSearching className="userShowIcon" />
@@ -126,43 +130,63 @@ export default function User({isLoggedIn}) {
           <form className="userUpdateForm">
             <div className="userUpdateLeft">
               <div className="userUpdateItem">
-                <label>Username</label>
+                <label>Tên người dùng</label>
                 <input
                   type="text"
-                  placeholder="annabeck99"
+                  placeholder="Tên đại lý/cơ sở sản xuất/trung tâm bảo hành"
                   className="userUpdateInput"
+                  name='name'
+                  key="name"
+                  value={inputs.name}
+                  onChange={handleOnChangeInput}
                 />
               </div>
               <div className="userUpdateItem">
-                <label>Full Name</label>
+                <label>Địa chỉ</label>
                 <input
                   type="text"
-                  placeholder="Anna Becker"
+                  placeholder="Địa chỉ"
                   className="userUpdateInput"
+                  name='address'
+                  key="address"
+                  value={inputs.address}
+                  onChange={handleOnChangeInput}
+                />
+              </div>
+              <div className="userUpdateItem">
+                <label>Thành phố</label>
+                <input
+                  type="text"
+                  placeholder="Thành phố"
+                  className="userUpdateInput"
+                  name='city'
+                  key="city"
+                  onChange={handleOnChangeInput}
+                  value={inputs.city}
+                />
+              </div>
+              <div className="userUpdateItem">
+                <label>Số điện thoại</label>
+                <input
+                  type="text"
+                  placeholder="Số điện thoại"
+                  className="userUpdateInput"
+                  name='phone'
+                  key="phone"
+                  value={inputs.phone}
+                  onChange={handleOnChangeInput}
                 />
               </div>
               <div className="userUpdateItem">
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="annabeck99@gmail.com"
+                  placeholder="Email"
                   className="userUpdateInput"
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Phone</label>
-                <input
-                  type="text"
-                  placeholder="+1 123 456 67"
-                  className="userUpdateInput"
-                />
-              </div>
-              <div className="userUpdateItem">
-                <label>Address</label>
-                <input
-                  type="text"
-                  placeholder="New York | USA"
-                  className="userUpdateInput"
+                  name='email'
+                  key="email"
+                  value={inputs.email}
+                  onChange={handleOnChangeInput}
                 />
               </div>
             </div>
@@ -171,15 +195,16 @@ export default function User({isLoggedIn}) {
                 <img
                   className="userUpdateImg"
                   id='avatarUpload'
-                  src={base64url}
+                  
+                  src={avatar}
                   alt=""
                 />
                 <label htmlFor="file">
                   <Publish className="userUpdateIcon"/>
                 </label>
-                <input type="file" id="file" accept="image/*" style={{display: "none"}} onChange={handleFileInputChange}/>
+                <input type="file" id="file" accept="image/*" name='avatar' key="avatar" style={{display: "none"}} onChange={handleFileInputChange}/>
               </div>
-              <button className="userUpdateButton">Update</button>
+              <button className="userUpdateButton" onClick={handleSubmit} >Update</button>
             </div>
           </form>
         </div>

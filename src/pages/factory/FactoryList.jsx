@@ -24,13 +24,12 @@ export default function FactoryList({isLoggedIn}) {
     window.location.href='/';
   }
   useEffect( () => {
-      fetchData();
-        // if (!loading && factoryList.length === 0) {
-        // fetchData();
-        // };
-        // return () => {
-        //   componentMounted.current = false;
-        // }
+        if (!loading && factoryList.length === 0) {
+        fetchData();
+        };
+        return () => {
+          componentMounted.current = false;
+        }
     }, [loading, factoryList]);
 
   

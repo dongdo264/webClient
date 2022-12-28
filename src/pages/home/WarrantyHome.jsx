@@ -1,7 +1,6 @@
 import Chart from "../../components/chart/Chart";
 import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
 import "./home.css";
-import { userData } from "../../dummyData";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import DLineChart from "../../components/chart/DLineChart";
