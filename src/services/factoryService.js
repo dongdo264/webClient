@@ -59,6 +59,13 @@ let getAllFaultyProducts = (token) => {
         }
     })
 }
+let analyzQuantityProduced = (type, token) => {
+    return axios.get(`${baseURL}api-factory/analyz?type=${type}`, {
+        headers: {
+            token
+        }
+    })
+}
 
 export {
     createProduct,
@@ -66,5 +73,6 @@ export {
     getAllActions,
     getAllOrders,
     getWarehouse,
-    getAllFaultyProducts
+    getAllFaultyProducts,
+    analyzQuantityProduced
 }

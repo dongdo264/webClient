@@ -55,6 +55,11 @@ export const adminRoutes = [
   
   export const factoryRoutes = [
     {
+      path: "/factory/analyz",
+      name: "Home",
+      icon: PermIdentity,
+    },
+    {
       path: "/factory/products",
       name: "Sản phẩm",
       icon: PedalBike,

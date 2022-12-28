@@ -25,6 +25,7 @@ import ProductsAreSold from "./pages/productList/ProductsAreSold";
 import WarrantyList from "./pages/wcenter/WarrantyList";
 import SummonProducts from "./pages/productList/SummonProducts";
 import FaultyProduct from "./pages/productList/FaultyProduct";
+import FactoryHome from "./pages/home/FactoryHome";
 
 
 function App() {
@@ -102,8 +103,8 @@ function App() {
                 <Route path="/newproduct">
                   <NewProduct />
                 </Route>
-                <Route path="/factory" exact>
-                  <Home isLoggedIn={isLogin} />
+                <Route path="/factory/analyz" exact>
+                  <FactoryHome isLoggedIn={isLogin} />
                 </Route>
                 <Route path="/factory/warehouse" exact>
                   <Warehouse isLoggedIn={isLogin} role={role}/>
