@@ -10,10 +10,13 @@ export default function Topbar({isLogin}) {
   const [img, setImg] = useState('');
   const link = "/viewprofile/" + user?.id;
   useEffect( () => {
-    //let avt = new Buffer(user?.avatar, 'base64').toString('binary');
-    //setImg(avt);
-    // console.log(new Buffer(user?.avatar, 'base64').toString('binary'));
-  }, []);
+    let image = '';
+    if (user?.avatar) {
+      image = new Buffer(user?.avatar, 'base64').toString('binary') 
+    }
+    setImg(image);
+    
+  });
   return (
     <>
     {!isLogin ? (

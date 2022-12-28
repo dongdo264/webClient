@@ -4,23 +4,29 @@ import { Box } from '@mui/material';
 import { DataGrid } from "@material-ui/data-grid";
 import { ArrowUpwardTwoTone, DeleteOutline } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
-import { getAllProductlines } from "../../services/adminService";
+import { getAllProductLines } from "../../services/userService";
 import { useRef } from "react";
 import NewProduct from "../../components/modal/NewProduct";
+import ProductLineDetail from "../../components/modal/ProductLineDetail";
 import NewProductLine from "../../components/modal/NewProductLine";
 
 export default function ProductLine({ isLoggedIn }) {
   const [productLineList, setProductLineList] = useState([]);
   const [loading, setLoading] = useState(false);
   const componentMounted = useRef(true)
-  const [openModal, setOpenModal] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalProductline, setOpenModalProductline] = useState(false);
+  const [type, setType] = useState(null);
+  const [productline, setProductline] = useState([]);
   async function fetchData() {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
-    let res = await getAllProductlines(token);
+    let res = await getAllProductLines(token);
     let listUser = res.data.data;
     setProductLineList(listUser);
+    for (let i in listUser) {
+      listUser[i].id = parseInt(i);
+    }
     console.log(productLineList)
     setLoading(false);
   }
@@ -37,6 +43,18 @@ export default function ProductLine({ isLoggedIn }) {
     }
   }, [loading, productLineList]);
 
+
+  const handleOpenModal = (type_, id) => {
+    if (type === "create") {
+      setType(type_);
+      setProductline(productLineList[parseInt(id)]);
+      setOpenModalEdit(!openModalEdit);
+      return;
+    }
+    setType(type_);
+    setProductline(productLineList[parseInt(id)]);
+    setOpenModalEdit(!openModalEdit)
+  } 
 
 
   const columns = [
@@ -71,16 +89,8 @@ export default function ProductLine({ isLoggedIn }) {
       renderCell: (params) => {
         return (
           <>
-            <button className="userListEdit">View</button>
-            <button className="userListEdit">Edit</button>
-            {/* <Link to={"/admin/agent/" + params.row.agentCode}>
-              <button className="userListEdit">Edit</button>
-            </Link> */}
-
-            {/* <DeleteOutline
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.agentCode)}
-            /> */}
+          <button className="userListEdit" onClick={() => handleOpenModal("view", params.row.id)} >View</button>
+          <button className="userListEdit" onClick={() => handleOpenModal("edit", params.row.id)} >Edit</button>
           </>
         );
       },
@@ -115,13 +125,17 @@ export default function ProductLine({ isLoggedIn }) {
               />
             </Box>
           </div>
-          <NewProduct
-            open={openModal}
-            toggleModal={() => setOpenModal(!openModal)}
-          />
+
           <NewProductLine
             open={openModalProductline}
             toggleModal={() => setOpenModalProductline(!openModalProductline)}
+            fetchData={() => fetchData()}
+          />
+          <ProductLineDetail 
+            open={openModalEdit}
+            toggleModal= {() => setOpenModalEdit(!openModalEdit)}
+            type={type}
+            data={productline}
             fetchData={() => fetchData()}
           />
         </>

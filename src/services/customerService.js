@@ -19,8 +19,26 @@ let updateCustomer = (data, id, token) => {
         }
     })
 }
+let createCustomer = (customer, token) => {
+    return axios.post(`${baseURL}api-customer/customer`, {
+        customer
+    }, {
+        headers: {
+            token
+        }
+    });
+}
+let getAllCustomers = (token) => {
+    return axios.get(`${baseURL}api-customer/customers`, {
+        headers: {
+            token
+        }
+    });
+}
 
 export {
     getCustomerById,
-    updateCustomer
+    updateCustomer,
+    getAllCustomers,
+    createCustomer
 }

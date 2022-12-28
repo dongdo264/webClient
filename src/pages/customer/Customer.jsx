@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { Box, Typography } from '@mui/material';
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { getAllCustomers } from '../../services/agentService';
+import { getAllCustomers } from '../../services/customerService';
 import CustomerDetail from '../../components/modal/CustomerDetail';
 import CustomerModal from '../../components/modal/CustomerModal';
 

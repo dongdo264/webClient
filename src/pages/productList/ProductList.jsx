@@ -8,6 +8,7 @@ import Modal from "../../components/modal/Modal";
 import Production from "../../components/modal/Production";
 import { updateStatusProduct } from "../../services/agentService";
 import { Visibility } from "@material-ui/icons";
+import NewProduct from "../../components/modal/NewProduct";
 
 export default function ProductList(props) {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,10 @@ export default function ProductList(props) {
   const [isOpenModal, setOpenModel] = useState(false);
   const [info, setInfo] = useState([]);
   const [openProduction, setOpenProduction] = useState(false);
+  const [addProduct, setAddProduct] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
+  const [type, setType] = useState("");
+  
 
   async function fetchData () {
     setLoading(true);
@@ -51,10 +56,29 @@ export default function ProductList(props) {
     };
   }, [loading, data])
 
+  useEffect(() => {
+    if (props.role === 10) {
+      setAddProduct(true);
+    }
+  })
+
   const toggleModal = (id) => {
     fetchInfoProduct(id);
     setOpenModel(!isOpenModal);
   }
+
+  const toggleModalEdit = (id) => {
+    fetchInfoProduct(id);
+    setType("edit");
+    setOpenAdd(!openAdd);
+  }
+
+  const toggleModalAdd = () => {
+    setType("");
+    setOpenAdd(!openAdd);
+  }
+
+
 
   const toggleModalProduction = (id) => {
     fetchInfoProduct(id);
@@ -129,15 +153,22 @@ export default function ProductList(props) {
           return (
             <>
               <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
-              <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>Edit</button>
+              <button className="productListEdit" onClick={() => toggleModalEdit(params.row.productCode)}>Edit</button>
               <button className="productListEdit" onClick={() => confirmSummon(params.row.productCode)}>Triệu hồi</button>
             </>
           );
         } else {
+          if (params.row.status === "Active") {
+            return (
+              <>
+                <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
+                <button className="productListEdit" onClick={() => toggleModalProduction(params.row.productCode)}>Sản xuất</button>
+              </>
+            );
+          }
           return (
             <>
               <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
-              <button className="productListEdit" onClick={() => toggleModalProduction(params.row.productCode)}>Sản xuất</button>
             </>
           );
         }
@@ -174,6 +205,15 @@ export default function ProductList(props) {
         sx={{ textAlign: 'center', mt: 3, mb: 3 }}
       >
         Sản phẩm
+        {addProduct ? (
+          <>
+          <button className="agentAddButton" onClick={toggleModalAdd} >Create</button>
+          </>
+        ) : (
+          <>
+          </>
+        )}
+        
       </Typography>
       <DataGrid
         columns={columns}
@@ -195,6 +235,12 @@ export default function ProductList(props) {
       toggleModal={() => setOpenProduction(!openProduction)}
       info={info}
     />
+    <NewProduct
+          open={openAdd}
+          toggleModal={() => setOpenAdd(!openAdd)}
+          data={info}
+          type={type}
+      /> 
     </>
   );
 }

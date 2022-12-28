@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { Box, Typography } from '@mui/material';
 import { Link, Redirect } from "react-router-dom";
-import { getAllFactories } from "../../services/adminService";
+import { getAllFactories } from "../../services/userService";
+import { deleteUser } from "../../services/adminService";
 import { useRef } from "react";
 
 export default function FactoryList({isLoggedIn}) {
@@ -15,6 +16,7 @@ export default function FactoryList({isLoggedIn}) {
     const token = sessionStorage.getItem('accessToken');
     let res = await getAllFactories(token);
     let fList = res.data.data;
+    console.log(fList);
     setFactoryList(fList);
     setLoading(false);
   }
@@ -22,19 +24,44 @@ export default function FactoryList({isLoggedIn}) {
     window.location.href='/';
   }
   useEffect( () => {
-   
-        if (!loading && factoryList.length === 0) {
-        fetchData();
-        };
-        return () => {
-          componentMounted.current = false;
-        }
+      fetchData();
+        // if (!loading && factoryList.length === 0) {
+        // fetchData();
+        // };
+        // return () => {
+        //   componentMounted.current = false;
+        // }
     }, [loading, factoryList]);
 
   
-  const handleDelete = (factoryCode) => {
-    // setData(.filter((item) => item.factoryCode !== factoryCode));
-  };
+    const handleUpdateActive = async (factoryCode) => {
+      try {
+        if (window.confirm("Cập nhật hoạt động cơ sở sản xuất này?")) {
+          const token = sessionStorage.getItem('accessToken');
+          let res = await deleteUser("Active", factoryCode, token);
+          if (res.data.errCode === 0) {
+            fetchData();
+            window.alert("Cập nhật thành công!!")
+          }
+        }
+      } catch(err) {
+        console.log(err.response);
+      }
+    };
+    const handleUpdateInActive = async (factoryCode) => {
+      try {
+        if (window.confirm("Cập nhật ngừng hoạt động cơ sở sản xuất này")) {
+          const token = sessionStorage.getItem('accessToken');
+          let res = await deleteUser("Inactive", factoryCode, token);
+          if (res.data.errCode === 0) {
+            fetchData();
+            window.alert("Cập nhật thành công!!")
+          }
+        }
+      } catch(err) {
+        console.log(err.response);
+      }
+    };
   
   const columns = [
     { field: "factoryCode", headerName: "Mã nhà máy", width: 150, style: { textAlign: 'center' }},
@@ -64,12 +91,20 @@ export default function FactoryList({isLoggedIn}) {
       headerName: "Action",
       width: 130,
       renderCell: (params) => {
+        if (params.getValue(params.row.factoryCode, "account").status === "Active") {
+          return (
+            <>
+              
+              <button className="userListEdit">View</button>
+              <button onClick={() => handleUpdateInActive(params.row.factoryCode)} className="userListEdit">Inactive</button>
+            </>
+          );
+        }
         return (
           <>
-            <Link to={"/viewprofile/" + params.row.factoryCode}>
-              <button className="userListEdit">Edit</button>
-            </Link>
-            <button onClick={() => handleDelete(params.row.factoryCode)} className="userListEdit">Delete</button>
+            
+            <button className="userListEdit">View</button>
+            <button onClick={() => handleUpdateActive(params.row.factoryCode)} className="userListEdit">Active</button>
           </>
         );
       },

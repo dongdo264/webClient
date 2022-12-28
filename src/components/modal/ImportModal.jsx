@@ -1,7 +1,7 @@
 import React, { useState , useEffect, useSelector, useRef} from "react";
 import "./modal.css";
 import { getAllFactories } from "../../services/userService";
-import { createOrder } from "../../services/agentService";
+import { createOrder } from "../../services/orderService";
 
 export default function ImportModal(props) {
     const [factoryList, setFactoryList] = useState([]);

@@ -30,14 +30,14 @@ let production = (data, token) => {
 }
 
 let getAllActions = (token) => {
-    return axios.get(`${baseURL}api-factory/getallactions`, {
+    return axios.get(`${baseURL}api-factory/actions`, {
         headers: {
             token
         }
     })
 }
 let getAllOrders = (token) => {
-    return axios.get(`${baseURL}api-factory/getallorders`, {
+    return axios.get(`${baseURL}api-factory/orders`, {
         headers: {
             token
         }

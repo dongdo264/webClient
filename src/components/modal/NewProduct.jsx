@@ -1,28 +1,11 @@
 import "./newProduct.css";
 import { useState, useEffect } from "react";
 import { convertBase64 } from "../../utils/convertImagetoBase64";
-import { createProduct } from "../../services/factoryService";
+import { createNewProduct } from "../../services/adminService";
 import { getAllProductLines } from "../../services/userService";
+import { updateProduct } from "../../services/adminService";
 export default function NewProduct(props) {
-    const [productLine, setProductLine] = useState([]);
-    const [loading, setLoading] = useState(false);
-    useEffect(() => {
-        if (!loading && productLine.length === 0) {
-            fetchData();
-        };
-        if (props.open) {
-            document.getElementById("modalNewProduct").style.display = 'block';
-        } else {
-            document.getElementById("modalNewProduct").style.display = 'none';
-        }
-    },[productLine, loading, props]);
-    async function fetchData () {
-        setLoading(true);
-        const token = sessionStorage.getItem('accessToken');
-        let res = await getAllProductLines(token);
-        setProductLine(res.data.data);
-        setLoading(false);
-    }
+    
     const initValueProduct = {
         productName: '',
         productLine: '',
@@ -45,6 +28,53 @@ export default function NewProduct(props) {
     const [productInputs, setProductInputs] = useState(initValueProduct);
     const [productDetailInputs, setProductDetailInputs] = useState(initValueProductDetail);
     const [avatar, setAvatar] = useState("");
+    const [productLine, setProductLine] = useState([]);
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        if (!loading && productLine.length === 0) {
+            fetchData();
+        };
+        if (props.open) {
+            document.getElementById("modalNewProduct").style.display = 'block';
+            console.log(props.data.productdetail);
+            if (props.type === "edit") {
+                let detail_ = props.data.productdetail;
+                let detail = {
+                    size: detail_?.size,
+                    frame: detail_?.frame,
+                    shock: detail_?.shock,
+                    rims: detail_?.rims,
+                    tires: detail_?.tires,
+                    handlebar: detail_?.handlebar,
+                    saddle: detail_?.saddle,
+                    pedals: detail_?.pedals,
+                    brakes: detail_?.brakes, 
+                    weight: detail_?.weight
+                }
+                setProductDetailInputs(detail);
+                setAvatar(props.data.img);
+                let p = {
+                    productName: props.data.productName,
+                    productLine: props.data.productLine,
+                    productPrice: props.data.buyPrice,
+                    warrantyPeriod: props.data.warrantyPeriod,
+                    status: props.data.status
+                }
+                setProductInputs(p);
+            }
+        } else {
+            document.getElementById("modalNewProduct").style.display = 'none';
+        }
+    },[productLine, loading, props]);
+
+    async function fetchData () {
+        setLoading(true);
+        const token = sessionStorage.getItem('accessToken');
+        let res = await getAllProductLines(token);
+        setProductLine(res.data.data);
+        setLoading(false);
+    }
+    
 
     const handleOnChangeInputProduct = event => {
         const { name, value } = event.target;       
@@ -67,10 +97,16 @@ export default function NewProduct(props) {
         e.preventDefault();
         try{
         const token = sessionStorage.getItem('accessToken');
-        console.log(productInputs);
-        console.log(productDetailInputs);
-        console.log(avatar);
-        let submit = await createProduct(productInputs, productDetailInputs, avatar, token);
+        if (props.type === "edit") {
+            productInputs.productCode = props.data.productCode;
+            let update = await updateProduct(productInputs, productDetailInputs, avatar, token)
+            console.log(productInputs);
+            if (update.data.errCode === 0) {
+                alert("Cập nhật sản phẩm thành công!");
+            }
+            return;
+        }
+        let submit = await createNewProduct(productInputs, productDetailInputs, avatar, token);
         if (submit.data.errCode === 0) {
             alert("Tạo sản phẩm mới thành công!!")
         }

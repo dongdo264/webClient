@@ -1,8 +1,8 @@
 import "./modal.css";
 import { useState, useEffect } from "react";
 import { convertBase64 } from "../../utils/convertImagetoBase64";
-import { createCustomer, sellProducts } from "../../services/agentService";
-import { updateCustomer } from "../../services/customerService";
+import { createCustomer, updateCustomer } from "../../services/customerService";
+import { sellProducts } from "../../services/agentService";
 import { isEmail, checkDob } from "../../utils/validateCustomer";
 export default function CustomerModal(props) {
     const initValue = {
@@ -40,7 +40,7 @@ export default function CustomerModal(props) {
                     dob: props.info.dob,
                     email: props.info.email
                 }
-                setAvatar(props.info.avatar);
+                setAvatar(props.info.img);
                 setCustomerInputs(obj);
             }
         } else {

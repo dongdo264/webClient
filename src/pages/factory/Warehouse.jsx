@@ -66,6 +66,12 @@ export default function Warehouse(props) {
     setOpenModalQuantity(false);
   }
 
+  const deleteItem = (item) => {
+    let arr = order.filter((e) => {
+        return e.productCode !== item.productCode && e.color !== item.color
+    })
+    setOrder(arr);
+  }
 
   const columnOrder = [
     { 
@@ -118,7 +124,7 @@ export default function Warehouse(props) {
       renderCell: (params) => {
         return (
           <>
-            <button className="productListEdit" >Xóa</button>
+            <button className="productListEdit" onClick={() => deleteItem(params.row)} >Xóa</button>
             <button className="productListEdit" >Sửa</button>
           </>
         );
