@@ -1,15 +1,32 @@
 .sidebar {
-  flex: 1;
-  height: calc(100vh - 50px);
+  /* flex: 1;
+  height: calc(100vh - 50px); */
   background-color: rgb(176, 194, 196);
-  position: sticky;
+  /* position: sticky;
   top: 50px;
   margin-right: 10px;
   margin-left: 5px;
   margin-top: 5px;
   margin-bottom: 10px;
   border-radius: 10px;
-  border: 1px solid rgb(139, 134, 134);
+  border: 1px solid rgb(139, 134, 134); */
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  z-index: 1000;
+  width: 20%;
+}
+
+.sidebar:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: '';
+  background: linear-gradient(45deg,#2f89fc70 0%,#ff5db178 100%);
+  opacity: .8;
+  z-index: -1;
 }
 
 .sidebarWrapper {
@@ -17,13 +34,38 @@
   color: #555;
 }
 
+.logoCompany {
+  display: flex;
+  border-bottom: #dddddd solid 2px;
+  height: 50px;
+  padding-left: 20px;
+}
+
+.logoCompany img {
+  width: 40px;
+  height: 40px;
+  border-radius: 18px;
+  position: relative;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+.logoCompany h1 {
+  padding-left: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 50px;
+}
+
 .sidebarMenu {
   margin-bottom: 10px;
 }
 
 .sidebarTitle {
-  font-size: 13px;
-  color: rgb(187, 186, 186);
+  font-size: 17px;
+    /* color: rgb(187, 186, 186); */
+  color: rgb(240 255 250);
 }
 
 .sidebarList {
@@ -49,4 +91,104 @@
 }
 .sidebarList a.active .sidebarListItem {
   background: yellowgreen;
+}
+
+.sidebar h4 {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.dehaze, .close_side_bar {
+  display: none;
+}
+
+#check {
+  display: none;
+}
+
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+  .sidebar {
+    width: 80px;
+  }
+
+  .sidebar h4 {
+    display: none;
+  }
+
+  .sidebar .logoCompany h1 {
+    display: none;
+  }
+
+  .sidebarTitle {
+    display: none;
+  }
+
+  .sidebar .sidebarList .sidebarListItem {
+    width: 24px;
+    margin: 0;
+  }
+
+  .sidebar:hover {
+    width: 20%;
+  }
+
+  .sidebar:hover h4,
+  .sidebar:hover h1 {
+    display: block
+  }
+
+  .sidebar:hover .sidebarList .sidebarListItem {
+    width: 100%;
+  }
+
+  .dehaze, .close_side_bar {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 739px) {
+  .dehaze {
+    display: block;
+    position: fixed;
+    z-index: 1000;
+    padding-left: 20px;
+  }
+
+  .close_side_bar .MuiSvgIcon-root {
+    width: 16px;
+    height: 16px;
+    border: solid 1px;
+    border-radius: 50%;
+    font-weight: 500;
+  }
+
+  .close_side_bar {
+    display: block;
+    position: fixed;
+    z-index: 1002;
+    left: -76px;
+    top: 15px;
+    transition: all 0.5s ease;
+  }
+
+  .dehaze:hover,
+  .close_side_bar:hover {
+    cursor: pointer;
+    color: tomato;
+  }
+
+  .sidebar {
+    width: 200px;
+    display: block;
+    left: -250px;
+    transition: all 0.5s ease;
+  }
+
+  #check:checked ~ .sidebar {
+    left: 0;
+  }
+
+  #check:checked ~ label .close_side_bar {
+    left: 174px;
+  }
 }

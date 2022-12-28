@@ -10,7 +10,7 @@ import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
 import ProductList from "./pages/productList/ProductList";
 import NewProduct from "./pages/newProduct/NewProduct";
-import FactoryList from "./pages/factory/Factory";
+import FactoryList from "./pages/factory/FactoryList";
 import WcenterList from "./pages/wcenter/WcenterList";
 import Login from "./pages/login/Login";
 import ProductLine from "./pages/productline/ProductLine";
@@ -47,10 +47,12 @@ function App() {
   });
   
     return (
+      <div id="root_container">
       <Router> 
-            <Topbar isLogin={isLogin}/>
+            <Sidebar isLogin={isLogin} role={role}/>
             <div className="container">
-              <Sidebar isLogin={isLogin} role={role}/>
+              <Topbar isLogin={isLogin}/>
+              <div className="content">
               <Switch>
                 <Route path="/admin" exact>
                   <Home isLoggedIn={isLogin} role={role}/>
@@ -127,8 +129,10 @@ function App() {
 
                 </Switch>
               </div>
-              {/* <Footer /> */}
+              <Footer isLogin={isLogin}/>
+              </div>
       </Router>
+      </div>
     );
   }
 

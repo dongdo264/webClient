@@ -1,123 +1,32 @@
-footer {
-    display: grid;
-    grid-template-columns: 42% 20% 38%;
-    padding: 10px 0;
-    background-color: rgb(176, 194, 196)
-}
-
-.foot-left-container {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.foot-cod.foot-hid li {
-    list-style-type: none;
-}
-
-.foot-cod.foot-hid .nameGroup {
-    font-size: 18px;
-}
-
-.foot-cod.foot-hid #itemNameGroup {
-    margin-left: 32px;
-}
-
-.foot-cod.foot-hid #itemNameGroup:before {
-    content: "";
-    border-color: transparent #fff;
-    border-style: solid;
-    border-width: 6px 0 6px 9px;
-    display: block;
-    height: 0;
-    width: 0;
-    left: -18px;
-    top: 18px;
-    position: relative;
-}
-
-.foot-cod.foot-hid li:nth-child(2) {
-    background: url(/src/components/footer/icn_foot_local.png) no-repeat;
-    padding: 5px 0 5px 35px;
-}
-
-.foot-cod.foot-hid li:nth-child(3) {
-    background: url(/src/components/footer/icn_foot_phone.png) no-repeat;
-    padding: 5px 0 5px 35px;
-}
-
-.foot-cod.foot-hid li:nth-child(4) {
-    background: url(/src/components/footer/icn_foot_mail.png) no-repeat;
-    padding: 7px 0 5px 35px;
-}
-
-.foot-cod.foot-show {
-    margin-left: 36px
-}
-
-.foot-cod.foot-show li {
-    list-style-type: none;
-}
-
-.foot-cod.foot-show li a {
+a {
+    color: #555;
     text-decoration: none;
+    background-color: transparent;
 }
 
-.foot-cod.foot-show li:before {
-    content: "";
-    border-color: transparent #fff;
-    border-style: solid;
-    border-width: 6px 0 6px 9px;
-    display: block;
-    height: 0;
-    width: 0;
-    left: -18px;
-    top: 15px;
+.footer-bottom {
+    padding: 15px 0;
+    border-top: #dddddd solid 2px;
+    background-color: #4952c68a   !important;
+    color: #b0b0b0;
+    font-family: rubik;
+}
+
+.footer-bottom ul {
+    margin: 0;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-md-3 {
+    max-width: 50%;
     position: relative;
+    width: 100%;
 }
 
-.footer-right {
-    padding-top: 0;
-    position: relative;
-}
-
-.footer-right img {
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
+.footer-site-info {
     text-align: center;
-    width: 80%;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.link_mxh {
-    position: relative;
-    margin-top: 20px;
-}
-
-.link_mxh_container {
-    min-width: 366px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.link_mxh p {
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-.link_mxh .mxh {
-    display: inline;
-    margin-left: 20px;
-    margin-right: 20px
-}
-
-.link_mxh .mxh img {
-    width: 50px;
-    height: 50px;
 }

@@ -10,39 +10,46 @@ import {
     DynamicFeed,
     ChatBubbleOutline,
     WorkOutline,
-    Report
+    Report,
+    VerifiedUser, 
+    Category,
+    PersonAdd, 
+    Build, 
+    DirectionsBike,
+    LocalShipping,
   } from "@material-ui/icons";
+import { Factory, PedalBike, Warehouse, WarehouseOutlined } from "@mui/icons-material";
 
 export const adminRoutes = [
     {
       path: "/admin/agents",
       name: "Đại lý",
-      icon: PermIdentity
+      icon: Storefront
     },
     {
       path: "/admin/factory",
       name: "Cơ sở sản xuất",
-      icon: PermIdentity
+      icon: Factory
     },
     {
       path: "/admin/warrantycenter",
       name: "Trung tâm bảo hành",
-      icon: PermIdentity
+      icon: VerifiedUser
     },
     {
       path: "/admin/productlines",
       name: "Dòng sản phẩm",
-      icon: PermIdentity,
+      icon: Category,
     },
     {
       path: "/admin/products",
       name: "Sản phẩm",
-      icon: PermIdentity,
+      icon: PedalBike,
     },
     {
         path: "/admin/newUser",
         name: "Cấp tài khoản",
-        icon: PermIdentity,
+        icon: PersonAdd,
     },
   ];
   
@@ -50,39 +57,39 @@ export const adminRoutes = [
     {
       path: "/factory/products",
       name: "Sản phẩm",
-      icon: PermIdentity,
+      icon: PedalBike,
     },
     {
       path: "/factory/warehouse",
       name: "Kho hàng",
-      icon: PermIdentity,
+      icon: Warehouse,
     },
     {
       path: "/factory/actions",
       name: "Sản xuất",
-      icon: PermIdentity,
+      icon: Build,
     },
     {
       path: "/factory/transferproducts",
       name: "Chuyển giao sản phẩm",
-      icon: PermIdentity,
+      icon: LocalShipping,
     },
     {
       path: "/factory/faultyproducts",
       name: "Sản phẩm lỗi",
-      icon: PermIdentity,
+      icon: Report,
     },
   ];
   export const agentRoutes = [
     {
       path: "/agent/products",
       name: "Sản phẩm",
-      icon: PermIdentity,
+      icon: PedalBike,
     },
     {
       path: "/agent/warehouse",
       name: "Kho hàng",
-      icon: PermIdentity,
+      icon: Warehouse,
     },
     {
       path: "/agent/customers",
@@ -92,12 +99,12 @@ export const adminRoutes = [
     {
       path: "/agent/productsaresold",
       name: "Sản phẩm đã bán",
-      icon: PermIdentity,
+      icon: DirectionsBike,
     },
     {
       path: "/agent/warranty",
       name: "Bảo hành",
-      icon: PermIdentity,
+      icon: VerifiedUser,
     },
     {
       path: "/agent/summonproducts",
@@ -114,7 +121,7 @@ export const adminRoutes = [
     {
       path: "/wc/warranty",
       name: "Bảo hành",
-      icon: PermIdentity,
+      icon: VerifiedUser,
     },
     {
       path: "/wc/history",

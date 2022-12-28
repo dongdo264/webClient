@@ -49,11 +49,19 @@ export default function ProductsAreSold({isLoggedIn}) {
   }
 
   const columns = [
-    { field: "model", headerName: "Model", width: 100},
+    { 
+      field: "model", 
+      headerName: "Model", 
+      width: 120,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
+    },
     {
       field: "customerName",
       headerName: "Tên KH",
-      width: 150,
+      width: 134,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
       valueGetter: (params) => {
         return params.getValue(params.row.model, "customer").customerName;
       }
@@ -61,7 +69,9 @@ export default function ProductsAreSold({isLoggedIn}) {
     {
       field: "phone",
       headerName: "Số ĐT",
-      width: 120,
+      width: 112,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
       valueGetter: (params) => {
         return params.getValue(params.row.model, "customer").phone;
       }
@@ -69,7 +79,9 @@ export default function ProductsAreSold({isLoggedIn}) {
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
-      width: 130,
+      width: 156,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
       valueGetter: (params) => {
         return params.getValue(params.row.model, "agentwarehouse").productCode;
       }
@@ -78,17 +90,23 @@ export default function ProductsAreSold({isLoggedIn}) {
     {
       field: "dateOfPurchase",
       headerName: "Ngày mua hàng",
-      width: 160,
+      width: 172,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
     },
     {
       field: "status",
       headerName: "Status",
       width: 120,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
     },
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 158,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         if (params.row.status === 'Đang bảo hành') {
           return (
@@ -117,6 +135,19 @@ export default function ProductsAreSold({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '992px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

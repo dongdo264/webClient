@@ -68,18 +68,40 @@ export default function Warehouse(props) {
 
 
   const columnOrder = [
-    { field: "id", headerName: "STT", width: 100 },
-    { field: "productCode", headerName: "Mã sản phẩm", width: 160 },
-    { field: "productName", headerName: "Tên sản phẩm", width: 180 },
+    { 
+      field: "id", 
+      headerName: "STT", 
+      width: 100,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
+    { 
+      field: "productCode", 
+      headerName: "Mã sản phẩm", 
+      width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
+    },
+    { 
+      field: "productName", 
+      headerName: "Tên sản phẩm", 
+      width: 180,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
     {
       field: "color",
       headerName: "Màu sắc",
       width: 150,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
     },
     {
         field: "quantity",
         headerName: "Số lượng đặt hàng",
         width: 220,
+        headerClassName: 'header-column',
+        cellClassName: 'odd-column'
     },
     // {
     //   field: "status",
@@ -91,6 +113,8 @@ export default function Warehouse(props) {
       field: "action",
       headerName: "Action",
       width: 150,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         return (
           <>
@@ -103,18 +127,40 @@ export default function Warehouse(props) {
   ];
 
   const columns = [
-    { field: "id", headerName: "STT", width: 100 },
-    { field: "productCode", headerName: "Mã sản phẩm", width: 160 },
-    { field: "productName", headerName: "Tên sản phẩm", width: 180 },
+    { 
+      field: "id", 
+      headerName: "STT", 
+      width: 100,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
+    { 
+      field: "productCode", 
+      headerName: "Mã sản phẩm", 
+      width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column' 
+    },
+    { 
+      field: "productName", 
+      headerName: "Tên sản phẩm", 
+      width: 180,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
     {
       field: "color",
       headerName: "Màu sắc",
       width: 150,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
     },
     {
         field: "sum",
         headerName: "Số lượng trong kho",
         width: 220,
+        headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     // {
     //   field: "status",
@@ -125,7 +171,9 @@ export default function Warehouse(props) {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 116,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         if (props.role === 1) {
           return (
@@ -151,7 +199,20 @@ export default function Warehouse(props) {
         height: 300,
         width: '100%',
         display: displayOrder,
-        mb: 20
+        mb: 20,
+        maxWidth: '976px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography
@@ -174,6 +235,20 @@ export default function Warehouse(props) {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '942px',
+        mb: 10,
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

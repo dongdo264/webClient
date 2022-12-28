@@ -60,31 +60,54 @@ export default function WarrantyList({isLoggedIn, role}) {
 
   
   const columns = [
-    { field: "warrantyCode", headerName: "Mã bảo hành", width: 160,},
-    { field: "agentCode", headerName: "Đại lý", width: 160 },
+    { 
+      field: "warrantyCode", 
+      headerName: "Mã bảo hành", 
+      width: 156,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
+    { 
+      field: "agentCode", 
+      headerName: "Đại lý", 
+      width: 112,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
+    },
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
-      width: 130,
+      width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
       field: "createAt",
       headerName: "Ngày gửi",
-      width: 160,
+      width: 128,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
     },
     {
       field: "finishAt",
       headerName: "Ngày hoàn thành",
-      width: 130,
+      width: 180,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
-        field: "status",
-        headerName: "Status",
-        width: 120,
-    },{
+      field: "status",
+      headerName: "Status",
+      width: 120,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
+    },
+    {
       field: "action",
       headerName: "Action",
       width: 130,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         return (
           <>
@@ -105,6 +128,19 @@ export default function WarrantyList({isLoggedIn, role}) {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '1005px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

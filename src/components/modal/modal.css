@@ -22,6 +22,7 @@
     right: 0;
     bottom: 0;
     position: fixed;
+    z-index: 1001;
 }
 
 .overlay {
@@ -29,7 +30,7 @@
 }
 .modal-content {
     position: absolute;
-    top: 55%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
@@ -39,6 +40,8 @@
     max-width: 700px;
     min-width: 400px;
     margin-bottom: 50px;
+    z-index: 1002;
+    animation: modalShow 0.4s linear;
 }
 
 .close-modal {
@@ -74,6 +77,10 @@
 
   .pImg {
     width: 100%;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .productImg {
@@ -138,4 +145,16 @@
   }
   #updateCus {
     width: 310px;
+  }
+
+  @keyframes modalShow {
+    from {
+      top: -200px;
+      opacity: 0;
+    }
+  
+    to {
+      top: 50%;
+      opacity: 1;
+    }
   }

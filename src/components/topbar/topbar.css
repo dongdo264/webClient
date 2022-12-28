@@ -1,10 +1,13 @@
 .topbar {
-  width: 100%;
+  /* width: 100%; */
+  width: 80%;
   height: 50px;
   background-color: white;
-  position: sticky;
+  /* position: sticky; */
+  position: fixed;
   top: 0;
   z-index: 999;
+  border-bottom: #dddddd solid 2px;
 }
 
 .topbarWrapper {
@@ -54,4 +57,26 @@
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
+}
+
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+  .topbar {
+    width: calc(100% - 80px);
+  }
+}
+
+@media only screen and (max-width: 739px) {
+  .topbar {
+    width: 100%;
+  }
+
+  .topLeft {
+    display: none;
+  }
+
+  .topRight {
+    padding-right: 20px;
+    position: absolute;
+    right: 0;
+  }
 }

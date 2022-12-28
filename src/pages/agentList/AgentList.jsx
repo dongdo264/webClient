@@ -47,26 +47,45 @@ export default function AgentList({isLoggedIn}) {
   };
   
   const columns = [
-    { field: "agentCode", headerName: "Mã đại lý", width: 130, style: { textAlign: 'center' }},
-    { field: "agentName", headerName: "Tên đại lý", width: 170 },
+    { field: "agentCode", 
+      headerName: "Mã đại lý", 
+      width: 130, 
+      style: { textAlign: 'center' },
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
+    { field: "agentName", 
+      headerName: "Tên đại lý", 
+      width: 170,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
+    },
     {
       field: "agentAdress",
       headerName: "Địa chỉ",
       width: 120,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
       field: "agentCity",
       headerName: "Tỉnh/thành",
       width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
     },{
       field: "agentPhone",
       headerName: "Số ĐT",
       width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
       field: "status",
       headerName: "Status",
       width: 120,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
       valueGetter: (params) => {
         return params.getValue(params.row.agentCode, "account").status;
       }
@@ -75,6 +94,8 @@ export default function AgentList({isLoggedIn}) {
       field: "action",
       headerName: "Action",
       width: 130,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         return (
           <>
@@ -100,6 +121,19 @@ export default function AgentList({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '992px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

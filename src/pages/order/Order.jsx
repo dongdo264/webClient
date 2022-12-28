@@ -106,12 +106,26 @@ export default function Order() {
   }
 
   const columnOrder = [
-    { field: "id", headerName: "STT", width: 120 },
-    { field: "productCode", headerName: "Mã sản phẩm", width: 170 },
+    { 
+      field: "id", 
+      headerName: "STT", 
+      width: 100,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column' 
+    },
+    { 
+      field: "productCode", 
+      headerName: "Mã sản phẩm", 
+      width: 156,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
+    },
     {
       field: "productName",
       headerName: "Tên sản phẩm",
       width: 230,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -121,16 +135,26 @@ export default function Order() {
         );
       },
     },
-    { field: "color", headerName: "Màu sắc", width: 150 },
+    { 
+      field: "color", 
+      headerName: "Màu sắc", 
+      width: 124,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column' 
+    },
     {
       field: "quantity",
       headerName: "Số lượng",
-      width: 160,
+      width: 130,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 124,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         return (
           <>
@@ -144,11 +168,19 @@ export default function Order() {
 
   const columns = [
     
-    { field: "productCode", headerName: "ID", width: 90 },
+    { 
+      field: "productCode", 
+      headerName: "ID", 
+      width: 90,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
     {
       field: "productName",
       headerName: "Tên sản phẩm",
       width: 200,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -158,22 +190,33 @@ export default function Order() {
         );
       },
     },
-    { field: "productLine", headerName: "Dòng sản phẩm", width: 180 },
+    { 
+      field: "productLine", 
+      headerName: "Dòng sản phẩm", 
+      width: 180,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
     {
       field: "status",
       headerName: "Status",
       width: 120,
-      
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
     },
     {
       field: "warrantyPeriod",
       headerName: "Bảo hành",
       width: 140,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
       field: "action",
       headerName: "Action",
       width: 240,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         return (
           <>
@@ -194,7 +237,20 @@ export default function Order() {
         height: 300,
         width: '100%',
         display: displayButton,
-        mb: 20
+        mb: 20,
+        maxWidth: '882px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography
@@ -217,7 +273,19 @@ export default function Order() {
       sx={{
         height: 400,
         width: '100%',
-        
+        maxWidth: '988px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

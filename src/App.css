@@ -1,8 +1,10 @@
 .container{
-    display: flex;
+    /* display: flex;
+    margin-top: 10px; */
     margin-top: 10px;
+    padding-left: 20%;
+    width: 80%;
 }
-
 
 .link{
     text-decoration: none;
@@ -10,4 +12,27 @@
 }
 .MuiDataGrid-root .MuiDataGrid-cell:focus-within {
     outline: none !important;
+}
+
+.content {
+    padding: 50px 10px 0 10px;
+    min-height: calc(100vh - 111px);
+}
+
+/* button {
+    background: linear-gradient(45deg,#2f89fc 0%,#ff5db1 100%);
+} */
+
+@media only screen and (min-width: 740px) and (max-width: 1023px) {
+    #root_container .container {
+        width: calc(100% - 80px);
+        padding-left: 80px;
+    }
+}
+
+@media only screen and (max-width: 739px) {
+    #root_container .container {
+        width: 100%;
+        padding: 0 0;
+    }
 }

@@ -7,6 +7,7 @@ import { getInfoProduct,getAllProducts } from "../../services/userService";
 import Modal from "../../components/modal/Modal";
 import Production from "../../components/modal/Production";
 import { updateStatusProduct } from "../../services/agentService";
+import { Visibility } from "@material-ui/icons";
 
 export default function ProductList(props) {
   const [loading, setLoading] = useState(false);
@@ -76,11 +77,18 @@ export default function ProductList(props) {
   }
 
   const columns = [
-    { field: "productCode", headerName: "ID", width: 90 },
+    { field: "productCode", 
+      headerName: "ID", 
+      width: 90,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column', 
+    },
     {
       field: "productName",
       headerName: "Tên sản phẩm",
-      width: 200,
+      width: 320,
+      headerClassName: 'header-column name-column',
+      cellClassName: 'even-column',
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -90,22 +98,32 @@ export default function ProductList(props) {
         );
       },
     },
-    { field: "createAt", headerName: "Ngày ra mắt", width: 160 },
+    { field: "createAt", 
+      headerName: "Ngày ra mắt", 
+      width: 150,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
     {
       field: "status",
       headerName: "Status",
       width: 120,
-      
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
     },
     {
       field: "warrantyPeriod",
       headerName: "Bảo hành",
-      width: 160,
+      width: 136,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
       field: "action",
       headerName: "Action",
-      width: 220,
+      width: 156,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         if (props.role === 10) {
           return (
@@ -135,6 +153,19 @@ export default function ProductList(props) {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '992px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

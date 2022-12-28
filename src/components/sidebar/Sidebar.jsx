@@ -17,8 +17,10 @@ import { NavLink, useHistory, Route } from "react-router-dom";
 import { adminRoutes, factoryRoutes, agentRoutes, wcenterRoutes } from "../../routes";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import logo from "./logo.PNG";
+import { Dehaze, ArrowBackIosNew } from "@mui/icons-material";
 
-export default function Sidebar({isLogin, role}) {
+export default function Sidebar({ isLogin, role }) {
   const [routes, setRoute] = useState(adminRoutes);
   useEffect(() => {
     //console.log(role);
@@ -31,52 +33,62 @@ export default function Sidebar({isLogin, role}) {
     } else if (role === 3) {
       setRoute(agentRoutes);
     }
-});
+  });
   const logOut = () => {
     sessionStorage.clear();
     window.location.href = '/';
   }
   return (
     <>
-    {!isLogin? (
-      <>
-      </>
-    ) : (
-      <div className="sidebar">
-      <div className="sidebarWrapper">
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Dashboard</h3>
-          <ul className="sidebarList">
-            <NavLink to="/admin" className="link" exact>
-            <li className="sidebarListItem">
-              <LineStyle className="sidebarIcon" />
-              Home
-            </li>
-            </NavLink>
-            <li className="sidebarListItem">
-              <Timeline className="sidebarIcon" />
-              Analytics
-            </li>
-            <li className="sidebarListItem">
-              <TrendingUp className="sidebarIcon" />
-              Sales
-            </li>
-          </ul>
-        </div>
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Quick Menu</h3>
-          <ul className="sidebarList">
+      {!isLogin ? (
+        <>
+        </>
+      ) : (
+        <>
+          <input type="checkbox" id="check"></input>
+          <label htmlFor="check" className="dehazeLabel">
+            <i className="dehaze"><Dehaze /></i>
+            <i className="close_side_bar"><ArrowBackIosNew /></i>
+          </label>
+          <div className="sidebar">
+            <div class="logoCompany">
+              <img src={logo} alt="" />
+              <h1>ĐQD Bike</h1>
+            </div>
+            <div className="sidebarWrapper">
+              <div className="sidebarMenu">
+                <h3 className="sidebarTitle">Dashboard</h3>
+                <ul className="sidebarList">
+                  <NavLink to="/admin" className="link" exact>
+                    <li className="sidebarListItem">
+                      <LineStyle className="sidebarIcon" />
+                      <h4>Home</h4>
+                    </li>
+                  </NavLink>
+                  <li className="sidebarListItem">
+                    <Timeline className="sidebarIcon" />
+                    <h4>Analytics</h4>
+                  </li>
+                  <li className="sidebarListItem">
+                    <TrendingUp className="sidebarIcon" />
+                    <h4>Sales</h4>
+                  </li>
+                </ul>
+              </div>
+              <div className="sidebarMenu">
+                <h3 className="sidebarTitle">Quick Menu</h3>
+                <ul className="sidebarList">
 
-          {routes.map((route) => (
-              <NavLink to={route.path} className="link">
-              <li className="sidebarListItem" key={route.icon}>
-                <route.icon className="sidebarIcon" />
-                {route.name}
-              </li>
-            </NavLink>
-          ))}
+                  {routes.map((route) => (
+                    <NavLink to={route.path} className="link">
+                      <li className="sidebarListItem" key={route.icon}>
+                        <route.icon className="sidebarIcon" />
+                        <h4>{route.name}</h4>
+                      </li>
+                    </NavLink>
+                  ))}
 
-            {/* <NavLink to="/admin/agents" className="link">
+                  {/* <NavLink to="/admin/agents" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
                 Đại lý
@@ -106,31 +118,32 @@ export default function Sidebar({isLogin, role}) {
                 Cấp tài khoản
               </li>
             </NavLink> */}
-          </ul>
-        </div>
-        
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Tài khoản</h3>
-          <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <MailOutline className="sidebarIcon" />
-              Mail
-            </li>
-            <li className="sidebarListItem">
-              <DynamicFeed className="sidebarIcon" />
-              Feedback
-            </li>
-            <li className="sidebarListItem" onClick={logOut} >
-              <ChatBubbleOutline className="sidebarIcon" />
-              Đăng xuất
-            </li>
-          </ul>
-        </div>
-        
-      </div>
-    </div>
-    )}
+                </ul>
+              </div>
+
+              <div className="sidebarMenu">
+                <h3 className="sidebarTitle">Tài khoản</h3>
+                <ul className="sidebarList">
+                  <li className="sidebarListItem">
+                    <MailOutline className="sidebarIcon" />
+                    <h4>Mail</h4>
+                  </li>
+                  <li className="sidebarListItem">
+                    <DynamicFeed className="sidebarIcon" />
+                    <h4>Feedback</h4>
+                  </li>
+                  <li className="sidebarListItem" onClick={logOut} >
+                    <ChatBubbleOutline className="sidebarIcon" />
+                    <h4>Đăng xuất</h4>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </>
+      )}
     </>
-    
+
   );
 }
