@@ -4,7 +4,8 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Box, Typography } from '@mui/material';
 import { Link } from "react-router-dom";
-import { getAllWarrantyCenter } from "../../services/adminService";
+import { getAllWarrantyCenter } from "../../services/userService";
+import { deleteUser } from "../../services/adminService";
 import { useRef } from "react";
 
 export default function WcenterList({isLoggedIn}) {

@@ -4,12 +4,11 @@ import "./home.css";
 import { userData } from "../../dummyData";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import DLineChart from "../../components/chart/DLineChart";
-import { analyzQuantityWarranty } from "../../services/warrantyService";
+import { analyzQuantityProduced } from "../../services/factoryService";
 import React from "react";
 import {
-  Line,
-  LineChart,
+    LineChart,
+    Line,
   BarChart,
   Bar,
   XAxis,
@@ -19,16 +18,16 @@ import {
   Legend,
   ResponsiveContainer
 } from "recharts";
-export default function WarrantyHome({ isLoggedIn }) {
+export default function FactoryHome({ isLoggedIn }) {
   const user = useSelector((state) => state.auth.login.currentUser);
   const [data, setData] = useState([]);
-  const [type, setType] = useState('quarter');
+  const [type, setType] = useState('month');
   const [loading, setLoading] = useState(false);
   const componentMounted = useRef(true)
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
-    let res = await analyzQuantityWarranty(type, token);
+    let res = await analyzQuantityProduced(type, token);
     console.log(res.data.data)
     setData(res.data.data);
     setLoading(false);
@@ -37,7 +36,6 @@ export default function WarrantyHome({ isLoggedIn }) {
   useEffect(() => {
     fetchData();
   }, [type]);
-  
   useEffect( () => {
     if (!loading && data.length === 0) {
       fetchData();
@@ -47,20 +45,15 @@ export default function WarrantyHome({ isLoggedIn }) {
     }
   }, [loading, data]);
 
+  const handleChangeTypeAnalyz = (type_) => {
+    setType(type_);
+  }
 
   useEffect(() => {
     if(!isLoggedIn) {
       window.location.href = '/';
     }
-    // console.log(" từ trang home", isLoggedIn);
-    // console.log(user);
-    // console.log(sessionStorage.getItem('accessToken'));
   });
-
-  const handleChangeTypeAnalyz = (type_) => {
-    setType(type_);
-  }
-
   return (
     <>
     {isLoggedIn ? (
@@ -69,10 +62,10 @@ export default function WarrantyHome({ isLoggedIn }) {
       <FeaturedInfo />
       
       <div className="chart">
-      <h3 className="chartTitle">Phân tích số lượng sản phẩm bảo hành</h3>
+      <h3 className="chartTitle">Phân tích số lượng sản phẩm sản xuất</h3>
       <ResponsiveContainer width="100%" aspect={4 / 1}>
         <LineChart
-
+        width="100%"
         height={300}
         data={data}
         margin={{
@@ -89,29 +82,15 @@ export default function WarrantyHome({ isLoggedIn }) {
         <Legend />
         <Line
           type="monotone"
-          dataKey="finished"
+          dataKey="sum"
           stroke="green"
           strokeDasharray="5 5"
-          name="Hoàn thành"
-        />
-        <Line
-          type="monotone"
-          dataKey="working"
-          stroke="blue"
-          strokeDasharray="3 4 5 2"
-          name="Đang bảo hành"
-        />
-        <Line
-          type="monotone"
-          dataKey="faulty"
-          stroke="red"
-          strokeDasharray="3 4 5 2"
-          name="Sản phẩm lỗi"
+          name="Số lượng sản xuất"
         />
       </LineChart>
       </ResponsiveContainer>
-    </div>
-    <div className="button-center">
+     </div>
+      <div className="button-center">
             <button className="userListEdit" onClick={() => handleChangeTypeAnalyz("month")} >Tháng</button>
             <button className="userListEdit" onClick={() => handleChangeTypeAnalyz("quarter")} >Quý</button>
             <button className="userListEdit" onClick={() => handleChangeTypeAnalyz("year")}>Năm</button>

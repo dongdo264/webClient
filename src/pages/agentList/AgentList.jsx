@@ -3,7 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { Box, Typography } from '@mui/material';
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { getAllAgents, deleteAgentById } from "../../services/adminService";
+import { deleteUser } from "../../services/adminService";
+import { getAllAgents } from "../../services/userService";
 
 export default function AgentList({isLoggedIn}) {
   const [agentList, setAgentList] = useState([]);
@@ -30,21 +31,50 @@ export default function AgentList({isLoggedIn}) {
     }
   }, [loading, agentList]);
 
-  const handleDelete = async (agentCode) => {
-    console.log(agentCode);
+  const handleUpdateActive = async (agentCode) => {
     try {
-      if (window.confirm("Bạn có chắc muốn xóa đại lý này?")) {
+      if (window.confirm("Cập nhật hoạt động đại lý này")) {
         const token = sessionStorage.getItem('accessToken');
-        let res = await deleteAgentById(agentCode, token);
+        let res = await deleteUser("Active", agentCode, token);
         if (res.data.errCode === 0) {
           fetchData();
-          window.alert("Xóa thành công!!")
+          window.alert("Cập nhật thành công!!")
         }
       }
     } catch(err) {
       console.log(err.response);
     }
   };
+  const handleUpdateInActive = async (agentCode) => {
+    try {
+      if (window.confirm("Cập nhật ngừng hoạt động đại lý này")) {
+        const token = sessionStorage.getItem('accessToken');
+        let res = await deleteUser("Inactive", agentCode, token);
+        if (res.data.errCode === 0) {
+          fetchData();
+          window.alert("Cập nhật thành công!!")
+        }
+      }
+    } catch(err) {
+      console.log(err.response);
+    }
+  };
+
+  // const handleDelete = async (agentCode) => {
+  //   console.log(agentCode);
+  //   try {
+  //     if (window.confirm("Bạn có chắc muốn xóa đại lý này?")) {
+  //       const token = sessionStorage.getItem('accessToken');
+  //       let res = await deleteUser(agentCode, token);
+  //       if (res.data.errCode === 0) {
+  //         fetchData();
+  //         window.alert("Xóa thành công!!")
+  //       }
+  //     }
+  //   } catch(err) {
+  //     console.log(err.response);
+  //   }
+  // };
   
   const columns = [
     { field: "agentCode", 
@@ -97,16 +127,20 @@ export default function AgentList({isLoggedIn}) {
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
+        if (params.getValue(params.row.agentCode, "account").status === "Active") {
+          return (
+            <>
+              
+              <button className="userListEdit">View</button>
+              <button onClick={() => handleUpdateInActive(params.row.agentCode)} className="userListEdit">Inactive</button>
+            </>
+          );
+        }
         return (
           <>
-            <Link to={"/viewprofile/" + params.row.agentCode}>
-              <button className="userListEdit">Edit</button>
-            </Link>
-            <button onClick={() => handleDelete(params.row.agentCode)} className="userListEdit">Delete</button>
-            {/* <DeleteOutline
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.agentCode)}
-            /> */}
+            
+            <button className="userListEdit">View</button>
+            <button onClick={() => handleUpdateActive(params.row.agentCode)} className="userListEdit">Active</button>
           </>
         );
       },

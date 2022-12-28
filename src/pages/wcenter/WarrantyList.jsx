@@ -18,13 +18,14 @@ export default function WarrantyList({isLoggedIn, role}) {
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
-    let res;
+    let data_;
     if (role === 3) {
-      res = await getAllWarrantyClaim(token);
+      let res = await getAllWarrantyClaim(token);
+      data_ = res.data.data;
     } else if (role === 2) {
-      res = await getAllWarrantyActions(token);
+      let res = await getAllWarrantyActions(token);
+      data_ = res.data.data;
     }
-    let data_ = res.data.data;
     for (let i in data_) {
       data_[i].id = parseInt(i);
       if (!data_[i].finishAt) {
@@ -109,6 +110,13 @@ export default function WarrantyList({isLoggedIn, role}) {
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
+        if (role === 3) {
+          return (
+            <>
+              <button className="userListEdit" >View</button>
+            </>
+          );
+        }
         return (
           <>
            <button className="userListEdit" >View</button>

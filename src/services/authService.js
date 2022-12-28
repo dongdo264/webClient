@@ -14,7 +14,7 @@ let login = async (user, dispatch, history, setErr) => {
         if (res.data.role === 10) {
             history.push("/admin");
         } else if (res.data.role === 1) {
-            history.push("/factory");
+            history.push("/factory/analyz");
         } else if (res.data.role === 2) {
             history.push("/wc/analyz");
         } else if (res.data.role === 3) {

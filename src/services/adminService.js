@@ -3,7 +3,7 @@ import axios from 'axios';
 const baseURL = "http://localhost:8080/";
 
 let createNewUser = (data, token) => {
-    return axios.post(`${baseURL}api-admin/createNewUser`, {
+    return axios.post(`${baseURL}api-admin/user`, {
         id: Date.now() % 100000000,
         username: data.username,
         password: data.password,
@@ -18,38 +18,26 @@ let createNewUser = (data, token) => {
         }
     });
 }
-let getAllAgents = (token) => {
-    return axios.get(`${baseURL}api-admin/getAllAgents`, {
+
+
+
+let deleteUser = (status, id, token) => {
+    return axios.put(`${baseURL}api-admin/user/${id}`,{
+        status
+    }, {
         headers: {
             token
         }
     });
 }
 
-let getAllFactories = (token) => {
-    return axios.get(`${baseURL}api-admin/getAllFactories`,{
-        headers: {
-            token
-        }
-    });
-}
-
-let getAllWarrantyCenter = (token) => {
-    return axios.get(`${baseURL}api-admin/getAllWarrantyCenter`,{
-        headers: {
-            token
-        }
-    });
-}
-let deleteAgentById = (id, token) => {
-    return axios.delete(`${baseURL}api-admin/deleteAgentById?id=${id}`, {
-        headers: {
-            token
-        }
-    });
-}
-let getAllProductlines = (token) => {
-    return axios.get(`${baseURL}api-admin/getAllProductlines`, {
+let createNewProduct = (product, productdetail, avatar, token) => {
+    return axios.post(`${baseURL}api-admin/product`, {
+        id: Date.now() % 10000000,
+        product,
+        productdetail,
+        avatar  
+    }, {
         headers: {
             token
         }
@@ -65,11 +53,32 @@ let createNewProductLine = (data, token) => {
         }
     });
 }
-export { getAllAgents,
-    getAllFactories,
-    getAllWarrantyCenter,
-    deleteAgentById,
+
+let updateProduct = (product, productdetail, avatar, token) => {
+    return axios.put(`${baseURL}api-admin/product/${product.productCode}`, {
+        product,
+        productdetail,
+        avatar  
+    }, {
+        headers: {
+            token
+        }
+    });
+}
+let updateProductLine = (productLine, data, token) => {
+    return axios.put(`${baseURL}api-admin/productline/${productLine}`, {
+       data 
+    }, {
+        headers: {
+            token
+        }
+    });
+}
+export { 
+    deleteUser,
     createNewUser,
-    getAllProductlines,
-    createNewProductLine
-    }
+    createNewProductLine,
+    createNewProduct,
+    updateProduct,
+    updateProductLine
+}
