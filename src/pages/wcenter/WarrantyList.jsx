@@ -35,6 +35,9 @@ export default function WarrantyList({isLoggedIn, role}) {
         arr.push(data_[i]);
       }
     }
+    for (let i in arr) {
+      arr[i].id = parseInt(i);
+    }
     setData(arr);
     //console.log(res.data.data)
     setLoading(false);
@@ -81,7 +84,7 @@ export default function WarrantyList({isLoggedIn, role}) {
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
-      width: 160,
+      width: 150,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
@@ -95,7 +98,7 @@ export default function WarrantyList({isLoggedIn, role}) {
     {
       field: "finishAt",
       headerName: "Ngày hoàn thành",
-      width: 180,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
@@ -144,7 +147,7 @@ export default function WarrantyList({isLoggedIn, role}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '1059px',
+        maxWidth: '1000px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },
@@ -179,6 +182,7 @@ export default function WarrantyList({isLoggedIn, role}) {
           open={openWarrantyDetail}
           toggleModal={() => setOpenWarrantyDetail(!openWarrantyDetail)}
           data={warranty}
+          fetchData={() => fetchData()}
          />
   </div>
     ) : (

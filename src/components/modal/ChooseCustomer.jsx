@@ -22,6 +22,8 @@ export default function ChooseCustomer(props) {
                 setErr("Không tồn tại mã khách hàng này!");
             } else if (submit.data.errCode === 0) {
                 alert("Chuyển sản phẩm cho khách thành công!");
+                props.fetchData();
+                props.toggleModal();
             }
         }catch(err) {
 

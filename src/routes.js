@@ -22,6 +22,11 @@ import { Factory, PedalBike, Warehouse, WarehouseOutlined, ManageHistory, Home }
 import { Assignment } from "@material-ui/icons";
 
 export const adminRoutes = [
+  {
+    path: "/admin/analyz",
+    name: "Home",
+    icon: Home
+  },
     {
       path: "/admin/agents",
       name: "Đại lý",
@@ -87,6 +92,11 @@ export const adminRoutes = [
     },
   ];
   export const agentRoutes = [
+    {
+      path: "/agent/analyz",
+      name: "Home",
+      icon: Home,
+    },
     {
       path: "/agent/products",
       name: "Sản phẩm",

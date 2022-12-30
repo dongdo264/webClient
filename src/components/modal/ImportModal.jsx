@@ -13,14 +13,19 @@ export default function ImportModal(props) {
         const token = sessionStorage.getItem('accessToken');
         let res = await getAllFactories(token);
         let fList = res.data.data;
-        setFactoryList(fList);
+        let arr = []
+        for (let i in fList) {
+          if (fList[i].account.status === "Active") {
+            arr.push(fList[i]);
+          }
+        }
+        setFactoryList(arr);
         setLoading(false);
     }
 
     const handleOnChange = (event) => {
         console.log(event.target.value)
         setFactoryChoice(event.target.value);
-
         console.log(factorySelect);
     };
 
@@ -49,14 +54,13 @@ export default function ImportModal(props) {
 
     
     useEffect( () => {
-        console.log(props.info);
         if(props.open) {
             document.getElementById("modal-import").style.display = 'block';  
           } else {
             document.getElementById("modal-import").style.display = 'none';
         }
         if (!loading && factoryList.length === 0) {
-        fetchData();
+          fetchData();
         };
         return () => {
           componentMounted.current = false;

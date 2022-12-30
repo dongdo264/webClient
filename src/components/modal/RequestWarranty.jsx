@@ -13,7 +13,14 @@ export default function RequestWarranty(props) {
         setLoading(true);
         const token = sessionStorage.getItem('accessToken');
         let res = await getAllWarrantyCenter(token);
-        setWarrantyList(res.data.data);
+        let data = res.data.data;
+        let arr = [];
+        for (let i in data) {
+          if (data[i].account.status === "Active") {
+            arr.push(data[i])
+          }
+        }
+        setWarrantyList(arr);
         setLoading(false);
     }
 

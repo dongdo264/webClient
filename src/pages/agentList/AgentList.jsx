@@ -80,34 +80,34 @@ export default function AgentList({isLoggedIn}) {
   const columns = [
     { field: "agentCode", 
       headerName: "Mã đại lý", 
-      width: 130, 
+      width: 140, 
       style: { textAlign: 'center' },
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
     { field: "agentName", 
       headerName: "Tên đại lý", 
-      width: 170,
+      width: 150,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
     },
     {
       field: "agentAdress",
       headerName: "Địa chỉ",
-      width: 120,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
     {
       field: "agentCity",
       headerName: "Tỉnh/thành",
-      width: 160,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
     },{
       field: "agentPhone",
       headerName: "Số ĐT",
-      width: 160,
+      width: 110,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
@@ -124,7 +124,7 @@ export default function AgentList({isLoggedIn}) {
     {
       field: "action",
       headerName: "Action",
-      width: 210,
+      width: 206,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {

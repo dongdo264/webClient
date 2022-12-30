@@ -76,14 +76,14 @@ export default function ProductLine({ isLoggedIn }) {
     {
       field: "createAt",
       headerName: "Ngày ra mắt",
-      width: 160,
+      width: 154,
       headerClassName: 'header-column',
       cellClassName: 'odd-column',
     },
     {
       field: "products.count",
       headerName: "Số sản phẩm",
-      width: 160,
+      width: 150,
       headerClassName: 'header-column',
       cellClassName: 'even-column',
     },
@@ -131,7 +131,7 @@ export default function ProductLine({ isLoggedIn }) {
               sx={{
                 height: 400,
                 width: '100%',
-                maxWidth: '1014px',
+                maxWidth: '1000px',
                 '& .header-column': {
                   backgroundColor: '#07a6f9a6',
                 },

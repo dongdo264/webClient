@@ -28,7 +28,7 @@ import HistoryImported from "./pages/factory/HistoryImported";
 import HistoryWarranty from "./pages/wcenter/HistoryWarranty";
 import FaultyProduct from "./pages/productList/FaultyProduct";
 import FactoryHome from "./pages/home/FactoryHome";
-
+import AgentHome from "./pages/home/AgentHome";
 
 function App() {
   const user = useSelector((state) => state.auth.login.currentUser);
@@ -57,7 +57,7 @@ function App() {
               <Topbar isLogin={isLogin}/>
               <div className="content">
               <Switch>
-                <Route path="/admin" exact>
+                <Route path="/admin/analyz" exact>
                   <Home isLoggedIn={isLogin} role={role}/>
                 </Route>
                 <Route path="/admin/agents" >
@@ -81,14 +81,17 @@ function App() {
                 <Route path="/admin/productlines">
                   <ProductLine isLoggedIn={isLogin}/>
                 </Route>
+                <Route path="/agent/analyz">
+                  <AgentHome  isLoggedIn={isLogin} role={role}/>
+                </Route>
                 <Route path="/agent/products">
-                  <Order />
+                  <Order   isLoggedIn={isLogin} role={role}/>
                 </Route>
                 <Route path="/agent/orders">
-                  <OrderList />
+                  <OrderList  isLoggedIn={isLogin} role={role}/>
                 </Route>
                 <Route path="/factory/faultyproducts">
-                  <FaultyProduct />
+                  <FaultyProduct  isLoggedIn={isLogin} role={role}/>
                 </Route>
                 <Route path="/agent/productsaresold">
                   <ProductsAreSold  isLoggedIn={isLogin}/>

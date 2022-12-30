@@ -75,6 +75,9 @@ export default function NewProduct(props) {
                     status: props.data.status
                 }
                 setProductInputs(p);
+            } else {
+                setProductInputs(initValueProduct);
+                setProductDetailInputs(initValueProductDetail);
             }
         } else {
             document.getElementById("modalNewProduct").style.display = 'none';
@@ -210,12 +213,16 @@ export default function NewProduct(props) {
             console.log(productInputs);
             if (update.data.errCode === 0) {
                 alert("Cập nhật sản phẩm thành công!");
+                props.fetchData();
+                props.toggleModal();
             }
             return;
         }
         let submit = await createNewProduct(productInputs, productDetailInputs, avatar, token);
         if (submit.data.errCode === 0) {
             alert("Tạo sản phẩm mới thành công!!")
+            props.fetchData();
+                props.toggleModal();
         }
 
         }catch(err) {
@@ -257,7 +264,7 @@ export default function NewProduct(props) {
                             <div className="addProductItem">
                             <label>Dòng sản phẩm &nbsp;&nbsp;&nbsp;&nbsp;
                             <span className="errNewProduct">{errLine}</span></label>
-                            <select name="productLine" value={productInputs.productLine} onChange={handleOnChangeInputProduct} id="product-lines">
+                            <select name="productLine" value={productInputs.productLine} onChange={handleOnChangeInputProduct} id="product-lines" style={{height: '33px'}}>
                                 {productLine.map((item) => (
                                     <option value={item.productLine}>{item.productLine}</option>
                                 ))}
@@ -396,7 +403,7 @@ export default function NewProduct(props) {
                             </div>
                             <div className="addProductItem">
                             <label>Trạng thái</label>
-                            <select name="status" id="status" key="status" onChange={handleOnChangeInputProduct}>
+                            <select name="status" id="status" key="status" onChange={handleOnChangeInputProduct} style={{height: '33px'}}>
                                 <option value="Active" >Active</option>
                                 <option value="Inactive">Inactive</option>
                             </select>

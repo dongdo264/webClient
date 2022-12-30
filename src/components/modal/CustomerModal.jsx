@@ -109,6 +109,8 @@ export default function CustomerModal(props) {
                 let update = await updateCustomer(customerInputs, props.info.customerCode, token);
                 if (update.data.errCode === 0) {
                     alert("Cập nhật thông tin khách hàng thành công!");
+                    props.fetchData();
+                    props.toggleModal();
                     return;
                 }
             }
@@ -119,6 +121,9 @@ export default function CustomerModal(props) {
             let sell = await sellProducts(customerInputs.customerCode, props.data, token);
             if (sell.data.errCode === 0) {
                 alert("Chuyển sản phẩm cho khách hàng thành công!");
+                props.fetchData();
+                props.toggleModal();
+                return;
             }
         }catch(err) {
             console.log(err.response);

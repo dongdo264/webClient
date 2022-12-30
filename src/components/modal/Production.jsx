@@ -52,7 +52,8 @@ export default function Production(props) {
           const token = sessionStorage.getItem('accessToken');
           let res = await production(inputs, token);
           if (res.data.errCode === 0) {
-            alert("Tạo user thành công");
+            alert("Sản xuất thành công!");
+            props.toggleModal();
             setInputs(initValue);
           }
         } catch(err) {

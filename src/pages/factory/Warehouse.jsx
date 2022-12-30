@@ -31,10 +31,17 @@ export default function Warehouse(props) {
       res = await getAgentWarehouse(token);
     }
     let data_ = res.data.data;
+    let res_ = [];
     for (let i in data_) {
-      data_[i].id = parseInt(i) + 1;
+        data_[i].id = parseInt(i) + 1;
+        if (data_[i].sum > 0) {
+          res_.push(data_[i]);
+        }
     }
-    setData(data_);
+    for (let i in res_) {
+      res_[i].id = parseInt(i) + 1;
+    }
+    setData(res_);
     setLoading(false);
   }
 
@@ -94,7 +101,7 @@ export default function Warehouse(props) {
     {
       field: "productName",
       headerName: "Tên sản phẩm",
-      width: 300,
+      width: 250,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
@@ -107,8 +114,8 @@ export default function Warehouse(props) {
     },
     {
       field: "quantity",
-      headerName: "Số lượng đặt hàng",
-      width: 190,
+      headerName: "SL đặt hàng",
+      width: 160,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
@@ -121,7 +128,7 @@ export default function Warehouse(props) {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 180,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
@@ -170,8 +177,8 @@ export default function Warehouse(props) {
     },
     {
       field: "sum",
-      headerName: "Số lượng trong kho",
-      width: 190,
+      headerName: "SL trong kho",
+      width: 160,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
@@ -219,7 +226,7 @@ export default function Warehouse(props) {
             width: '100%',
             display: displayOrder,
             mb: 20,
-            maxWidth: '1066px',
+            maxWidth: '1000px',
             '& .header-column': {
               backgroundColor: '#07a6f9a6',
             },
@@ -298,11 +305,13 @@ export default function Warehouse(props) {
         open={openCustomerModal}
         toggleModal={() => setOpenCustomerModal(!openCustomerModal)}
         data={order}
+        fetchData={() => fetchData()}
       />
       <ChooseCustomer
         open={openChoose}
         toggleModal={() => setOpenChoose(!openChoose)}
         data={order}
+        fetchData={() => fetchData()}
       />
     </>
   );

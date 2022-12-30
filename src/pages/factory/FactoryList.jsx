@@ -67,7 +67,7 @@ export default function FactoryList({isLoggedIn}) {
     {
       field: "factoryCode",
       headerName: "Mã nhà máy",
-      width: 150,
+      width: 140,
       style: { textAlign: 'center' },
       headerClassName: 'header-column',
       cellClassName: 'odd-column',
@@ -75,7 +75,7 @@ export default function FactoryList({isLoggedIn}) {
     {
       field: "factoryName",
       headerName: "Tên nhà máy",
-      width: 170,
+      width: 150,
       headerClassName: 'header-column',
       cellClassName: 'even-column',
     },
@@ -89,14 +89,14 @@ export default function FactoryList({isLoggedIn}) {
     {
       field: "factoryCity",
       headerName: "Tỉnh/thành",
-      width: 160,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'even-column',
     },
     {
       field: "factoryPhone",
       headerName: "Số ĐT",
-      width: 130,
+      width: 110,
       headerClassName: 'header-column',
       cellClassName: 'odd-column',
     },
@@ -113,7 +113,7 @@ export default function FactoryList({isLoggedIn}) {
     {
       field: "action",
       headerName: "Action",
-      width: 210,
+      width: 206,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {

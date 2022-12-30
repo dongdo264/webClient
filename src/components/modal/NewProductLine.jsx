@@ -95,7 +95,7 @@ export default function NewProductLine(props) {
                             </div>
                             <div className="addProductItem" id="updateCus">
                             <label>Trạng thái</label>
-                            <select name="status" id="status" key="status" onChange={handleOnChangeInputProduct}>
+                            <select name="status" id="status" key="status" onChange={handleOnChangeInputProduct} style={{height: '33px'}}>
                                 <option value="Active" >Active</option>
                                 <option value="Inactive">Inactive</option>
                             </select>
