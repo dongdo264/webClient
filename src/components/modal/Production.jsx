@@ -10,6 +10,8 @@ export default function Production(props) {
         color: '',
     }
     const [inputs, setInputs] = useState(initValue);
+    const [errQuantity, setErrQuantity] = useState('')
+    const [errColor, setErrColor] = useState('')
 
     const handleOnChange = event => {
         const { name, value } = event.target;
@@ -28,6 +30,22 @@ export default function Production(props) {
     const productionProduct = async (event) => {
     
         event.preventDefault();
+        let check = true;
+        if(inputs.quantity.length === 0) {
+          setErrQuantity("Bạn chưa nhập số lượng")
+          check = false;
+        } else {
+          setErrQuantity("")
+        }
+        if (!inputs.color) {
+          setErrColor("Bạn chưa chọn màu sắc!")
+          check = false;
+        } else {
+          setErrColor("");
+        }
+        if (!check) {
+          return;
+        }
         try {
           inputs.id = props.info.productCode;
         console.log(inputs)
@@ -51,18 +69,10 @@ export default function Production(props) {
           <h1 className="newUserTitle" >Mã sản phẩm : {props.info.productCode}</h1>
             <div className="productTop">
                 <form className="newUserForm" style={{pt: 0}}>
-                    {/* <div className="newUserItem">
-                    <label>Mã sản xuất</label>
-                    <input type="text"
-                    placeholder="Mã lô hàng" 
-                    key="batchCode"
-                    name="batchCode"
-                    value={inputs.batchCode || ''}
-                    onChange={handleOnChange}
-                    />
-                    </div> */}
                     <div className="newUserItem">
-                    <label>Số lượng</label>
+                    <label>Số lượng  &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="errNewProduct">{errQuantity}</span>
+                    </label>
                     <input type="text"
                     placeholder="Quantity" 
                     key="quantity"
@@ -72,7 +82,8 @@ export default function Production(props) {
                     />
                     </div>                   
                     <div className="newUserItem">
-                    <label>Màu sắc</label>
+                    <label>Màu sắc &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="errNewProduct">{errColor}</span></label>
                     <div className="newUserGender">
                         <input type="radio" 
                         name="color" 

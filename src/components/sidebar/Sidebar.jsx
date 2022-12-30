@@ -56,7 +56,7 @@ export default function Sidebar({ isLogin, role }) {
               <h1>ĐQD Bike</h1>
             </div>
             <div className="sidebarWrapper">
-              <div className="sidebarMenu">
+              {/* <div className="sidebarMenu">
                 <h3 className="sidebarTitle">Dashboard</h3>
                 <ul className="sidebarList">
                   <NavLink to="/admin" className="link" exact>
@@ -74,7 +74,7 @@ export default function Sidebar({ isLogin, role }) {
                     <h4>Sales</h4>
                   </li>
                 </ul>
-              </div>
+              </div> */}
               <div className="sidebarMenu">
                 <h3 className="sidebarTitle">Quick Menu</h3>
                 <ul className="sidebarList">

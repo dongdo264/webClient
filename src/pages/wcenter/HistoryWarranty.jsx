@@ -9,7 +9,7 @@ import { getAllWarrantyClaim } from "../../services/agentService";
 import WarrantyDetail from "../../components/modal/WarrantyDetail";
 
 
-export default function WarrantyList({isLoggedIn, role}) {
+export default function HistoryWarranty({isLoggedIn, role}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openWarrantyDetail, setOpenWarrantyDetail] = useState(false);
@@ -26,15 +26,14 @@ export default function WarrantyList({isLoggedIn, role}) {
       let res = await getAllWarrantyActions(token);
       data_ = res.data.data;
     }
-    let arr = [];
+    let res = [];
     for (let i in data_) {
       data_[i].id = parseInt(i);
-      if (!data_[i].finishAt) {
-        data_[i].finishAt = "N/A";
-        arr.push(data_[i]);
+      if (data_[i].status === "Hoàn tất" || data_[i].status === "Sản phẩm lỗi") {
+        res.push(data_[i]);
       }
     }
-    setData(arr);
+    setData(res);
     //console.log(res.data.data)
     setLoading(false);
   }
@@ -51,15 +50,11 @@ export default function WarrantyList({isLoggedIn, role}) {
       }
     }, [loading, data]);
 
-  
-  const handleDelete = (wcCode) => {
-    // setData(.filter((item) => item.wcCode !== wcCode));
-  };
 
-  const handleToggleDetail = (id) => {
-    setWarranty(data[parseInt(id)]);
-    setOpenWarrantyDetail(!openWarrantyDetail)
-  }
+//   const handleToggleDetail = (id) => {
+//     setWarranty(data[parseInt(id)]);
+//     setOpenWarrantyDetail(!openWarrantyDetail)
+//   }
 
   
   const columns = [
@@ -112,18 +107,10 @@ export default function WarrantyList({isLoggedIn, role}) {
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
-        if (role === 3) {
-          return (
-            <>
-              <button className="userListEdit" >View</button>
-            </>
-          );
-        }
+        
         return (
           <>
            <button className="userListEdit" >View</button>
-            <button className="userListEdit" onClick={() => handleToggleDetail(params.row.id)} >Edit</button>
-            
           </>
         );
       },
@@ -169,11 +156,6 @@ export default function WarrantyList({isLoggedIn, role}) {
         sx={{ textAlign: 'center' }}
       />
          </Box>
-         <WarrantyDetail 
-          open={openWarrantyDetail}
-          toggleModal={() => setOpenWarrantyDetail(!openWarrantyDetail)}
-          data={warranty}
-         />
   </div>
     ) : (
       <>

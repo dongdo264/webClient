@@ -7,6 +7,7 @@ import { getWarehouse } from "../../services/factoryService";
 import { getAgentWarehouse } from "../../services/agentService";
 import ChooseQuantity from "../../components/modal/ChooseQuantity";
 import CustomerModal from "../../components/modal/CustomerModal";
+import ChooseCustomer from "../../components/modal/ChooseCustomer";
 
 export default function Warehouse(props) {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,8 @@ export default function Warehouse(props) {
   const [order, setOrder] = useState([]);
   const [openModalQuantity, setOpenModalQuantity] = useState(false);
   const [infoAdd, setInfoAdd] = useState([]);
-  const [openCustomerModal, setOpenCustomerModal] = useState(false)
+  const [openCustomerModal, setOpenCustomerModal] = useState(false);
+  const [openChoose, setOpenChoose] = useState(false);
   const componentMounted = useRef(true)
 
   async function fetchData () {
@@ -187,12 +189,14 @@ export default function Warehouse(props) {
               <button className="productListEdit">View</button>
             </>
           );
+        } else if (params.row.sum > 0) {
+          return (
+            <>
+              <button className="productListEdit" onClick={() => toggleModal(params.row.id - 1)}>Thêm vào đơn</button>
+            </>
+          );
         }
-        return (
-          <>
-            <button className="productListEdit" onClick={() => toggleModal(params.row.id - 1)}>Thêm vào đơn</button>
-          </>
-        );
+        
       },
     },
   ];
@@ -236,6 +240,7 @@ export default function Warehouse(props) {
         sx={{ textAlign: 'center' }}
       />
       <button className="newUserButton" onClick={() => setOpenCustomerModal(!openCustomerModal)}>Tạo đơn hàng</button>
+      <button className="newUserButton" onClick={() => setOpenChoose(!openChoose)}>Khách hàng cũ</button>
     </Box>
       <Box
       sx={{
@@ -283,6 +288,11 @@ export default function Warehouse(props) {
       <CustomerModal 
         open={openCustomerModal}
         toggleModal={() => setOpenCustomerModal(!openCustomerModal)}
+        data={order}
+      />
+      <ChooseCustomer 
+        open={openChoose}
+        toggleModal={() => setOpenChoose(!openChoose)}
         data={order}
       />
     </>

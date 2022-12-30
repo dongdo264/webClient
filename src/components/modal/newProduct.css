@@ -161,8 +161,9 @@ select {
 }
 
 #customer-info {
+  margin: 0px;
   flex: 2;
-  font-size: 22px
+  font-size: 23px;
 }
 
 #product-info {
@@ -171,4 +172,12 @@ select {
 
 #productsold {
   width: 850px;
+}
+.errProductLine{
+  color: red;
+  font-size: 0.9rem;
+}
+.errNewProduct {
+  color: red;
+  font-size: 0.9rem;
 }

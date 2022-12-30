@@ -2,18 +2,6 @@ import axios from 'axios';
 
 const baseURL = "http://localhost:8080/";
 
-let createProduct = (product, productdetail, avatar, token) => {
-    return axios.post(`${baseURL}api-factory/createproduct`, {
-        id: Date.now() % 10000000,
-        product,
-        productdetail,
-        avatar  
-    }, {
-        headers: {
-            token
-        }
-    });
-}
 
 
 let production = (data, token) => {
@@ -68,7 +56,6 @@ let analyzQuantityProduced = (type, token) => {
 }
 
 export {
-    createProduct,
     production,
     getAllActions,
     getAllOrders,

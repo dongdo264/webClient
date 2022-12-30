@@ -89,7 +89,7 @@ export default function ProductSoldDetail(props) {
                                 </div>
                                 <div className="productInfoItem">
                                     <span className="productInfoKey">Bảo hành đến: </span>
-                                    <span className="productInfoValue">{props.info.dateOfPurchase}</span>
+                                    <span className="productInfoValue">{props.info.end}</span>
                                 </div>
                             </div>
                             

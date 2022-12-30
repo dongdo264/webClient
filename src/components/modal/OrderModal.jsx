@@ -9,6 +9,7 @@ export default function OrderModal(props) {
         color: '',
     }
     const [inputs, setInputs] = useState(initValue);
+    const [errQuantity, setErrQuantity] = useState('')
 
     const handleOnChange = event => {
         const { name, value } = event.target;
@@ -17,6 +18,16 @@ export default function OrderModal(props) {
 
     const handleSubmit = (event) => {
       event.preventDefault();
+      let check = true;
+      if(inputs.quantity.length === 0) {
+        setErrQuantity("Bạn chưa nhập số lượng")
+        check = false;
+      } else {
+        setErrQuantity("")
+      }
+      if (!check) {
+        return;
+      }
       inputs.productCode = props.info.productCode;
       inputs.productName = props.info.name;
       inputs.img = props.info.img;
@@ -43,7 +54,9 @@ export default function OrderModal(props) {
             <div className="productTop" style={{pt: 0}}>
                 <form className="newUserForm" style={{pt: 0}}>
                     <div className="newUserItem">
-                    <label>Số lượng</label>
+                    <label>Số lượng &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span className="errNewProduct">{errQuantity}</span>
+                    </label>
                     <input type="text"
                     placeholder="Quantity" 
                     key="quantity"

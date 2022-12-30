@@ -9,7 +9,6 @@ import AgentList from "./pages/agentList/AgentList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
 import ProductList from "./pages/productList/ProductList";
-import NewProduct from "./pages/newProduct/NewProduct";
 import FactoryList from "./pages/factory/FactoryList";
 import WcenterList from "./pages/wcenter/WcenterList";
 import Login from "./pages/login/Login";
@@ -24,6 +23,9 @@ import Customer from "./pages/customer/Customer";
 import ProductsAreSold from "./pages/productList/ProductsAreSold";
 import WarrantyList from "./pages/wcenter/WarrantyList";
 import SummonProducts from "./pages/productList/SummonProducts";
+import OrderList from "./pages/order/OrderList";
+import HistoryImported from "./pages/factory/HistoryImported";
+import HistoryWarranty from "./pages/wcenter/HistoryWarranty";
 import FaultyProduct from "./pages/productList/FaultyProduct";
 import FactoryHome from "./pages/home/FactoryHome";
 
@@ -82,6 +84,9 @@ function App() {
                 <Route path="/agent/products">
                   <Order />
                 </Route>
+                <Route path="/agent/orders">
+                  <OrderList />
+                </Route>
                 <Route path="/factory/faultyproducts">
                   <FaultyProduct />
                 </Route>
@@ -100,8 +105,8 @@ function App() {
                 <Route path="/agent/warranty">
                   <WarrantyList role={role} isLoggedIn={isLogin} />
                 </Route>
-                <Route path="/newproduct">
-                  <NewProduct />
+                <Route path="/agent/productsimported" exact>
+                  <HistoryImported isLoggedIn={isLogin} />
                 </Route>
                 <Route path="/factory/analyz" exact>
                   <FactoryHome isLoggedIn={isLogin} />
@@ -120,6 +125,9 @@ function App() {
                 </Route>
                 <Route path="/wc/warranty">
                   <WarrantyList isLoggedIn={isLogin} role={role} />
+                </Route>
+                <Route path="/wc/history">
+                  <HistoryWarranty isLoggedIn={isLogin} role={role} />
                 </Route>
                 <Route path="/wc/analyz" exact>
                   <WarrantyHome isLoggedIn={isLogin} role={role} />

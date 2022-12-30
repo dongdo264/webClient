@@ -33,6 +33,34 @@ export default function WcenterList({isLoggedIn}) {
       }
     }, [loading, wcList]);
 
+    const handleUpdateActive = async (wcCode) => {
+      try {
+        if (window.confirm("Cập nhật hoạt động đại lý này")) {
+          const token = sessionStorage.getItem('accessToken');
+          let res = await deleteUser("Active", wcCode, token);
+          if (res.data.errCode === 0) {
+            fetchData();
+            window.alert("Cập nhật thành công!!")
+          }
+        }
+      } catch(err) {
+        console.log(err.response);
+      }
+    };
+    const handleUpdateInActive = async (wcCode) => {
+      try {
+        if (window.confirm("Cập nhật ngừng hoạt động đại lý này")) {
+          const token = sessionStorage.getItem('accessToken');
+          let res = await deleteUser("Inactive", wcCode, token);
+          if (res.data.errCode === 0) {
+            fetchData();
+            window.alert("Cập nhật thành công!!")
+          }
+        }
+      } catch(err) {
+        console.log(err.response);
+      }
+    };
   
   const handleDelete = (wcCode) => {
     // setData(.filter((item) => item.wcCode !== wcCode));
@@ -66,12 +94,20 @@ export default function WcenterList({isLoggedIn}) {
       headerName: "Action",
       width: 130,
       renderCell: (params) => {
+        if (params.getValue(params.row.wcCode, "account").status === "Active") {
+          return (
+            <>
+              
+              <button className="userListEdit">View</button>
+              <button onClick={() => handleUpdateInActive(params.row.wcCode)} className="userListEdit">Inactive</button>
+            </>
+          );
+        }
         return (
           <>
-            <Link to={"/viewprofile/" + params.row.wcCode}>
-              <button className="userListEdit">Edit</button>
-            </Link>
-            <button onClick={() => handleDelete(params.row.wcCode)} className="userListEdit">Delete</button>
+            
+            <button className="userListEdit">View</button>
+            <button onClick={() => handleUpdateActive(params.row.wcCode)} className="userListEdit">Active</button>
           </>
         );
       },

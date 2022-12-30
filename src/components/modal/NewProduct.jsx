@@ -30,6 +30,20 @@ export default function NewProduct(props) {
     const [avatar, setAvatar] = useState("");
     const [productLine, setProductLine] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [errName, setErrName] = useState('')
+    const [errLine, setErrLine] = useState('')
+    const [errPrice, setErrPrice] = useState('')
+    const [errWarrantyPeriod, setErrWarrantPeriod] = useState('')
+    const [errSize, setErrSize] = useState('')
+    const [errFrame, setErrFrame] = useState('')
+    const [errShock, setErrShock] = useState('')
+    const [errRims, setErrRims] = useState('')
+    const [errTires, setErrTires] = useState('')
+    const [errHandlebar, setErrHandlebar] = useState('')
+    const [errSaddle, setErrSaddle] = useState('')
+    const [errPedals, setErrPedals] = useState('')
+    const [errBrakes, setErrBrakes] = useState('')
+    const [errWeight, setErrWeight] = useState('')
     useEffect(() => {
         if (!loading && productLine.length === 0) {
             fetchData();
@@ -95,6 +109,99 @@ export default function NewProduct(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let check = true;
+
+        if(productInputs.productName.length === 0) {
+        setErrName("*")
+        check = false;
+        } else {
+        setErrName("")
+        }
+        if(productInputs.productLine.length === 0) {
+        setErrLine("*")
+        check = false;
+        } else {
+        setErrLine("")
+        }
+        if(productInputs.productPrice.length === 0) {
+            setErrPrice("*")
+             check = false;
+        } else {
+            setErrPrice("")
+        }
+        if(productInputs.warrantyPeriod.length === 0) {
+           setErrWarrantPeriod("*")
+            check = false;
+        } else {
+          setErrWarrantPeriod("")
+        }
+        if(productDetailInputs.size.length === 0) {
+           setErrSize("*")
+             check = false;
+        } else {
+           setErrSize("")
+        }
+        if(productDetailInputs.frame.length === 0) {
+            setErrFrame("*")
+              check = false;
+        } else {
+            setErrFrame("")
+        }
+        if(productDetailInputs.shock.length === 0) {
+            setErrShock("*")
+              check = false;
+        } else {
+            setErrShock("")
+        }
+        if(productDetailInputs.rims.length === 0) {
+            setErrRims("*")
+              check = false;
+        } else {
+            setErrRims("")
+        }
+        if(productDetailInputs.tires.length === 0) {
+            setErrTires("*")
+              check = false;
+        } else {
+            setErrTires("")
+        }
+        if(productDetailInputs.handlebar.length === 0) {
+            setErrHandlebar("*")
+              check = false;
+        } else {
+            setErrHandlebar("")
+        }
+        if(productDetailInputs.saddle.length === 0) {
+            setErrSaddle("*")
+              check = false;
+        } else {
+            setErrSaddle("")
+        }
+        if(productDetailInputs.pedals.length === 0) {
+            setErrPedals("*")
+              check = false;
+        } else {
+            setErrPedals("")
+        }
+        if(productDetailInputs.brakes.length === 0) {
+            setErrBrakes("*")
+              check = false;
+        } else {
+            setErrBrakes("")
+        }
+        if(productDetailInputs.weight.length === 0) {
+            setErrWeight("*")
+              check = false;
+        } else {
+            setErrWeight("")
+        }
+
+        if (check === false) {
+            alert("Bạn đang nhập thiếu")
+        }
+        if (!check) {
+            return;
+        }
         try{
         const token = sessionStorage.getItem('accessToken');
         if (props.type === "edit") {
@@ -138,7 +245,7 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>Tên sản phẩm</label>
+                            <label>Tên sản phẩm &nbsp;&nbsp;&nbsp;&nbsp; <span className="errNewProduct">{errName}</span></label>
                             <input type="text" 
                             placeholder="Tên sản phẩm"
                             key="productName"
@@ -148,7 +255,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>Dòng sản phẩm</label>
+                            <label>Dòng sản phẩm &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errLine}</span></label>
                             <select name="productLine" value={productInputs.productLine} onChange={handleOnChangeInputProduct} id="product-lines">
                                 {productLine.map((item) => (
                                     <option value={item.productLine}>{item.productLine}</option>
@@ -156,7 +264,8 @@ export default function NewProduct(props) {
                             </select>
                             </div>
                             <div className="addProductItem">
-                            <label>Giá xuất xưởng</label>
+                            <label>Giá xuất xưởng &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errPrice}</span></label>
                             <input type="text" 
                             placeholder="Giá xuất xưởng"
                             key="productPrice"
@@ -166,7 +275,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>Thời gian bảo hành</label>
+                            <label>Thời gian bảo hành &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errWarrantyPeriod}</span></label>
                             <input type="text"
                             placeholder="123" 
                             key="warrantyPeriod"
@@ -176,7 +286,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>size</label>
+                            <label>size &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errSize}</span></label>
                             <input type="text"
                             placeholder="123" 
                             key="size"
@@ -186,7 +297,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>frame</label>
+                            <label>frame &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errFrame}</span></label>
                             <input type="text" 
                             placeholder="123" 
                             key="frame"
@@ -196,7 +308,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>shock</label>
+                            <label>shock &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errShock}</span></label>
                             <input type="text"
                             placeholder="123" 
                             key="shock"
@@ -206,7 +319,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>rims</label>
+                            <label>rims &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errRims}</span></label>
                             <input type="text" 
                             placeholder="123" 
                             key="rims"
@@ -216,7 +330,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>tires</label>
+                            <label>tires &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errTires}</span></label>
                             <input type="text" 
                             placeholder="123" 
                             key="tires"
@@ -226,7 +341,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>handlebar</label>
+                            <label>handlebar &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errHandlebar}</span></label>
                             <input type="text"
                             placeholder="123" 
                             key="handlebar"
@@ -236,7 +352,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>saddle</label>
+                            <label>saddle &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errSaddle}</span></label>
                             <input type="text" 
                             placeholder="123" 
                             key="saddle"
@@ -246,7 +363,8 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>pedals</label>
+                            <label>pedals &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errNewProduct">{errPedals}</span></label>
                             <input type="text"
                             placeholder="123"
                             key="pedals"
@@ -256,7 +374,8 @@ export default function NewProduct(props) {
                                 />
                             </div>
                             <div className="addProductItem">
-                            <label>brakes</label>
+                            <label>brakes &nbsp;&nbsp;&nbsp;&nbsp; <span className="errNewProduct">{errBrakes}</span></label>
+                            
                             <input type="text"
                             placeholder="123" 
                             key="brakes"
@@ -266,7 +385,7 @@ export default function NewProduct(props) {
                             />
                             </div>
                             <div className="addProductItem">
-                            <label>weight</label>
+                            <label>weight &nbsp;&nbsp;&nbsp;&nbsp; <span className="errNewProduct">{errWeight}</span></label>
                             <input type="text"
                             placeholder="123"
                             key="weight"
