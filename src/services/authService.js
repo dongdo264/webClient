@@ -12,13 +12,13 @@ let login = async (user, dispatch, history, setErr) => {
         dispatch(loginSuccess(res.data));
         sessionStorage.setItem('accessToken', 'Bearer ' + res.data.token);
         if (res.data.role === 10) {
-            history.push("/admin");
+            history.push("/admin/analyz");
         } else if (res.data.role === 1) {
             history.push("/factory/analyz");
         } else if (res.data.role === 2) {
             history.push("/wc/analyz");
         } else if (res.data.role === 3) {
-            history.push("/agent");
+            history.push("/agent/analyz");
         }
     }catch(err) {
         setErr();

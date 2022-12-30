@@ -65,7 +65,6 @@ export default function WarrantyHome({ isLoggedIn }) {
     {isLoggedIn ? (
       <div className="home" style={{flex: 4}}>
         
-      <FeaturedInfo />
       
       <div className="chart">
       <h3 className="chartTitle">Phân tích số lượng sản phẩm bảo hành</h3>

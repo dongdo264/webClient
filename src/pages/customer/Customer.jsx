@@ -86,7 +86,7 @@ export default function Customer({isLoggedIn}) {
     {
       field: "customerName",
       headerName: "Tên khách hàng",
-      width: 200,
+      width: 170,
       headerClassName: 'header-column',
       cellClassName: 'even-column',
       renderCell: (params) => {
@@ -101,7 +101,7 @@ export default function Customer({isLoggedIn}) {
     { 
       field: "dob", 
       headerName: "Ngày sinh", 
-      width: 140,
+      width: 120,
       headerClassName: 'header-column',
       cellClassName: 'odd-column' 
     },
@@ -122,14 +122,14 @@ export default function Customer({isLoggedIn}) {
     {
       field: "email",
       headerName: "Email",
-      width: 160,
+      width: 140,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
     },
     {
       field: "action",
       headerName: "Action",
-      width: 184,
+      width: 200,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
@@ -155,7 +155,7 @@ export default function Customer({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '1043px',
+        maxWidth: '1000px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },
@@ -197,6 +197,7 @@ export default function Customer({isLoggedIn}) {
           toggleModal={() => setOpenEdit(!openEdit)}
           info={infoCustomer}
           type={"edit"}
+          fetchData={() => fetchData()}
          />
       </div>  
 

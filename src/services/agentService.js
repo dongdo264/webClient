@@ -23,6 +23,14 @@ let sellProducts = (customerCode, data, token) => {
     });
 }
 
+let analyz = (type, token) => {
+    return axios.get(`${baseURL}api-agent/analyz?type=${type}`, {
+        headers: {
+            token
+        }
+    });
+}
+
 
 
 let getProductsAreSold = (token) => {
@@ -102,5 +110,6 @@ export {
    updateStatusProduct,
    updateCustomerProduct,
    getAllProductsImported,
-   backToFactory
+   backToFactory,
+   analyz
 }

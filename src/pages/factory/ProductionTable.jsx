@@ -75,7 +75,7 @@ export default function ProductionTable() {
     {
       field: "status",
       headerName: "Status",
-      width: 114,
+      width: 126,
       headerClassName: 'header-column',
       cellClassName: 'odd-column',
     },
@@ -102,7 +102,7 @@ export default function ProductionTable() {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '978px',
+        maxWidth: '1000px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

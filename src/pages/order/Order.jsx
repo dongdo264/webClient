@@ -116,7 +116,7 @@ export default function Order() {
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
-      width: 156,
+      width: 160,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
     },
@@ -138,7 +138,7 @@ export default function Order() {
     {
       field: "color",
       headerName: "Màu sắc",
-      width: 124,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
     },
@@ -152,7 +152,7 @@ export default function Order() {
     {
       field: "action",
       headerName: "Action",
-      width: 180,
+      width: 220,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
@@ -182,7 +182,7 @@ export default function Order() {
     {
       field: "productName",
       headerName: "Tên sản phẩm",
-      width: 200,
+      width: 180,
       headerClassName: 'header-column',
       cellClassName: 'even-column',
       renderCell: (params) => {
@@ -197,28 +197,28 @@ export default function Order() {
     {
       field: "productLine",
       headerName: "Dòng sản phẩm",
-      width: 180,
+      width: 140,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
     {
       field: "status",
       headerName: "Status",
-      width: 120,
+      width: 110,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
     },
     {
       field: "warrantyPeriod",
       headerName: "Bảo hành",
-      width: 140,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
     {
       field: "action",
       headerName: "Action",
-      width: 316,
+      width: 320,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
@@ -261,7 +261,7 @@ export default function Order() {
             width: '100%',
             display: displayButton,
             mb: 20,
-            maxWidth: '939px',
+            maxWidth: '1000px',
             '& .header-column': {
               backgroundColor: '#07a6f9a6',
             },
@@ -297,7 +297,7 @@ export default function Order() {
           sx={{
             height: 400,
             width: '100%',
-            maxWidth: '1065px',
+            maxWidth: '1000px',
             '& .header-column': {
               backgroundColor: '#07a6f9a6',
             },

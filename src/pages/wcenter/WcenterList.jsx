@@ -71,7 +71,7 @@ export default function WcenterList({isLoggedIn}) {
     { 
       field: "wcCode", 
       headerName: "Mã trung tâm", 
-      width: 160, 
+      width: 140, 
       style: { textAlign: 'center' },
       headerClassName: 'header-column',
       cellClassName: 'odd-column', 
@@ -79,7 +79,7 @@ export default function WcenterList({isLoggedIn}) {
     { 
       field: "wcName", 
       headerName: "Tên trung tâm", 
-      width: 160,
+      width: 150,
       headerClassName: 'header-column',
       cellClassName: 'even-column', 
     },
@@ -93,14 +93,14 @@ export default function WcenterList({isLoggedIn}) {
     {
       field: "wcCity",
       headerName: "Tỉnh/thành",
-      width: 160,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'even-column', 
     },
     {
       field: "wcPhone",
       headerName: "Số ĐT",
-      width: 130,
+      width: 110,
       headerClassName: 'header-column',
       cellClassName: 'odd-column', 
     },
@@ -169,7 +169,7 @@ export default function WcenterList({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '1082px',
+        maxWidth: '1000px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

@@ -111,7 +111,7 @@ export default function ProductList(props) {
     {
       field: "productName",
       headerName: "Tên sản phẩm",
-      width: 320,
+      width: 242,
       headerClassName: 'header-column name-column',
       cellClassName: 'even-column',
       renderCell: (params) => {
@@ -125,7 +125,7 @@ export default function ProductList(props) {
     },
     { field: "createAt", 
       headerName: "Ngày ra mắt", 
-      width: 150,
+      width: 120,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
@@ -139,7 +139,7 @@ export default function ProductList(props) {
     {
       field: "warrantyPeriod",
       headerName: "Bảo hành",
-      width: 136,
+      width: 100,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
@@ -197,7 +197,7 @@ export default function ProductList(props) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '1135px',
+        maxWidth: '1000px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },
@@ -266,6 +266,7 @@ export default function ProductList(props) {
           toggleModal={() => setOpenAdd(!openAdd)}
           data={info}
           type={type}
+          fetchData={() => fetchData()}
       /> 
     </>
   );

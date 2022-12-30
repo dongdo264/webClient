@@ -31,11 +31,15 @@ export default function WarrantyDetail(props) {
         let send = await sendProductToAgent(props.data, token);
         if (send.data.errCode === 0) {
             alert("Đã trả lại sản phẩm về đại lý");
+            props.fetchData();
+            props.toggleModal();
         }
       } else if (status === 'Sản phẩm lỗi') {
         let send = await sendProductToFactory(props.data, token);
         if (send.data.errCode === 0) {
             alert("Đã trả lại sản phẩm về nhà máy");
+            props.fetchData();
+            props.toggleModal();
         }
       }
       

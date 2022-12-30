@@ -3,7 +3,7 @@ import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
 import "./home.css";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import { analyzQuantityProduced } from "../../services/factoryService";
+import { analyz } from "../../services/agentService";
 import React from "react";
 import {
     LineChart,
@@ -17,7 +17,7 @@ import {
   Legend,
   ResponsiveContainer
 } from "recharts";
-export default function FactoryHome({ isLoggedIn }) {
+export default function AgentHome({ isLoggedIn }) {
   const user = useSelector((state) => state.auth.login.currentUser);
   const [data, setData] = useState([]);
   const [type, setType] = useState('month');
@@ -26,7 +26,7 @@ export default function FactoryHome({ isLoggedIn }) {
   async function fetchData () {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
-    let res = await analyzQuantityProduced(type, token);
+    let res = await analyz(type, token);
     console.log(res.data.data)
     setData(res.data.data);
     setLoading(false);
@@ -58,8 +58,10 @@ export default function FactoryHome({ isLoggedIn }) {
     {isLoggedIn ? (
       <div className="home" style={{flex: 4}}>
         
+      {/* <FeaturedInfo /> */}
+      
       <div className="chart">
-      <h3 className="chartTitle">Phân tích số lượng sản phẩm sản xuất</h3>
+      <h3 className="chartTitle">Phân tích số lượng sản phẩm bán ra</h3>
       <ResponsiveContainer width="100%" aspect={4 / 1}>
         <LineChart
         width="100%"
@@ -79,10 +81,17 @@ export default function FactoryHome({ isLoggedIn }) {
         <Legend />
         <Line
           type="monotone"
-          dataKey="sum"
+          dataKey="imported"
+          stroke="blue"
+          strokeDasharray="5 5"
+          name="Số lượng nhập về"
+        />
+        <Line
+          type="monotone"
+          dataKey="sold"
           stroke="green"
           strokeDasharray="5 5"
-          name="Số lượng sản xuất"
+          name="Số lượng bán ra"
         />
       </LineChart>
       </ResponsiveContainer>
@@ -92,6 +101,7 @@ export default function FactoryHome({ isLoggedIn }) {
             <button className="userListEdit" onClick={() => handleChangeTypeAnalyz("quarter")} >Quý</button>
             <button className="userListEdit" onClick={() => handleChangeTypeAnalyz("year")}>Năm</button>
       </div>
+      
     </div>
     ) : (
       <>

@@ -85,7 +85,7 @@ export default function ProductsAreSold({isLoggedIn}) {
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
-      width: 156,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'even-column',
       valueGetter: (params) => {
@@ -96,7 +96,7 @@ export default function ProductsAreSold({isLoggedIn}) {
     {
       field: "dateOfPurchase",
       headerName: "Ngày mua hàng",
-      width: 172,
+      width: 140,
       headerClassName: 'header-column',
       cellClassName: 'odd-column',
     },
@@ -147,7 +147,7 @@ export default function ProductsAreSold({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '1047px',
+        maxWidth: '1000px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

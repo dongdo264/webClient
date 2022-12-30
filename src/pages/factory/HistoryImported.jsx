@@ -57,42 +57,42 @@ export default function HistoryImported() {
     {
       field: "batchCode",
       headerName: "Mã lô hàng",
-      width: 142,
+      width: 150,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
-      width: 156,
+      width: 160,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
     },
     {
       field: "quantityImported",
       headerName: "Số lượng nhập",
-      width: 164,
+      width: 160,
       headerClassName: 'header-column',
       cellClassName: 'odd-column',
     },
     {
       field: "quantitySold",
       headerName: "Đã bán",
-      width: 118,
+      width: 130,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
     },
     {
       field: "createAt",
       headerName: "Ngày nhập",
-      width: 140,
+      width: 150,
       headerClassName: 'header-column',
       cellClassName: 'odd-column',
     },
     {
       field: "action",
       headerName: "Action",
-      width: 176,
+      width: 220,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
@@ -122,7 +122,7 @@ export default function HistoryImported() {
           sx={{
             height: 400,
             width: '100%',
-            maxWidth: '915px',
+            maxWidth: '1000px',
             '& .header-column': {
               backgroundColor: '#07a6f9a6',
             },

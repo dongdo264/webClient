@@ -122,14 +122,14 @@ export default function TransferProduct() {
     {
       field: "status",
       headerName: "Status",
-      width: 114,
+      width: 220,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
     },
     {
       field: "action",
       headerName: "Action",
-      width: 184,
+      width: 216,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
@@ -163,7 +163,7 @@ export default function TransferProduct() {
           sx={{
             height: 400,
             width: '100%',
-            maxWidth: '856px',
+            maxWidth: '1000px',
             '& .header-column': {
               backgroundColor: '#07a6f9a6',
             },

@@ -4,7 +4,7 @@ const baseURL = "http://localhost:8080/";
 
 let createNewUser = (data, token) => {
     return axios.post(`${baseURL}api-admin/user`, {
-        id: Math.floor(Math.random() * 10000000000),
+        id: Math.floor(Math.random() * 10000000),
         username: data.username,
         password: data.password,
         name: data.name,
@@ -33,7 +33,7 @@ let deleteUser = (status, id, token) => {
 
 let createNewProduct = (product, productdetail, avatar, token) => {
     return axios.post(`${baseURL}api-admin/product`, {
-        id: Math.floor(Math.random() * 100000000000),
+        id: Math.floor(Math.random() * 1000000000),
         product,
         productdetail,
         avatar  
