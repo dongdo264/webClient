@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { getAllWarrantyActions } from '../../services/warrantyService';
 import { getAllWarrantyClaim } from "../../services/agentService";
 import WarrantyDetail from "../../components/modal/WarrantyDetail";
+import { Visibility } from "@mui/icons-material";
 
 
 export default function HistoryWarranty({isLoggedIn, role}) {
@@ -103,14 +104,23 @@ export default function HistoryWarranty({isLoggedIn, role}) {
     {
       field: "action",
       headerName: "Action",
-      width: 130,
+      width: 116,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         
         return (
           <>
-           <button className="userListEdit" >View</button>
+           <button 
+              className="userListEdit view_btn"
+              style={{
+                'position':'relative',
+                'left':'50%',
+                'transform':'translateX(-50%)',
+              }}
+            >
+              <Visibility className="userEdit_icon"/>View
+           </button>
           </>
         );
       },
@@ -125,7 +135,7 @@ export default function HistoryWarranty({isLoggedIn, role}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '1005px',
+        maxWidth: '991px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

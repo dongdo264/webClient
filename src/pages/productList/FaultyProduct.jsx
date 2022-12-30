@@ -34,27 +34,47 @@ export default function FaultyProduct() {
 //   }
 
   const columns = [
-    { field: "id", headerName: "STT", width: 110 },
-    { field: "model", headerName: "Model", width: 110 },
+    { 
+      field: "id", 
+      headerName: "STT", 
+      width: 100,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
+    },
+    { 
+      field: "model", 
+      headerName: "Model", 
+      width: 120,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
+    },
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
       width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
     },
     {
       field: "wcCode",
       headerName: "Mã trung tâm",
-      width: 150,
+      width: 168,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
     },
     {
         field: "createAt",
         headerName: "Ngày gửi",
-        width: 150,
+        width: 158,
+        headerClassName: 'header-column',
+        cellClassName: 'odd-column',
     },
     {
       field: "status",
       headerName: "Status",
-      width: 120,
+      width: 114,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
     },
   ];
 
@@ -66,6 +86,19 @@ export default function FaultyProduct() {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '835px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

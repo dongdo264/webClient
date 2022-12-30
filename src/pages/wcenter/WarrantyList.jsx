@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { getAllWarrantyActions } from '../../services/warrantyService';
 import { getAllWarrantyClaim } from "../../services/agentService";
 import WarrantyDetail from "../../components/modal/WarrantyDetail";
+import { Visibility, Edit } from '@mui/icons-material';
 
 
 export default function WarrantyList({isLoggedIn, role}) {
@@ -108,22 +109,27 @@ export default function WarrantyList({isLoggedIn, role}) {
     {
       field: "action",
       headerName: "Action",
-      width: 130,
+      width: 186,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         if (role === 3) {
           return (
             <>
-              <button className="userListEdit" >View</button>
+              <button style={{'position':'relative', 'transform':'translateX(-50%)', 'left': '50%'}} className="userListEdit view_btn">
+                <Visibility className="userEdit_icon"/>View
+              </button>
             </>
           );
         }
         return (
           <>
-           <button className="userListEdit" >View</button>
-            <button className="userListEdit" onClick={() => handleToggleDetail(params.row.id)} >Edit</button>
-            
+           <button className="userListEdit view_btn">
+            <Visibility className="userEdit_icon"/>View
+           </button>
+            <button className="userListEdit edit_btn" onClick={() => handleToggleDetail(params.row.id)} >
+              <Edit className="userEdit_icon"/>Edit
+            </button>
           </>
         );
       },
@@ -138,7 +144,7 @@ export default function WarrantyList({isLoggedIn, role}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '1005px',
+        maxWidth: '1059px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

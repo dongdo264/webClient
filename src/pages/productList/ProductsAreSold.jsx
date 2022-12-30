@@ -5,6 +5,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import { getProductsAreSold } from "../../services/agentService";
 import RequestWarranty from '../../components/modal/RequestWarranty';
 import ProductSoldDetail from '../../components/modal/ProductSoldDetail';
+import { Visibility, AddModerator } from '@mui/icons-material';
 
 export default function ProductsAreSold({isLoggedIn}) {
   const [data, setData] = useState([]);
@@ -109,21 +110,27 @@ export default function ProductsAreSold({isLoggedIn}) {
     {
       field: "action",
       headerName: "Action",
-      width: 158,
+      width: 214,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         if (params.row.status !== 'Active') {
           return (
             <>
-              <button className="userListEdit" onClick={() => handleOpenModalProduct(params.row.id)} >View</button>
+              <button className="userListEdit view_btn" onClick={() => handleOpenModalProduct(params.row.id)}>
+                <Visibility className="userEdit_icon"/>View
+              </button>
             </>
           );
         }
         return (
           <>
-            <button className="userListEdit" onClick={() => handleOpenModalProduct(params.row.id)} >View</button>
-            <button className="userListEdit" onClick={() => handleOpenModal(params.row.id)} >Bảo hành</button>
+            <button className="userListEdit view_btn" onClick={() => handleOpenModalProduct(params.row.id)} >
+              <Visibility className="userEdit_icon"/>View
+            </button>
+            <button className="userListEdit addVerify_btn" onClick={() => handleOpenModal(params.row.id)}>
+              <AddModerator className="userEdit_icon"/>Bảo hành
+            </button>
           </>
         );
         
@@ -140,7 +147,7 @@ export default function ProductsAreSold({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '992px',
+        maxWidth: '1047px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

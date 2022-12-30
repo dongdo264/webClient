@@ -9,6 +9,7 @@ import Production from "../../components/modal/Production";
 import { updateStatusProduct } from "../../services/agentService";
 import { Visibility } from "@material-ui/icons";
 import NewProduct from "../../components/modal/NewProduct";
+import { Edit, SettingsBackupRestore, MiscellaneousServices } from "@mui/icons-material";
 
 export default function ProductList(props) {
   const [loading, setLoading] = useState(false);
@@ -145,30 +146,42 @@ export default function ProductList(props) {
     {
       field: "action",
       headerName: "Action",
-      width: 156,
+      width: 300,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         if (props.role === 10) {
           return (
             <>
-              <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
-              <button className="productListEdit" onClick={() => toggleModalEdit(params.row.productCode)}>Edit</button>
-              <button className="productListEdit" onClick={() => confirmSummon(params.row.productCode)}>Triệu hồi</button>
+              <button className="productListEdit view_btn" onClick={() => toggleModal(params.row.productCode)}>
+                <Visibility className="pdLEdit_icon"/>View
+              </button>
+              <button className="productListEdit edit_btn" onClick={() => toggleModalEdit(params.row.productCode)}>
+                <Edit className="pdLEdit_icon"/>Edit
+              </button>
+              <button className="productListEdit backup_btn" onClick={() => confirmSummon(params.row.productCode)}>
+                <SettingsBackupRestore className="pdLEdit_icon"/>Triệu hồi
+              </button>
             </>
           );
         } else {
           if (params.row.status === "Active") {
             return (
               <>
-                <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
-                <button className="productListEdit" onClick={() => toggleModalProduction(params.row.productCode)}>Sản xuất</button>
+                <button className="productListEdit view_btn" onClick={() => toggleModal(params.row.productCode)}>
+                  <Visibility className="pdLEdit_icon"/>View
+                </button>
+                <button className="productListEdit product_btn" onClick={() => toggleModalProduction(params.row.productCode)}>
+                 <MiscellaneousServices className="pdlEdit_icon"/>Sản xuất
+                </button>
               </>
             );
           }
           return (
             <>
-              <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
+              <button className="productListEdit view_btn" onClick={() => toggleModal(params.row.productCode)}>
+                <Visibility className="pdLEdit_icon"/>View
+              </button>
             </>
           );
         }
@@ -184,7 +197,7 @@ export default function ProductList(props) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '992px',
+        maxWidth: '1135px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },
@@ -207,8 +220,21 @@ export default function ProductList(props) {
         Sản phẩm
         {addProduct ? (
           <>
-          <button className="agentAddButton" onClick={toggleModalAdd} >Create</button>
-          </>
+          <button
+            className="agentAddButton"
+            onClick={toggleModalAdd}
+            style={
+              {
+                'float': 'right',
+                'position': 'relative',
+                'top': '50%',
+                'transform': 'translateY(50%)'
+              }
+            }
+          >
+            Create
+          </button>
+        </>
         ) : (
           <>
           </>

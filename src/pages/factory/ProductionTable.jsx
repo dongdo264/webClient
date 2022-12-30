@@ -30,31 +30,54 @@ export default function ProductionTable() {
 //   }
 
   const columns = [
-    { field: "batchCode", headerName: "Mã lô", width: 110 },
+    {
+      field: "batchCode",
+      headerName: "Mã lô",
+      width: 108,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
+    },
     {
       field: "productCode",
       headerName: "Mã sản phẩm",
       width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
     },
     {
       field: "color",
       headerName: "Màu sắc",
       width: 150,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
     },
     {
-        field: "quantityProduced",
-        headerName: "Số lượng",
-        width: 150,
-    },{
+      field: "quantityProduced",
+      headerName: "Số lượng",
+      width: 150,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
+    }, 
+    {
       field: "quantitySold",
       headerName: "Đã bán",
-      width: 120,
+      width: 118,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
     },
-    { field: "MFG", headerName: "Ngày sản xuất", width: 160 },
+    { 
+      field: "MFG", 
+      headerName: "Ngày sản xuất", 
+      width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
+    },
     {
       field: "status",
       headerName: "Status",
-      width: 120,
+      width: 114,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
     },
     // {
     //   field: "action",
@@ -79,6 +102,19 @@ export default function ProductionTable() {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '978px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

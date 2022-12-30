@@ -7,6 +7,7 @@ import RequestWarranty from '../../components/modal/RequestWarranty';
 import ProductSoldDetail from '../../components/modal/ProductSoldDetail';
 import UpdateWarrantyDetail from '../../components/modal/UpdateWarrantyDetail';
 import { updateStatusProduct } from '../../services/agentService';
+import { Visibility, Edit } from '@mui/icons-material';
 
 export default function SummonProducts({isLoggedIn}) {
   const [data, setData] = useState([]);
@@ -119,15 +120,19 @@ export default function SummonProducts({isLoggedIn}) {
     {
       field: "action",
       headerName: "Action",
-      width: 130,
+      width: 184,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         
           return (
             <>
-              <button className="userListEdit" onClick={() => handleOpenModalProduct(params.row.id)} >View</button>
-              <button className="userListEdit" onClick={() => handleOpenModalUpdate(params.row.id)} >Edit</button>
+              <button className="userListEdit view_btn" onClick={() => handleOpenModalProduct(params.row.id)} >
+                <Visibility className="userEdit_icon"/>View
+              </button>
+              <button className="userListEdit edit_btn" onClick={() => handleOpenModalUpdate(params.row.id)} >
+                <Edit className="userEdit_icon"/>Edit
+              </button>
             </>
           );
      }
@@ -143,7 +148,7 @@ export default function SummonProducts({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '952px',
+        maxWidth: '1005px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

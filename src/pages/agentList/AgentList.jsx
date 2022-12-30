@@ -5,6 +5,7 @@ import { Box, Typography } from '@mui/material';
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { deleteUser } from "../../services/adminService";
 import { getAllAgents } from "../../services/userService";
+import { Visibility, Block, CheckCircle } from "@material-ui/icons";
 
 export default function AgentList({isLoggedIn}) {
   const [agentList, setAgentList] = useState([]);
@@ -123,24 +124,30 @@ export default function AgentList({isLoggedIn}) {
     {
       field: "action",
       headerName: "Action",
-      width: 130,
+      width: 210,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         if (params.getValue(params.row.agentCode, "account").status === "Active") {
           return (
             <>
-              
-              <button className="userListEdit">View</button>
-              <button onClick={() => handleUpdateInActive(params.row.agentCode)} className="userListEdit">Inactive</button>
+              <button className="userListEdit view_btn">
+                <Visibility className="userEdit_icon"/>View
+              </button>
+              <button onClick={() => handleUpdateInActive(params.row.agentCode)} className="userListEdit inactive_btn">
+                <Block className="userEdit_icon"/>Inactive
+              </button>
             </>
           );
         }
         return (
           <>
-            
-            <button className="userListEdit">View</button>
-            <button onClick={() => handleUpdateActive(params.row.agentCode)} className="userListEdit">Active</button>
+            <button className="userListEdit view_btn">
+                <Visibility className="userEdit_icon"/>View
+            </button>
+            <button onClick={() => handleUpdateActive(params.row.agentCode)} className="userListEdit active_btn">
+              <CheckCircle className="userEdit_icon"/> Active
+            </button>
           </>
         );
       },
@@ -155,7 +162,7 @@ export default function AgentList({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '992px',
+        maxWidth: '1087px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

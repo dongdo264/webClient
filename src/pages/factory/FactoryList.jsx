@@ -6,6 +6,7 @@ import { Link, Redirect } from "react-router-dom";
 import { getAllFactories } from "../../services/userService";
 import { deleteUser } from "../../services/adminService";
 import { useRef } from "react";
+import { Visibility, Block, CheckCircle } from "@material-ui/icons";
 
 export default function FactoryList({isLoggedIn}) {
   const [factoryList, setFactoryList] = useState([]);
@@ -63,47 +64,79 @@ export default function FactoryList({isLoggedIn}) {
     };
   
   const columns = [
-    { field: "factoryCode", headerName: "Mã nhà máy", width: 150, style: { textAlign: 'center' }},
-    { field: "factoryName", headerName: "Tên nhà máy", width: 170 },
+    {
+      field: "factoryCode",
+      headerName: "Mã nhà máy",
+      width: 150,
+      style: { textAlign: 'center' },
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
+    },
+    {
+      field: "factoryName",
+      headerName: "Tên nhà máy",
+      width: 170,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
+    },
     {
       field: "factoryAdress",
       headerName: "Địa chỉ",
       width: 130,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
     },
     {
       field: "factoryCity",
       headerName: "Tỉnh/thành",
       width: 160,
-    },{
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
+    },
+    {
       field: "factoryPhone",
       headerName: "Số ĐT",
       width: 130,
-    },{
-        field: "status",
-        headerName: "Status",
-        width: 120,
-        valueGetter: (params) => {
-          return params.getValue(params.row.factoryCode, "account").status;
-        }
-    },{
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column',
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 120,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column',
+      valueGetter: (params) => {
+        return params.getValue(params.row.factoryCode, "account").status;
+      }
+    },
+    {
       field: "action",
       headerName: "Action",
-      width: 130,
+      width: 210,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         if (params.getValue(params.row.factoryCode, "account").status === "Active") {
           return (
             <>
-              
-              <button className="userListEdit">View</button>
-              <button onClick={() => handleUpdateInActive(params.row.factoryCode)} className="userListEdit">Inactive</button>
+              <button className="userListEdit view_btn">
+                <Visibility className="userEdit_icon" />View
+              </button>
+              <button onClick={() => handleUpdateInActive(params.row.factoryCode)} className="userListEdit inactive_btn">
+                <Block className="userEdit_icon"/>Inactive
+              </button>
             </>
           );
         }
         return (
           <>
-            
-            <button className="userListEdit">View</button>
-            <button onClick={() => handleUpdateActive(params.row.factoryCode)} className="userListEdit">Active</button>
+            <button className="userListEdit view_btn">
+              <Visibility className="userEdit_icon" />View
+            </button>
+            <button onClick={() => handleUpdateActive(params.row.factoryCode)} className="userListEdit active_btn">
+              <CheckCircle className="userEdit_icon"/> Active
+            </button>
           </>
         );
       },
@@ -118,6 +151,19 @@ export default function FactoryList({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '1087px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

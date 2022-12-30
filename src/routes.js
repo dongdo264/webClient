@@ -18,7 +18,8 @@ import {
     DirectionsBike,
     LocalShipping,
   } from "@material-ui/icons";
-import { Factory, PedalBike, Warehouse, WarehouseOutlined } from "@mui/icons-material";
+import { Factory, PedalBike, Warehouse, WarehouseOutlined, ManageHistory, Home } from "@mui/icons-material";
+import { Assignment } from "@material-ui/icons";
 
 export const adminRoutes = [
     {
@@ -57,7 +58,7 @@ export const adminRoutes = [
     {
       path: "/factory/analyz",
       name: "Home",
-      icon: PermIdentity,
+      icon: Home,
     },
     {
       path: "/factory/products",
@@ -119,19 +120,19 @@ export const adminRoutes = [
     {
       path: "/agent/productsimported",
       name: "Lịch sử nhập hàng",
-      icon: Warehouse,
+      icon: ManageHistory,
     },
     {
       path: "/agent/orders",
       name: "Đơn hàng",
-      icon: Warehouse,
+      icon: Assignment,
     },
   ];
   export const wcenterRoutes = [
     {
       path: "/wc/analyz",
       name: "Home",
-      icon: PermIdentity,
+      icon: Home,
     },
     {
       path: "/wc/warranty",
@@ -141,6 +142,6 @@ export const adminRoutes = [
     {
       path: "/wc/history",
       name: "Lịch sử",
-      icon: PermIdentity,
+      icon: ManageHistory,
     },
   ];

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { getAllWarrantyCenter } from "../../services/userService";
 import { deleteUser } from "../../services/adminService";
 import { useRef } from "react";
+import { Visibility, Block, CheckCircle } from "@mui/icons-material";
 
 export default function WcenterList({isLoggedIn}) {
   const [wcList, setwcList] = useState([]);
@@ -67,47 +68,79 @@ export default function WcenterList({isLoggedIn}) {
   };
   
   const columns = [
-    { field: "wcCode", headerName: "Mã trung tâm", width: 160, style: { textAlign: 'center' }},
-    { field: "wcName", headerName: "Tên trung tâm", width: 160 },
+    { 
+      field: "wcCode", 
+      headerName: "Mã trung tâm", 
+      width: 160, 
+      style: { textAlign: 'center' },
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column', 
+    },
+    { 
+      field: "wcName", 
+      headerName: "Tên trung tâm", 
+      width: 160,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column', 
+    },
     {
       field: "wcAdress",
       headerName: "Địa chỉ",
       width: 130,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column', 
     },
     {
       field: "wcCity",
       headerName: "Tỉnh/thành",
       width: 160,
-    },{
+      headerClassName: 'header-column',
+      cellClassName: 'even-column', 
+    },
+    {
       field: "wcPhone",
       headerName: "Số ĐT",
       width: 130,
-    },{
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column', 
+    },
+    {
         field: "status",
         headerName: "Status",
         width: 120,
+        headerClassName: 'header-column',
+        cellClassName: 'even-column', 
         valueGetter: (params) => {
           return params.getValue(params.row.wcCode, "account").status;
         }
-    },{
+    },
+    {
       field: "action",
       headerName: "Action",
-      width: 130,
+      width: 206,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column', 
       renderCell: (params) => {
         if (params.getValue(params.row.wcCode, "account").status === "Active") {
           return (
             <>
-              
-              <button className="userListEdit">View</button>
-              <button onClick={() => handleUpdateInActive(params.row.wcCode)} className="userListEdit">Inactive</button>
+              <button className="userListEdit view_btn">
+                <Visibility className="userEdit_icon"/>View
+              </button>
+              <button onClick={() => handleUpdateInActive(params.row.wcCode)} className="userListEdit inactive_btn">
+                <Block className="userEdit_icon"/> Inactive
+              </button>
             </>
           );
         }
         return (
           <>
-            
-            <button className="userListEdit">View</button>
-            <button onClick={() => handleUpdateActive(params.row.wcCode)} className="userListEdit">Active</button>
+            <button className="userListEdit view_btn">
+              <Visibility className="userEdit_icon"/>View
+            </button>
+            <button onClick={() => handleUpdateActive(params.row.wcCode)} className="userListEdit active_btn">
+              <CheckCircle /> Active
+            </button>
           </>
         );
       },
@@ -136,6 +169,19 @@ export default function WcenterList({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
+        maxWidth: '1082px',
+        '& .header-column': {
+          backgroundColor: '#07a6f9a6',
+        },
+        '& .odd-column': {
+          backgroundColor: '#e8ebf8',
+        },
+        '& .even-column': {
+          backgroundColor: '#fff',
+        },
+        '& .final-column': {
+          backgroundColor: "#fffbc2",
+        },
       }}
     >
       <Typography

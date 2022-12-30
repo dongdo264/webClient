@@ -1,5 +1,7 @@
 .productList{
-    flex: 4;
+  flex: 4;
+  padding-top: 20px;
+  padding-bottom: 80px;
 }
 
 .productListItem{
@@ -16,13 +18,54 @@
   }
 
 .productListEdit{
-    border: none;
-    border-radius: 10px;
-    padding: 5px 10px;
-    background-color: #3bb077;
-    color: white;
-    cursor: pointer;
-    margin-right: 20px;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  color: white;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.edit_btn {
+  background-color: #0035ff;
+}
+
+.view_btn {
+  background-color: #3bb077;
+}
+
+.backup_btn {
+  background-color: #b600ffd9;
+}
+
+.product_btn {
+  background-color: #606476;
+}
+
+.addChart_btn {
+  background-color: rgb(254, 0, 161);
+}
+
+.add_btn {
+  background-color: rgb(254, 0, 161);
+}
+
+.delete_btn {
+  background-color: #c82828;
+}
+
+.cancel_btn {
+  background-color: #e02a2a;
+}
+
+.return_btn {
+  background-color: brown;
+}
+
+.pdLEdit_icon {
+  margin-right: 5px;
 }
 
 .productListDelete{
@@ -44,4 +87,12 @@
     color: white;
     font-size: 16px;
     margin-right: 20px;
+  }
+
+  .MuiDataGrid-root .MuiDataGrid-cell {
+    text-align: center !important;
+  }
+  
+  .MuiDataGrid-root .MuiDataGrid-cell--textLeft {
+    text-align: center !important;
   }

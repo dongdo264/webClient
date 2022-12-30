@@ -1,14 +1,13 @@
-
 import { DataGrid } from "@material-ui/data-grid";
 import { Box, Typography } from '@mui/material';
 import { DeleteOutline } from "@material-ui/icons";
-import { useState, useEffect, useRef , useSelector } from "react";
+import { useState, useEffect, useRef, useSelector } from "react";
 import { getInfoProduct, getAllProducts } from "../../services/userService";
 import Modal from "../../components/modal/Modal";
 import OrderModal from "../../components/modal/OrderModal";
 import ImportModal from "../../components/modal/ImportModal";
 import { updateStatusProduct } from "../../services/agentService";
-
+import { Visibility, LibraryAdd, SettingsBackupRestore, Delete, Edit } from "@material-ui/icons";
 
 export default function Order() {
   const [loading, setLoading] = useState(false);
@@ -20,16 +19,16 @@ export default function Order() {
   const [order, setOrder] = useState([]);
   const [displayButton, setDisplay] = useState('none');
 
-  async function fetchData () {
+  async function fetchData() {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
     let res = await getAllProducts(token);
     let listUser = res.data.data;
-    
+
     for (let i in listUser) {
       listUser[i].id = parseInt(i);
       if (listUser[i].avatar) {
-        listUser[i].img = new Buffer(listUser[i].avatar, 'base64').toString('binary') 
+        listUser[i].img = new Buffer(listUser[i].avatar, 'base64').toString('binary')
       } else {
         listUser[i].img = '';
       }
@@ -37,7 +36,7 @@ export default function Order() {
     setData(listUser);
     setLoading(false);
   }
-  async function fetchInfoProduct (id) {
+  async function fetchInfoProduct(id) {
     const token = sessionStorage.getItem('accessToken');
     let res = await getInfoProduct(id, token);
     let data = res.data.data;
@@ -45,7 +44,7 @@ export default function Order() {
     data.productLine = data.productLine;
     data.img = '';
     if (data.avatar) {
-      data.img = new Buffer(data.avatar, 'base64').toString('binary') 
+      data.img = new Buffer(data.avatar, 'base64').toString('binary')
     }
     console.log(data);
     setInfo(data);
@@ -73,7 +72,7 @@ export default function Order() {
 
   const deleteItem = (item) => {
     let arr = order.filter((e) => {
-        return e.productCode !== item.productCode && e.color !== item.color
+      return e.productCode !== item.productCode && e.color !== item.color
     })
     setOrder(arr);
   }
@@ -93,30 +92,30 @@ export default function Order() {
 
   const confirmSummon = async (id) => {
     if (window.confirm(`Triệu hồi tất cả sản phẩm mã ${data[parseInt(id)].productCode} từ khách hàng?`)) {
-      try{
+      try {
         const token = sessionStorage.getItem('accessToken');
         let update = await updateStatusProduct(data[parseInt(id)].productCode, "Triệu hồi", token)
         if (update.data.errCode === 0) {
           alert("Đã thêm vào danh sách triệu hồi!");
         }
-      }catch(err) {
+      } catch (err) {
 
       }
-      
+
     }
   }
 
   const columnOrder = [
-    { 
-      field: "id", 
-      headerName: "STT", 
+    {
+      field: "id",
+      headerName: "STT",
       width: 100,
       headerClassName: 'header-column',
-      cellClassName: 'odd-column' 
+      cellClassName: 'odd-column'
     },
-    { 
-      field: "productCode", 
-      headerName: "Mã sản phẩm", 
+    {
+      field: "productCode",
+      headerName: "Mã sản phẩm",
       width: 156,
       headerClassName: 'header-column',
       cellClassName: 'even-column'
@@ -136,12 +135,12 @@ export default function Order() {
         );
       },
     },
-    { 
-      field: "color", 
-      headerName: "Màu sắc", 
+    {
+      field: "color",
+      headerName: "Màu sắc",
       width: 124,
       headerClassName: 'header-column',
-      cellClassName: 'even-column' 
+      cellClassName: 'even-column'
     },
     {
       field: "quantity",
@@ -153,14 +152,18 @@ export default function Order() {
     {
       field: "action",
       headerName: "Action",
-      width: 124,
+      width: 180,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         return (
           <>
-            <button className="productListEdit" onClick={() => deleteItem(params.row)}>Xóa</button>
-            <button className="productListEdit" onClick={() => toggleModalOrder(params.row.productCode)}>Sửa</button>
+            <button className="productListEdit delete_btn" onClick={() => deleteItem(params.row)}>
+              <Delete className="pdLEdit_icon" />Xóa
+            </button>
+            <button className="productListEdit edit_btn" onClick={() => toggleModalOrder(params.row.productCode)}>
+              <Edit className="pdLEdit_icon" />Sửa
+            </button>
           </>
         );
       },
@@ -168,10 +171,10 @@ export default function Order() {
   ];
 
   const columns = [
-    
-    { 
-      field: "productCode", 
-      headerName: "ID", 
+
+    {
+      field: "productCode",
+      headerName: "ID",
       width: 90,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
@@ -191,9 +194,9 @@ export default function Order() {
         );
       },
     },
-    { 
-      field: "productLine", 
-      headerName: "Dòng sản phẩm", 
+    {
+      field: "productLine",
+      headerName: "Dòng sản phẩm",
       width: 180,
       headerClassName: 'header-column',
       cellClassName: 'odd-column'
@@ -215,24 +218,34 @@ export default function Order() {
     {
       field: "action",
       headerName: "Action",
-      width: 240,
+      width: 316,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         if (params.row.status === "Inactive") {
           return (
             <>
-              <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
-              
-              <button className="productListEdit" onClick={() => confirmSummon(params.row.id)} >Triệu hồi</button>
+              <button className="productListEdit view_btn" onClick={() => toggleModal(params.row.productCode)}>
+                <Visibility className="pdLEdit_icon" />View
+              </button>
+
+              <button className="productListEdit backup_btn" onClick={() => confirmSummon(params.row.id)}>
+                <SettingsBackupRestore className="pdLEdit_icon" />Triệu hồi
+              </button>
             </>
           );
         }
         return (
           <>
-            <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
-            <button className="productListEdit" onClick={() => toggleModalOrder(params.row.productCode)}>Thêm</button>
-            <button className="productListEdit" onClick={() => confirmSummon(params.row.id)} >Triệu hồi</button>
+            <button className="productListEdit view_btn" onClick={() => toggleModal(params.row.productCode)}>
+              <Visibility className="pdLEdit_icon" />View
+            </button>
+            <button className="productListEdit add_btn" onClick={() => toggleModalOrder(params.row.productCode)}>
+              <LibraryAdd className="pdLEdit_icon" />Thêm
+            </button>
+            <button className="productListEdit backup_btn" onClick={() => confirmSummon(params.row.id)}>
+              <SettingsBackupRestore className="pdLEdit_icon" />Triệu hồi
+            </button>
           </>
         );
       },
@@ -242,98 +255,98 @@ export default function Order() {
   return (
     <>
       <div className="productList">
-      <Box
-      sx={{
-        height: 300,
-        width: '100%',
-        display: displayButton,
-        mb: 20,
-        maxWidth: '882px',
-        '& .header-column': {
-          backgroundColor: '#07a6f9a6',
-        },
-        '& .odd-column': {
-          backgroundColor: '#e8ebf8',
-        },
-        '& .even-column': {
-          backgroundColor: '#fff',
-        },
-        '& .final-column': {
-          backgroundColor: "#fffbc2",
-        },
-      }}
-    >
-      <Typography
-        variant="h3"
-        component="h3"
-        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
-      >
-        Đơn hàng
-      </Typography>
-      <DataGrid
-        columns={columnOrder}
-        rows={order}
-        getRowId={(row) => row.id}
-        pageSize={10}
-        sx={{ textAlign: 'center' }}
-      />
-      <button className="newUserButton" onClick={() => setOpenImport(!openImport)}>Tạo đơn hàng</button>
-  
-    </Box>
-      <Box
-      sx={{
-        height: 400,
-        width: '100%',
-        maxWidth: '988px',
-        '& .header-column': {
-          backgroundColor: '#07a6f9a6',
-        },
-        '& .odd-column': {
-          backgroundColor: '#e8ebf8',
-        },
-        '& .even-column': {
-          backgroundColor: '#fff',
-        },
-        '& .final-column': {
-          backgroundColor: "#fffbc2",
-        },
-      }}
-    >
-      <Typography
-        variant="h3"
-        component="h3"
-        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
-      >
-        Sản phẩm
-      </Typography>
-      <DataGrid
-        columns={columns}
-        rows={data}
-        getRowId={(row) => row.productCode}
-        //rowsPerPageOptions={[5, 10, 20]}
-        pageSize={10}
-        sx={{ textAlign: 'center' }}
-      />
-    </Box>
+        <Box
+          sx={{
+            height: 300,
+            width: '100%',
+            display: displayButton,
+            mb: 20,
+            maxWidth: '939px',
+            '& .header-column': {
+              backgroundColor: '#07a6f9a6',
+            },
+            '& .odd-column': {
+              backgroundColor: '#e8ebf8',
+            },
+            '& .even-column': {
+              backgroundColor: '#fff',
+            },
+            '& .final-column': {
+              backgroundColor: "#fffbc2",
+            },
+          }}
+        >
+          <Typography
+            variant="h3"
+            component="h3"
+            sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+          >
+            Đơn hàng
+          </Typography>
+          <DataGrid
+            columns={columnOrder}
+            rows={order}
+            getRowId={(row) => row.id}
+            pageSize={10}
+            sx={{ textAlign: 'center' }}
+          />
+          <button className="newUserButton" onClick={() => setOpenImport(!openImport)}>Tạo đơn hàng</button>
 
-    
-    </div>
-    <ImportModal
-      open={openImport}
-      info={order}
-      toggleModal={() => setOpenImport(!openImport)}
-    />
-    <Modal 
-      open={isOpenModal}
-      toggleModal={() => setOpenModel(!isOpenModal)}
-      info={info}
-    />
-    <OrderModal 
-      open={openOrder}
-      toggleModal={() => setOpenOrder(!openOrder)}
-      info={info}
-      addNewItem={(item) => addNewItem(item)}
-    />
+        </Box>
+        <Box
+          sx={{
+            height: 400,
+            width: '100%',
+            maxWidth: '1065px',
+            '& .header-column': {
+              backgroundColor: '#07a6f9a6',
+            },
+            '& .odd-column': {
+              backgroundColor: '#e8ebf8',
+            },
+            '& .even-column': {
+              backgroundColor: '#fff',
+            },
+            '& .final-column': {
+              backgroundColor: "#fffbc2",
+            },
+          }}
+        >
+          <Typography
+            variant="h3"
+            component="h3"
+            sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+          >
+            Sản phẩm
+          </Typography>
+          <DataGrid
+            columns={columns}
+            rows={data}
+            getRowId={(row) => row.productCode}
+            //rowsPerPageOptions={[5, 10, 20]}
+            pageSize={10}
+            sx={{ textAlign: 'center' }}
+          />
+        </Box>
+
+
+      </div>
+      <ImportModal
+        open={openImport}
+        info={order}
+        toggleModal={() => setOpenImport(!openImport)}
+      />
+      <Modal
+        open={isOpenModal}
+        toggleModal={() => setOpenModel(!isOpenModal)}
+        info={info}
+      />
+      <OrderModal
+        open={openOrder}
+        toggleModal={() => setOpenOrder(!openOrder)}
+        info={info}
+        addNewItem={(item) => addNewItem(item)}
+      />
     </>
   );
 }

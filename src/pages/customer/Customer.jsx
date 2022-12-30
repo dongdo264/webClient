@@ -5,6 +5,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import { getAllCustomers } from '../../services/customerService';
 import CustomerDetail from '../../components/modal/CustomerDetail';
 import CustomerModal from '../../components/modal/CustomerModal';
+import { Visibility, Edit } from '@material-ui/icons';
 
 export default function Customer({isLoggedIn}) {
   const [customers, setCustomers] = useState([]);
@@ -128,14 +129,18 @@ export default function Customer({isLoggedIn}) {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 184,
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
         return (
           <>
-            <button className="productListEdit" onClick={() => toggleOpenCustomerModal(params.row.id)} >View</button>
-            <button className="productListEdit" onClick={() => toggleModalEdit(params.row.id)}>Edit</button>
+            <button className="productListEdit view_btn" onClick={() => toggleOpenCustomerModal(params.row.id)}>
+              <Visibility className="pdLEdit_icon"/>View
+            </button>
+            <button className="productListEdit edit_btn" onClick={() => toggleModalEdit(params.row.id)}>
+              <Edit className="pdLEdit_icon"/>Edit
+            </button>
           </>
         );
       },
@@ -150,7 +155,7 @@ export default function Customer({isLoggedIn}) {
       sx={{
         height: 400,
         width: '100%',
-        maxWidth: '1006px',
+        maxWidth: '1043px',
         '& .header-column': {
           backgroundColor: '#07a6f9a6',
         },

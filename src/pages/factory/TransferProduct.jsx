@@ -2,11 +2,13 @@ import "../productList/productList.css"
 import { DataGrid } from "@material-ui/data-grid";
 import { Box, Typography } from '@mui/material';
 import { DeleteOutline } from "@material-ui/icons";
-import { useState, useEffect, useRef , useSelector } from "react";
+import { useState, useEffect, useRef, useSelector } from "react";
 import { getWarehouse, getAllOrders } from "../../services/factoryService";
 import { getInfoOrder } from "../../services/orderService";
 import TransferProducts from "../../components/modal/TransferProducts";
 import OrderDetail from "../../components/modal/OrderDetail";
+import { Visibility } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 
 export default function TransferProduct() {
   const [loading, setLoading] = useState(false);
@@ -21,7 +23,7 @@ export default function TransferProduct() {
   const [openModal, setOpenModal] = useState(false);
   const [infoOrder, setInfoOrder] = useState([]);
 
-  async function fetchData () {
+  async function fetchData() {
     setLoading(true);
     const token = sessionStorage.getItem('accessToken');
     let res = await getAllOrders(token);
@@ -35,7 +37,7 @@ export default function TransferProduct() {
     setLoading(false);
   }
 
-  async function fetchDataOrder (id) {
+  async function fetchDataOrder(id) {
     const token = sessionStorage.getItem('accessToken');
     let res = await getInfoOrder(id, token);
     let data = res.data.data;
@@ -46,21 +48,21 @@ export default function TransferProduct() {
     let check_ = true;
     for (let i in orderdetail_) {
       let exist = false;
-        for (let j in warehouse) {
-          if (warehouse[j].productCode === orderdetail_[i].productCode && warehouse[j].color === orderdetail_[i].color) {
-            orderdetail_[i].quantityInStock = warehouse[j].sum;
-            if (orderdetail_[i].quantity > warehouse[j].sum) {
-              check_ = false;
-            }
-            exist = true;
-            break;
+      for (let j in warehouse) {
+        if (warehouse[j].productCode === orderdetail_[i].productCode && warehouse[j].color === orderdetail_[i].color) {
+          orderdetail_[i].quantityInStock = warehouse[j].sum;
+          if (orderdetail_[i].quantity > warehouse[j].sum) {
+            check_ = false;
           }
-          
+          exist = true;
+          break;
         }
-        if (!exist) {
-          orderdetail_[i].quantityInStock = 0;
-          check_ = false;
-        }
+
+      }
+      if (!exist) {
+        orderdetail_[i].quantityInStock = 0;
+        check_ = false;
+      }
     }
     setCheck(check_);
     setOrderdetail(orderdetail_);
@@ -89,40 +91,65 @@ export default function TransferProduct() {
   }
 
   const columns = [
-    { field: "id", headerName: "STT", width: 130 },
-    { field: "orderNumber", headerName: "Mã đơn hàng", width: 200 },
+    {
+      field: "id",
+      headerName: "STT",
+      width: 100,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
+    },
+    {
+      field: "orderNumber",
+      headerName: "Mã đơn hàng",
+      width: 156,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
+    },
     {
       field: "agentCode",
       headerName: "Mã đại lý",
-      width: 200,
+      width: 130,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
-        field: "orderDate",
-        headerName: "Ngày yêu cầu",
-        width: 200,
-      },
+      field: "orderDate",
+      headerName: "Ngày yêu cầu",
+      width: 156,
+      headerClassName: 'header-column',
+      cellClassName: 'even-column'
+    },
     {
       field: "status",
       headerName: "Status",
-      width: 120,
-      
+      width: 114,
+      headerClassName: 'header-column',
+      cellClassName: 'odd-column'
     },
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 184,
+      headerClassName: 'header-column',
+      cellClassName: 'final-column',
       renderCell: (params) => {
         if (params.row.status === 'Pending' || params.row.status === 'Đang sản xuất') {
           return (
             <>
-              <button className="productListEdit" onClick={() => handleOpenModal(params.row.id)} >View</button>
-              <button className="productListEdit" onClick={() => toggleModalTransfer(params.row.orderNumber)} >Edit</button>
+              <button className="productListEdit view_btn" onClick={() => handleOpenModal(params.row.id)} >
+                <Visibility className="pdLEdit_icon" />View
+              </button>
+              <button className="productListEdit edit_btn" onClick={() => toggleModalTransfer(params.row.orderNumber)} >
+                <Edit className="pdLEdit_icon" />Edit
+              </button>
             </>
           );
         }
         return (
           <>
-            <button className="productListEdit" onClick={() => handleOpenModal(params.row.id)}>View</button>
+            <button className="productListEdit view_btn" onClick={() => handleOpenModal(params.row.id)} >
+              <Visibility className="pdLEdit_icon" />View
+            </button>          
           </>
         );
       },
@@ -132,46 +159,59 @@ export default function TransferProduct() {
   return (
     <>
       <div className="productList">
-      <Box
-      sx={{
-        height: 400,
-        width: '100%',
-      }}
-    >
-      <Typography
-        variant="h3"
-        component="h3"
-        sx={{ textAlign: 'center', mt: 3, mb: 3 }}
-      >
-       Đơn hàng
-      </Typography>
-      <DataGrid
-        columns={columns}
-        rows={data}
-        getRowId={(row) => row.orderNumber}
-        //rowsPerPageOptions={[5, 10, 20]}
-        pageSize={10}
-        sx={{ textAlign: 'center' }}
+        <Box
+          sx={{
+            height: 400,
+            width: '100%',
+            maxWidth: '856px',
+            '& .header-column': {
+              backgroundColor: '#07a6f9a6',
+            },
+            '& .odd-column': {
+              backgroundColor: '#e8ebf8',
+            },
+            '& .even-column': {
+              backgroundColor: '#fff',
+            },
+            '& .final-column': {
+              backgroundColor: "#fffbc2",
+            },
+          }}
+        >
+          <Typography
+            variant="h3"
+            component="h3"
+            sx={{ textAlign: 'center', mt: 3, mb: 3 }}
+          >
+            Đơn hàng
+          </Typography>
+          <DataGrid
+            columns={columns}
+            rows={data}
+            getRowId={(row) => row.orderNumber}
+            //rowsPerPageOptions={[5, 10, 20]}
+            pageSize={10}
+            sx={{ textAlign: 'center' }}
+          />
+        </Box>
+      </div>
+      <TransferProducts
+        open={openModalTransfer}
+        toggleModal={() => setOpenTransfer(!openModalTransfer)}
+        data={dataOrder}
+        agent={agent}
+        factory={factory}
+        orderdetail={orderdetail}
+        check={check}
       />
-    </Box>
-    </div>
-    <TransferProducts
-      open={openModalTransfer}
-      toggleModal={() => setOpenTransfer(!openModalTransfer)}
-      data={dataOrder}
-      agent={agent}
-      factory={factory}
-      orderdetail={orderdetail}
-      check={check}
-    />
-        <OrderDetail 
+      <OrderDetail
         open={openModal}
         toggleModal={() => setOpenModal(!openModal)}
         data={infoOrder}
         info={orderdetail}
-        // agent={agent}
-        // factory={factory}
-    />
+      // agent={agent}
+      // factory={factory}
+      />
     </>
   );
 }
