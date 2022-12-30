@@ -8,6 +8,7 @@ export default function ProductLineDetail(props) {
         status: '',
     }
     const [productInputs, setProductInputs] = useState(initValueProduct);
+    const [errTextDescription, setErrTextDescription] = useState('');
 
 
     useEffect(() => {
@@ -35,6 +36,14 @@ export default function ProductLineDetail(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let check = true;
+        if(productInputs.textDescription.length === 0) {
+            setErrTextDescription("Bạn chưa nhập mô tả sản phẩm")
+            check = false;
+        }
+        if (!check) {
+            return;
+        }
         try{
             const token = sessionStorage.getItem('accessToken');
             let update = await updateProductLine(productInputs.productLine, productInputs, token);
@@ -68,7 +77,9 @@ export default function ProductLineDetail(props) {
                                     <span>{props.data.productLine}</span>
                                     </div>
                                     <div className="addProductItem" id="updateCus">
-                                    <label>Mô tả</label>
+                                    <label>Mô tả &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span className="errProductLine">{errTextDescription}</span>
+                                    </label>
                                     <textarea type="text" 
                                     placeholder="Mô tả"
                                     key="textDescription"

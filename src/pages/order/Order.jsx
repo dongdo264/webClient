@@ -9,6 +9,7 @@ import OrderModal from "../../components/modal/OrderModal";
 import ImportModal from "../../components/modal/ImportModal";
 import { updateStatusProduct } from "../../services/agentService";
 
+
 export default function Order() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -218,6 +219,15 @@ export default function Order() {
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
+        if (params.row.status === "Inactive") {
+          return (
+            <>
+              <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
+              
+              <button className="productListEdit" onClick={() => confirmSummon(params.row.id)} >Triệu hồi</button>
+            </>
+          );
+        }
         return (
           <>
             <button className="productListEdit" onClick={() => toggleModal(params.row.productCode)}>View</button>
@@ -268,6 +278,7 @@ export default function Order() {
         sx={{ textAlign: 'center' }}
       />
       <button className="newUserButton" onClick={() => setOpenImport(!openImport)}>Tạo đơn hàng</button>
+  
     </Box>
       <Box
       sx={{

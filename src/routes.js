@@ -115,7 +115,17 @@ export const adminRoutes = [
       path: "/agent/summonproducts",
       name: "Triệu hồi sản phẩm",
       icon: PermIdentity,
-    }
+    },
+    {
+      path: "/agent/productsimported",
+      name: "Lịch sử nhập hàng",
+      icon: Warehouse,
+    },
+    {
+      path: "/agent/orders",
+      name: "Đơn hàng",
+      icon: Warehouse,
+    },
   ];
   export const wcenterRoutes = [
     {

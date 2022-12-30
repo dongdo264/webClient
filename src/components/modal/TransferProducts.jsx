@@ -1,49 +1,47 @@
 import React, { useState , useEffect, useSelector, useRef} from "react";
 import "./modal.css";
 import { transferProducts } from "../../services/orderService";
-
+import { updateOrder } from "../../services/orderService";
 export default function TransferProducts(props) {
-    // const [warehouse, setWarehouse] = useState([]);
-    // const [loading, setLoading] = useState(false);
-    // const [factorySelect, setFactoryChoice] = useState(null);
-    // const componentMounted = useRef(true)
-    // async function fetchData () {
-    //     setLoading(true);
-    //     const token = sessionStorage.getItem('accessToken');
-    //     try {
-    //       let res = await getWarehouse(token);
-    //       setWarehouse(res.data.data);
-    //       setLoading(false);
-    //     }catch(err) {
-    //       console.log(err.response);
-    //     }
-       
-    // }
 
-    // const handleOnChange = (event) => {
-    //     console.log(event.target.value)
-    //     setFactoryChoice(event.target.value);
-    //     console.log(factorySelect);
-    // };
-
+    const [status, setStatus] = useState(null);
     const handleSubmit = async (event) => {
       event.preventDefault();
-      if (!props.check) {
-        alert("Không đủ hàng!")
-        return;
-      } else {
-        const token = sessionStorage.getItem('accessToken');
-        let transfer = await transferProducts(props.data.orderNumber, token);
-        if (transfer.data.errCode === 0) {
-          alert(`Chuyển sản phẩm sang đại lý ${props.agent.agentName} thành công!`)
+      const token = sessionStorage.getItem('accessToken');
+      try {
+        if (status === "Đang sản xuất") {
+          let submit = await updateOrder(props.data.orderNumber, status, token);
+          if (submit.data.errCode === 0) {
+            alert("Cập nhật đơn hàng thành công!");
+          }
+        } else if (status === "Hủy, không đủ hàng") {
+          let submit = await updateOrder(props.data.orderNumber, status, token);
+          if (submit.data.errCode === 0) {
+            alert("Cập nhật đơn hàng thành công!");
+          }
+        } else if (status === "Chuyển hàng") {
+          if (!props.check) {
+            alert("Không đủ hàng!")
+            return;
+          } else {
+            
+            let transfer = await transferProducts(props.data.orderNumber, token);
+            if (transfer.data.errCode === 0) {
+              alert(`Chuyển sản phẩm sang đại lý ${props.agent.agentName} thành công!`)
+            }
+          }
         }
-      }
-    }
+        
 
-    
+      }catch(err) {
+
+      }
+      
+    }
     useEffect( () => {
         if(props.open) {
-            document.getElementById("modal-transfer").style.display = 'block';  
+            document.getElementById("modal-transfer").style.display = 'block';
+            setStatus(props.data.status);  
           } else {
             document.getElementById("modal-transfer").style.display = 'none';
         }
@@ -56,33 +54,6 @@ export default function TransferProducts(props) {
           <div className="modal-content">
           <h2 className="newUserTitle" >Chi tiết đơn hàng {props.data.orderNumber}</h2>
             <div className="productTop" style={{display: 'block'}}>
-            {/* <table className="import">
-                    <tr>
-                        <th>Mã đơn hàng</th>
-                        <th>Thời gian</th>
-                        <th>Trạng thái</th>
-          
-                    </tr>
-                        <tr>
-                            <td>{props.data.orderNumber}</td>
-                            <td>{props.data.orderDate}</td>
-                            <td>{props.data.status}</td>
-                        </tr>
-                </table> */}
-                {/* <table className="import">
-                    <tr>
-                        <th>Tên nhà máy</th>
-                        <th>Địa chỉ</th>
-                        <th>Số điện thoại</th>
-                        <th>Email</th>
-                    </tr>
-                        <tr>
-                            <td>{props.factory.factoryName}</td>
-                            <td>{props.factory.factoryAdress}</td>
-                            <td>{props.factory.factoryPhone}</td>
-                            <td>{props.factory.email}</td>
-                        </tr>
-                </table> */}
                 <table className="import">
                     <tr>
                         <th>Tên đại lý</th>
@@ -124,9 +95,19 @@ export default function TransferProducts(props) {
                         <>
                         </>
                     )}
+                  
+                  <div className="newUserItem">
+                        <label>Cập nhật trạng thái</label>
+                        <select id="choice-factory" style={{height: '30px'}} name='status' key="status" value={status} onChange={(e) => setStatus(e.target.value)}>
+                            <option key="Pending" value="Pending">Pending</option>
+                            <option key="Đang sản xuất" value="Đang sản xuất">Đang sản xuất</option>
+                            <option key="Hủy, không đủ hàng" value="Hủy, không đủ hàng">Hủy, không đủ hàng</option>
+                            <option key="Chuyển hàng" value="Chuyển hàng">Đồng ý chuyển hàng</option>
+                        </select>
+                    </div> 
                    
                 </table>          
-                  <button className="newUserButton" style={{height: 40}} onClick={handleSubmit}>Gửi hàng</button>
+                  <button className="newUserButton" style={{height: 40}} onClick={handleSubmit}>Cập nhật</button>
             </div>
             <button className="close-modal" onClick={props.toggleModal}>
               CLOSE

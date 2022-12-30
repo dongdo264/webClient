@@ -113,7 +113,7 @@ export default function CustomerModal(props) {
                 }
             }
             customerInputs.avatar = avatar;
-            customerInputs.customerCode = Date.now() % 100000000;
+            customerInputs.customerCode = Math.floor(Math.random() * 1000000000);
             
             let create = await createCustomer(customerInputs, token);
             let sell = await sellProducts(customerInputs.customerCode, props.data, token);

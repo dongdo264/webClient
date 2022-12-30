@@ -26,36 +26,34 @@ export default function WarrantyDetail(props) {
     const handleSubmit = async (event) => {
       event.preventDefault();
       props.data.note = note;
-      props.data.factoryCode = factoryChoice;
       const token = sessionStorage.getItem('accessToken');
       if (status === 'Hoàn tất') { 
         let send = await sendProductToAgent(props.data, token);
         if (send.data.errCode === 0) {
-            alert("Đã trả sản phẩm về đại lý");
+            alert("Đã trả lại sản phẩm về đại lý");
         }
       } else if (status === 'Sản phẩm lỗi') {
         let send = await sendProductToFactory(props.data, token);
         if (send.data.errCode === 0) {
-            alert("Đã trả sản phẩm về nhà máy");
+            alert("Đã trả lại sản phẩm về nhà máy");
         }
       }
       
     }
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        if (status === 'Sản phẩm lỗi') {
-            setDisplayFactory('block');
-        } else {
-            setDisplayFactory('none')
-        }
-    })
+    //     if (status === 'Sản phẩm lỗi') {
+    //         setDisplayFactory('block');
+    //     } else {
+    //         setDisplayFactory('none')
+    //     }
+    // })
     
     useEffect( () => {
         if(props.open) {
             document.getElementById("modal-warrantydeitail").style.display = 'block';  
             setNote(props.data?.note);
-            console.log(props.data);
           } else {
             document.getElementById("modal-warrantydeitail").style.display = 'none';
         }
@@ -105,7 +103,7 @@ export default function WarrantyDetail(props) {
                             <option key="Sản phẩm lỗi" value="Sản phẩm lỗi">Sản phẩm lỗi</option>
                         </select>
                     </div> 
-                    <div className="newUserItem" style={{display: displayFactory}}>
+                    {/* <div className="newUserItem" style={{display: displayFactory}}>
                         <label>Chuyển về nhà máy: </label>
                         <select id="choice-factory" style={{height: '30px'}} 
                         name="factoryChoice" value={factoryChoice}
@@ -115,7 +113,7 @@ export default function WarrantyDetail(props) {
                                 <option key={item.factoryCode} value={item.factoryCode}>{item.factoryName} - {item.factoryCity}</option>
                             ))}
                         </select>
-                    </div> 
+                    </div>  */}
                     <div className="newUserItem">                
                         <button className="newUserButton" onClick={handleSubmit}>Gửi sản phẩm</button>
                     </div> 

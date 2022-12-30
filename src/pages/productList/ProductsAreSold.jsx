@@ -18,8 +18,13 @@ export default function ProductsAreSold({isLoggedIn}) {
     const token = sessionStorage.getItem('accessToken');
     let res = await getProductsAreSold(token);
     let data_ = res.data.data;
+    const warranty = res.data.warranty;
     for (let i in data_) {
         data_[i].id = parseInt(i) + 1;
+        let end = new Date(data_[i].dateOfPurchase);
+        let month = warranty[i].warrantyPeriod.split(" ")[0];
+        end.setMonth(end.getMonth() + parseInt(month));
+        data_[i].end = end.toISOString().slice(0, 10);
     }
     setData(data_);
     setLoading(false);
@@ -108,7 +113,7 @@ export default function ProductsAreSold({isLoggedIn}) {
       headerClassName: 'header-column',
       cellClassName: 'final-column',
       renderCell: (params) => {
-        if (params.row.status === 'Đang bảo hành') {
+        if (params.row.status !== 'Active') {
           return (
             <>
               <button className="userListEdit" onClick={() => handleOpenModalProduct(params.row.id)} >View</button>

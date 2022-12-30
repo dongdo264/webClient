@@ -16,6 +16,8 @@ export default function NewProductLine(props) {
         status: '',
     }
     const [productInputs, setProductInputs] = useState(initValueProduct);
+    const [errProductLine, setErrProductLine] = useState('');
+    const [errTextDescription, setErrTextDescription] = useState('');
 
     const handleOnChangeInputProduct = event => {
         const { name, value } = event.target;       
@@ -25,6 +27,22 @@ export default function NewProductLine(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let check = true;
+
+        if(productInputs.productLine.length === 0) {
+            setErrProductLine("Bạn chưa nhập dòng sản phẩm")
+             check = false;
+        } else {
+            setErrProductLine("")
+        }
+
+        if(productInputs.textDescription.length === 0) {
+            setErrTextDescription("Bạn chưa nhập mô tả sản phẩm")
+            check = false;
+        }
+        if (!check) {
+            return;
+        }
         try{
             const token = sessionStorage.getItem('accessToken');
             let create = await createNewProductLine(productInputs, token);
@@ -53,7 +71,8 @@ export default function NewProductLine(props) {
                     <div className="newProduct" >
                         <form className="addProductForm" style={{display: 'block'}}>
                             <div className="addProductItem" id="updateCus">
-                            <label>Tên dòng sản phẩm</label>
+                            <label>Tên dòng sản phẩm &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errProductLine">{errProductLine}</span></label>
                             <input type="text" 
                             placeholder="Tên dòng sản phẩm"
                             key="productLine"
@@ -63,7 +82,8 @@ export default function NewProductLine(props) {
                             />
                             </div>
                             <div className="addProductItem" id="updateCus">
-                            <label>Mô tả</label>
+                            <label>Mô tả  &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="errProductLine">{errTextDescription}</span></label>
                             <textarea type="text" 
                             placeholder="Mô tả"
                             key="textDescription"

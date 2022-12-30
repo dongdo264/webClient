@@ -73,6 +73,25 @@ let updateCustomerProduct = (model, status, token) => {
         }
     });
 }
+let getAllProductsImported = (token) => {
+    return axios.get(`${baseURL}api-agent/productsimported`,
+    {
+        headers: {
+            token
+        }
+    });
+}
+
+let backToFactory = (data, token) => {
+    return axios.put(`${baseURL}api-agent/agentwarehouse`,{
+        data
+    },
+    {
+        headers: {
+            token
+        }
+    });
+}
 
 export {
    getAgentWarehouse,
@@ -81,5 +100,7 @@ export {
    sendWarrantyClaim,
    getAllWarrantyClaim,
    updateStatusProduct,
-   updateCustomerProduct
+   updateCustomerProduct,
+   getAllProductsImported,
+   backToFactory
 }

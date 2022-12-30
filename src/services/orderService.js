@@ -20,6 +20,14 @@ let getInfoOrder = (orderNumber, token) => {
     });
 }   
 
+let getAllOrder = (token) => {
+    return axios.get(`${baseURL}api-order/orders`, {
+        headers: {
+            token
+        }
+    });
+}   
+
 let transferProducts = (orderNumber, token) => {
     return axios.post(`${baseURL}api-order/transferproducts`, {
         orderNumber
@@ -30,5 +38,15 @@ let transferProducts = (orderNumber, token) => {
         }
     });
 }
+let updateOrder = (orderNumber, status, token) => {
+    return axios.put(`${baseURL}api-order/order/${orderNumber}`, {
+        status
+    },
+    {
+        headers: {
+            token
+        }
+    });
+}
 
-export { getInfoOrder, transferProducts, createOrder}
+export { getInfoOrder, transferProducts, createOrder, getAllOrder, updateOrder}

@@ -6,6 +6,7 @@ import { useState, useEffect, useRef , useSelector } from "react";
 import { getWarehouse, getAllOrders } from "../../services/factoryService";
 import { getInfoOrder } from "../../services/orderService";
 import TransferProducts from "../../components/modal/TransferProducts";
+import OrderDetail from "../../components/modal/OrderDetail";
 
 export default function TransferProduct() {
   const [loading, setLoading] = useState(false);
@@ -17,6 +18,8 @@ export default function TransferProduct() {
   const [factory, setFactory] = useState([]);
   const [orderdetail, setOrderdetail] = useState([]);
   const [check, setCheck] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [infoOrder, setInfoOrder] = useState([]);
 
   async function fetchData () {
     setLoading(true);
@@ -25,6 +28,9 @@ export default function TransferProduct() {
     let warehouse_ = await getWarehouse(token);
     setWarehouse(warehouse_.data.data);
     let data = res.data.data;
+    for (let i in data) {
+      data[i].id = parseInt(i) + 1;
+    }
     setData(data);
     setLoading(false);
   }
@@ -32,7 +38,6 @@ export default function TransferProduct() {
   async function fetchDataOrder (id) {
     const token = sessionStorage.getItem('accessToken');
     let res = await getInfoOrder(id, token);
-    console.log(res.data);
     let data = res.data.data;
     setAgent(res.data.agent);
     setFactory(res.data.factory);
@@ -58,8 +63,17 @@ export default function TransferProduct() {
         }
     }
     setCheck(check_);
-    console.log(check_);
     setOrderdetail(orderdetail_);
+  }
+
+  const handleOpenModal = async (id) => {
+    const token = sessionStorage.getItem('accessToken');
+    const selected = data[parseInt(id) - 1];
+    let res = await getInfoOrder(selected.orderNumber, token);
+    setInfoOrder(selected);
+    console.log(res);
+    setOrderdetail(res.data.data.orderdetails);
+    setOpenModal(!openModal);
   }
 
   useEffect(() => {
@@ -75,6 +89,7 @@ export default function TransferProduct() {
   }
 
   const columns = [
+    { field: "id", headerName: "STT", width: 130 },
     { field: "orderNumber", headerName: "Mã đơn hàng", width: 200 },
     {
       field: "agentCode",
@@ -97,17 +112,17 @@ export default function TransferProduct() {
       headerName: "Action",
       width: 150,
       renderCell: (params) => {
-        if (params.row.status === 'Pending') {
+        if (params.row.status === 'Pending' || params.row.status === 'Đang sản xuất') {
           return (
             <>
-              <button className="productListEdit" onClick={() => toggleModalTransfer(params.row.orderNumber)}>View</button>
-              <button className="productListEdit" >Hủy</button>
+              <button className="productListEdit" onClick={() => handleOpenModal(params.row.id)} >View</button>
+              <button className="productListEdit" onClick={() => toggleModalTransfer(params.row.orderNumber)} >Edit</button>
             </>
           );
         }
         return (
           <>
-            <button className="productListEdit" onClick={() => toggleModalTransfer(params.row.orderNumber)}>View</button>
+            <button className="productListEdit" onClick={() => handleOpenModal(params.row.id)}>View</button>
           </>
         );
       },
@@ -117,7 +132,6 @@ export default function TransferProduct() {
   return (
     <>
       <div className="productList">
-        {/* <button onClick={toggleModal}>Mở modal</button> */}
       <Box
       sx={{
         height: 400,
@@ -149,6 +163,14 @@ export default function TransferProduct() {
       factory={factory}
       orderdetail={orderdetail}
       check={check}
+    />
+        <OrderDetail 
+        open={openModal}
+        toggleModal={() => setOpenModal(!openModal)}
+        data={infoOrder}
+        info={orderdetail}
+        // agent={agent}
+        // factory={factory}
     />
     </>
   );
